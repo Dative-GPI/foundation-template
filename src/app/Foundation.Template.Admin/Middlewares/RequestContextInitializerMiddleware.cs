@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 
-using Foundation.Template.Admin.Tools;
+using Foundation.Template.Admin.Providers;
 using Foundation.Template.Admin.Models;
 
 namespace Foundation.Template.Admin.Middlewares

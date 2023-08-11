@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-using Foundation.Template.Admin.Tools;
+using Foundation.Template.Admin.Providers;
 using Foundation.Template.Admin.Abstractions;
 using Bones.Flow;
 

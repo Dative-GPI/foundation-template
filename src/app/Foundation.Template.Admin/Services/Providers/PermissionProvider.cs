@@ -12,7 +12,7 @@ using Foundation.Template.Domain.Abstractions;
 
 using Foundation.Template.Admin.Abstractions;
 
-namespace Foundation.Template.Admin.Tools
+namespace Foundation.Template.Admin.Providers
 {
     public class PermissionProvider : IPermissionProvider
     {

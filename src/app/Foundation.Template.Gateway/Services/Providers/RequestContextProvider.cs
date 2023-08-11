@@ -1,9 +1,8 @@
 using System;
+using Foundation.Template.Gateway.Models;
+using Foundation.Template.Gateway.Abstractions;
 
-using Foundation.Template.Admin.Models;
-using Foundation.Template.Admin.Abstractions;
-
-namespace Foundation.Template.Admin.Providers
+namespace Foundation.Template.Gateway.Providers
 {
     public class RequestContextProvider : IRequestContextProvider
     {
