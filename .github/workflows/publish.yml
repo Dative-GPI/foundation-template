@@ -1,0 +1,30 @@
+name: Publish Package to Nuget.org
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        folder: ["Foundation.Shared"]
+    steps:
+      # Checking out repository
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+
+      # pack file to publish to NuGet
+      - name: Create a NuGet Package 🔧
+        run: |
+          cd src/${{matrix.folder}}
+          dotnet pack --configuration Release -p:PackageVersion=${{ github.ref_name}} -o .
+
+      # Publishing with tag name as version
+      - name: Publishing to NuGet 🚀
+        run: |
+          cd src/${{ matrix.folder}}
+          dotnet nuget push $(basename -- "${{matrix.folder}}").${{ github.ref_name}}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

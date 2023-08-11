@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Foundation.Template.CrossCutting\Foundation.Template.CrossCutting.csproj" />
+    <ProjectReference Include="..\..\shared\Foundation.Template.Domain\Foundation.Template.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+</Project>

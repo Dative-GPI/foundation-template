@@ -1,0 +1,23 @@
+name: Build
+
+on: 
+  push:
+    branches:
+      - "**"
+    tags-ignore:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        folder: ["Foundation.Shared"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+      - name: Build
+        run: |
+          cd src/${{matrix.folder}}
+          dotnet build --configuration Release
