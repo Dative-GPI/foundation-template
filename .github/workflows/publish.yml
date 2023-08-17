@@ -10,7 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        folder: ["Foundation.Shared"]
+        folder:
+          - "src/app/Foundation.Template.Admin"
+          - "src/app/Foundation.Template.Gateway"
+          - "src/app/Foundation.Template.Shell"
+          - "src/context/Foundation.Template.Context"
+          - "src/context/Foundation.Template.Fixtures"
+          - "src/shared/Foundation.Template.CrossCutting"
+          - "src/shared/Foundation.Template.Domain"
+  
     steps:
       # Checking out repository
       - uses: actions/checkout@v3
@@ -20,11 +28,11 @@ jobs:
       # pack file to publish to NuGet
       - name: Create a NuGet Package 🔧
         run: |
-          cd src/${{matrix.folder}}
+          cd ${{matrix.folder}}
           dotnet pack --configuration Release -p:PackageVersion=${{ github.ref_name}} -o .
 
       # Publishing with tag name as version
       - name: Publishing to NuGet 🚀
         run: |
-          cd src/${{ matrix.folder}}
-          dotnet nuget push $(basename -- "${{matrix.folder}}").${{ github.ref_name}}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+          cd ${{ matrix.folder}}
+          dotnet nuget push $(basename "${{matrix.folder}}").${{ github.ref_name}}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
