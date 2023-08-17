@@ -1,17 +1,27 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 using Bones.Flow;
+
+using Foundation.Template.CrossCutting.DI;
 
 using Foundation.Template.Gateway.Abstractions;
 using Foundation.Template.Gateway.Providers;
 using Foundation.Template.Gateway.Services;
+using Foundation.Template.Gateway.Middlewares;
 
 namespace Foundation.Template.Gateway.DI
 {
     public static class DependencyInjector
     {
-        public static IServiceCollection AddGatewayTemplate(this IServiceCollection services)
+        public static IServiceCollection AddGatewayTemplate(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddHttpForwarder();
+            services.AddMemoryCache();
+
+            services.AddCrossCutting(configuration);
+            services.AddSingleton<FoundationForwarderMiddleware>();
+
             services.AddScoped<RequestContextProvider>();
             services.AddScoped<IRequestContextProvider>(sp 
                 => sp.GetRequiredService<RequestContextProvider>());

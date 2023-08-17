@@ -32,16 +32,16 @@ namespace Foundation.Template.Admin.Providers
         }
 
 
-        public async Task<bool> HasPermissions(Guid actorId, params string[] permissions)
+        public async Task<bool> HasPermissions(params string[] permissions)
         {
-            var grantedPermissions = await GetPermissions(actorId);
+            var grantedPermissions = await GetPermissions();
             return !permissions.Except(grantedPermissions).Any(); // Checking if permissions is a subset of grantedPermissions
             // Code from https://stackoverflow.com/a/333034
             // Interesting conversation under this comment : https://stackoverflow.com/a/26697119
         }
 
 
-        public async Task<IEnumerable<string>> GetPermissions(Guid actorId)
+        public async Task<IEnumerable<string>> GetPermissions()
         {
             List<string> permissions = new List<string>();
             var context = _requestContextProvider.Context;
@@ -50,11 +50,11 @@ namespace Foundation.Template.Admin.Providers
 
             var foundationPermissions = await client.Admin.Permissions.GetCurrent();
 
-            var localPermissions = await GetLocalPermissions(client, actorId);
+            var localPermissions = await GetLocalPermissions(client);
 
             return foundationPermissions.Select(fp => fp.Code).Union(localPermissions).ToList();
         }
-        private async Task<IEnumerable<string>> GetLocalPermissions(IFoundationClient client, Guid userId)
+        private async Task<IEnumerable<string>> GetLocalPermissions(IFoundationClient client)
         {
             var userApplication = await client.Admin.UserApplications.GetCurrent();
 

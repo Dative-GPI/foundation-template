@@ -26,8 +26,6 @@ namespace Foundation.Template.Shell.Handlers
             var context = _requestContextProvider.Context;
 
             var hasPermission = await _permissionProvider.HasPermissions(
-                context.OrganisationId.Value,
-                context.ActorId,
                 request.Authorizations.ToArray()
             );
 

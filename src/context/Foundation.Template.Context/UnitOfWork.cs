@@ -9,10 +9,10 @@ namespace Foundation.Template.Context
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationContext _context;
+        private readonly BaseApplicationContext _context;
         private readonly ILogger _logger;
 
-        public UnitOfWork(ApplicationContext context, ILogger<UnitOfWork> logger)
+        public UnitOfWork(BaseApplicationContext context, ILogger<UnitOfWork> logger)
         {
             _context = context;
             _logger = logger;

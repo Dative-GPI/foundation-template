@@ -17,7 +17,7 @@ namespace Foundation.Template.Context.Repositories
     {
         private DbSet<PermissionAdminDTO> _dbSet;
 
-        public PermissionAdminRepository(ApplicationContext context)
+        public PermissionAdminRepository(BaseApplicationContext context)
         {
             _dbSet = context.PermissionAdmins;
         }

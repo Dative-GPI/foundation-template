@@ -12,7 +12,7 @@ namespace Foundation.Template.Context.DI
 {
     public static class DependencyInjector
     {
-        public static IServiceCollection AddContext<TContext>(this IServiceCollection services, IConfiguration configuration) where TContext : ApplicationContext
+        public static IServiceCollection AddContextTemplate<TContext>(this IServiceCollection services, IConfiguration configuration) where TContext : BaseApplicationContext
         {
             services.Configure<FileConfiguration>(configuration.GetSection("Files"));
 
@@ -24,7 +24,7 @@ namespace Foundation.Template.Context.DI
                 options.EnableSensitiveDataLogging();
             });
 
-            services.AddScoped<ApplicationContext, TContext>();
+            services.AddScoped<BaseApplicationContext, TContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

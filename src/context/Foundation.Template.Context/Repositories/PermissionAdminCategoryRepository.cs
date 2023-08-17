@@ -16,7 +16,7 @@ namespace Foundation.Template.Context.Repositories
     {
         private DbSet<PermissionAdminCategoryDTO> _categorySet;
 
-        public PermissionAdminCategoryRepository(ApplicationContext context)
+        public PermissionAdminCategoryRepository(BaseApplicationContext context)
         {
             _categorySet = context.PermissionAdminCategories;
         }

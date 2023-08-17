@@ -6,7 +6,7 @@ namespace Foundation.Template.Admin.Abstractions
 {
     public interface IPermissionProvider
     {
-        Task<IEnumerable<string>> GetPermissions(Guid actorId);
-        Task<bool> HasPermissions(Guid actorId, params string[] permissions);
+        Task<IEnumerable<string>> GetPermissions();
+        Task<bool> HasPermissions(params string[] permissions);
     }
 }

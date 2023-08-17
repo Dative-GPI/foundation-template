@@ -21,7 +21,7 @@ namespace Foundation.Template.Context.Repositories
     {
         private DbSet<RoleOrganisationPermissionDTO> _dbSet;
 
-        public RoleOrganisationRepository(ApplicationContext context)
+        public RoleOrganisationRepository(BaseApplicationContext context)
         {
             _dbSet = context.RoleOrganisationPermissions;
         }

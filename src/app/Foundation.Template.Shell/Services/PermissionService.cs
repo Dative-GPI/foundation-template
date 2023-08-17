@@ -41,8 +41,7 @@ namespace Foundation.Template.Shell.Services
 
         public async Task<IEnumerable<string>> GetCurrent()
         {
-            var context = _requestContextProvider.Context;
-            return await _permissionProvider.GetPermissions(context.OrganisationId.Value, context.ActorId);
+            return await _permissionProvider.GetPermissions();
         }
 
         public async Task<IEnumerable<PermissionCategoryViewModel>> GetCategories()

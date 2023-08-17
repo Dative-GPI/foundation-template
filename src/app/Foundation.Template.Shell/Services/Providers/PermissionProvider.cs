@@ -33,28 +33,30 @@ namespace Foundation.Template.Shell.Tools
         }
 
 
-        public async Task<bool> HasPermissions(Guid organisationId, Guid actorId, params string[] permissions)
+        public async Task<bool> HasPermissions(params string[] permissions)
         {
-            var grantedPermissions = await GetPermissions(organisationId, actorId);
+            var grantedPermissions = await GetPermissions();
             return !permissions.Except(grantedPermissions).Any(); // Checking if permissions is a subset of grantedPermissions
             // Code from https://stackoverflow.com/a/333034
             // Interesting conversation under this comment : https://stackoverflow.com/a/26697119
         }
 
 
-        public async Task<IEnumerable<string>> GetPermissions(Guid organisationId, Guid actorId)
+        public async Task<IEnumerable<string>> GetPermissions()
         {
             var context = _requestContextProvider.Context;
+            var organisationId = context.OrganisationId.Value;
+
             var client = await _foundationClientFactory.CreateAuthenticated(context.ApplicationId, context.LanguageCode, context.Jwt);
             var foundationPermissions = await GetFoundationPermissions(client, organisationId);
 
             var organisation = await client.Shell.Organisations.Get(organisationId);
             var organisationTypePermissions = await GetOrganisationTypePermissions(organisation.OrganisationTypeId);
 
-            if (organisation.AdminId == actorId)
+            if (organisation.AdminId == context.ActorId)
                 return foundationPermissions.Concat(organisationTypePermissions).ToList();
 
-            var userOrganisation = await GetUserOrganisation(client, organisationId, actorId);
+            var userOrganisation = await GetUserOrganisation(client, organisationId, context.ActorId);
             if (userOrganisation == default || !userOrganisation.RoleId.HasValue)
                 return foundationPermissions;
 

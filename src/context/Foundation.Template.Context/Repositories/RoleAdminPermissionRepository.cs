@@ -19,7 +19,7 @@ namespace Foundation.Template.Context.Repositories
     {
         private DbSet<RoleAdminPermissionDTO> _dbSet;
 
-        public RoleAdminRepository(ApplicationContext context)
+        public RoleAdminRepository(BaseApplicationContext context)
         {
             _dbSet = context.RoleAdminPermissions;
         }

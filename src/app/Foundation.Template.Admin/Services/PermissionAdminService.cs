@@ -10,7 +10,6 @@ using Foundation.Template.Domain.Models;
 
 using Foundation.Template.Admin.Abstractions;
 using Foundation.Template.Admin.ViewModels;
-using Foundation.Template.Admin.Abstractions;
 
 namespace Foundation.Template.Admin.Services
 {
@@ -50,7 +49,7 @@ namespace Foundation.Template.Admin.Services
 
         public async Task<IEnumerable<string>> GetCurrent()
         {
-            return await _permissionProvider.GetPermissions(_requestContextProvider.Context.ActorId);
+            return await _permissionProvider.GetPermissions();
         }
     }
 }

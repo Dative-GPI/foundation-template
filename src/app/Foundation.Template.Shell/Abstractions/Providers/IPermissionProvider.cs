@@ -8,7 +8,7 @@ namespace Foundation.Template.Shell.Abstractions
 {
     public interface IPermissionProvider
     {
-        Task<IEnumerable<string>> GetPermissions(Guid organisationId, Guid actorId);
-        Task<bool> HasPermissions(Guid organisationId, Guid actorId, params string[] permissions);
+        Task<IEnumerable<string>> GetPermissions();
+        Task<bool> HasPermissions(params string[] permissions);
     }
 }

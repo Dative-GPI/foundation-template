@@ -18,7 +18,7 @@ namespace Foundation.Template.Context.Repositories
     {
         private DbSet<OrganisationTypePermissionDTO> _dbSet;
 
-        public OrganisationTypePermissionRepository(ApplicationContext context)
+        public OrganisationTypePermissionRepository(BaseApplicationContext context)
         {
             _dbSet = context.OrganisationTypePermissions;
         }

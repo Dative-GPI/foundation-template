@@ -26,7 +26,7 @@ namespace Foundation.Template.Context.Repositories
         private ILogger<ImageRepository> _logger;
 
         public ImageRepository(
-            ApplicationContext context,
+            BaseApplicationContext context,
             IImageHelper imageHelper,
             IBinaryStorage binaryStorage,
             IOptions<FileConfiguration> options,

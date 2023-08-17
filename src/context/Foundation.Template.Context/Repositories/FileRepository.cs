@@ -26,7 +26,7 @@ namespace Foundation.Template.Context.Repositories
         private IBinaryStorage _binaryStorage;
 
         public FileRepository(
-            ApplicationContext context,
+            BaseApplicationContext context,
             IBinaryStorage binaryStorage,
             IOptions<FileConfiguration> options,
             ILogger<FileRepository> logger)

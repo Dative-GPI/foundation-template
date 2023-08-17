@@ -18,7 +18,7 @@ namespace Foundation.Template.Context.Repositories
     {
         private DbSet<ApplicationTranslationDTO> _dbSet;
 
-        public ApplicationTranslationRepository(ApplicationContext context)
+        public ApplicationTranslationRepository(BaseApplicationContext context)
         {
             _dbSet = context.ApplicationTranslations;
         }

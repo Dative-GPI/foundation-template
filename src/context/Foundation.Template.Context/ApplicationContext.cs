@@ -4,7 +4,7 @@ using Foundation.Template.Context.DTOs;
 
 namespace Foundation.Template.Context
 {
-    public class ApplicationContext : DbContext
+    public class BaseApplicationContext : DbContext
     {
 
         #region Common
@@ -30,7 +30,7 @@ namespace Foundation.Template.Context
         #endregion
 
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
+        public BaseApplicationContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

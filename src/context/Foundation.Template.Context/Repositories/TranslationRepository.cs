@@ -14,10 +14,10 @@ namespace Foundation.Template.Context.Repositories
 {
     public class TranslationRepository : ITranslationRepository
     {
-        private ApplicationContext _context;
+        private BaseApplicationContext _context;
         private DbSet<TranslationDTO> _dbSet;
 
-        public TranslationRepository(ApplicationContext context)
+        public TranslationRepository(BaseApplicationContext context)
         {
             _context = context;
             _dbSet = context.Translations;
