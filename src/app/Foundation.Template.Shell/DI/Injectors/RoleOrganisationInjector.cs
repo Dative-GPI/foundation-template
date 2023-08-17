@@ -26,12 +26,12 @@ namespace Foundation.Template.Shell.DI
             });
 
 
-            services.AddScoped<UpdateRolePermissionsCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateRolePermissionsCommand, IEntity<Guid>>>(sp =>
+            services.AddScoped<UpdateRoleOrganisationCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateRoleOrganisationCommand, IEntity<Guid>>>(sp =>
             {
-                var pipeline = sp.GetPipelineFactory<UpdateRolePermissionsCommand, IEntity<Guid>>()
+                var pipeline = sp.GetPipelineFactory<UpdateRoleOrganisationCommand, IEntity<Guid>>()
                     .With<PermissionsMiddleware>()
-                    .Add<UpdateRolePermissionsCommandHandler>()
+                    .Add<UpdateRoleOrganisationCommandHandler>()
                     .Build();
 
                 return pipeline;

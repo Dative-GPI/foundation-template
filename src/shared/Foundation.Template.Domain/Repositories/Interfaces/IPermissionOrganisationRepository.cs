@@ -6,7 +6,7 @@ using Foundation.Template.Domain.Repositories.Filters;
 
 namespace Foundation.Template.Domain.Repositories.Interfaces
 {
-    public interface IPermissionRepository
+    public interface IPermissionOrganisationRepository
     {
         Task<IEnumerable<PermissionInfos>> GetMany(PermissionsFilter filter);
     }

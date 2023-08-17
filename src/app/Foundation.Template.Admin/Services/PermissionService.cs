@@ -8,7 +8,7 @@ using Bones.Flow;
 
 using Foundation.Template.Domain.Models;
 
-using Foundation.Template.Admin.Interfaces;
+using Foundation.Template.Admin.Abstractions;
 using Foundation.Template.Admin.ViewModels;
 using Foundation.Template.Domain.Repositories.Interfaces;
 

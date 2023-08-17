@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using Foundation.Template.Shell.ViewModels;
-using Foundation.Template.Shell.Interfaces;
+using Foundation.Template.Shell.Abstractions;
 
 namespace Foundation.Template.Shell.Controllers
 {

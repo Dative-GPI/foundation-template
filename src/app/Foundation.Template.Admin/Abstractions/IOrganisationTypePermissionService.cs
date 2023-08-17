@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using Foundation.Template.Admin.ViewModels;
 
-namespace Foundation.Template.Admin.Interfaces
+namespace Foundation.Template.Admin.Abstractions
 {
     public interface IOrganisationTypePermissionService
     {

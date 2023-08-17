@@ -17,6 +17,7 @@ namespace Foundation.Template.Shell.AutoMapper
             CreateMap<PermissionInfos, PermissionInfosViewModel>();
             CreateMap<PermissionCategory, PermissionCategoryViewModel>();
             CreateMap<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>();
+            CreateMap<ActionInfos, ActionInfosViewModel>();
         }
     }
 }

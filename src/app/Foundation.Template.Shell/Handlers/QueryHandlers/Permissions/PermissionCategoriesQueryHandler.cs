@@ -11,10 +11,10 @@ using Foundation.Template.Domain.Repositories.Interfaces;
 namespace Foundation.Template.Shell.Handlers {
     public class PermissionCategoriesQueryHandler : IMiddleware<PermissionCategoriesQuery, IEnumerable<PermissionCategory>>
     {
-        private readonly IPermissionCategoryRepository _permissionCategoryRepository;
+        private readonly IPermissionOrganisationCategoryRepository _permissionCategoryRepository;
 
         public PermissionCategoriesQueryHandler(
-            IPermissionCategoryRepository permissionCategoryRepository
+            IPermissionOrganisationCategoryRepository permissionCategoryRepository
         )
         {
             _permissionCategoryRepository = permissionCategoryRepository;

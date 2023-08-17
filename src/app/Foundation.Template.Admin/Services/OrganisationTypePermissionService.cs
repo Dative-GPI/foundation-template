@@ -10,7 +10,7 @@ using Bones.Flow;
 using Foundation.Template.Domain.Models;
 using Foundation.Template.Domain.Repositories.Interfaces;
 
-using Foundation.Template.Admin.Interfaces;
+using Foundation.Template.Admin.Abstractions;
 using Foundation.Template.Admin.ViewModels;
 
 namespace Foundation.Template.Admin.Services
@@ -19,13 +19,13 @@ namespace Foundation.Template.Admin.Services
     {
         private IQueryHandler<OrganisationTypePermissionsQuery, IEnumerable<OrganisationTypePermissionInfos>> _organisationTypePermissionsQueryHandler;
         private ICommandHandler<UpsertOrganisationTypePermissionsCommand> _updateOrganisationTypePermissionsCommand;
-        private IPermissionRepository _permissionRepository;
+        private IPermissionOrganisationRepository _permissionRepository;
         private IMapper _mapper;
 
         public OrganisationTypePermissionService(
             IQueryHandler<OrganisationTypePermissionsQuery, IEnumerable<OrganisationTypePermissionInfos>> organisationTypePermissionsQuery,
             ICommandHandler<UpsertOrganisationTypePermissionsCommand> updateOrganisationTypePermissionsCommand,
-            IPermissionRepository permissionRepository,
+            IPermissionOrganisationRepository permissionRepository,
             IMapper mapper
         )
         {

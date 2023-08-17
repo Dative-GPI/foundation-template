@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Foundation.Template.Shell.ViewModels;
 
-namespace Foundation.Template.Shell.Interfaces
+namespace Foundation.Template.Shell.Abstractions
 {
     public interface IRoleOrganisationService
     {

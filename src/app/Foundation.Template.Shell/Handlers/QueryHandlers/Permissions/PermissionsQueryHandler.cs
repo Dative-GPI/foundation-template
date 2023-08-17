@@ -17,12 +17,12 @@ namespace Foundation.Template.Shell.Handlers
     public class PermissionsQueryHandler : IMiddleware<PermissionsQuery, IEnumerable<PermissionInfos>>
     {
         private readonly IOrganisationTypePermissionRepository _organisationTypePermissionRepository;
-        private readonly IPermissionRepository _permissionRepository;
+        private readonly IPermissionOrganisationRepository _permissionRepository;
         private readonly IRequestContextProvider _requestContextProvider;
 
         public PermissionsQueryHandler(
             IOrganisationTypePermissionRepository organisationTypePermissionRepository,
-            IPermissionRepository permissionRepository,
+            IPermissionOrganisationRepository permissionRepository,
             IRequestContextProvider requestContextProvider
         )
         {

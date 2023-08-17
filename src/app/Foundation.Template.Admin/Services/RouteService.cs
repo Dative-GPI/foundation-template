@@ -7,7 +7,7 @@ using AutoMapper;
 using Foundation.Template.Domain.Models;
 
 using Foundation.Template.Admin.Abstractions;
-using Foundation.Template.Admin.Interfaces;
+using Foundation.Template.Admin.Abstractions;
 using Foundation.Template.Admin.ViewModels;
 
 namespace Foundation.Template.Admin.Services

@@ -1,66 +1,62 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
-using Foundation.Template.Context.DTOs;
+using Bones.Domain;
+using Bones.Repository.Interfaces;
 
 using Foundation.Template.Domain.Models;
 using Foundation.Template.Domain.Repositories.Commands;
-using Foundation.Template.Domain.Repositories.Filters;
 using Foundation.Template.Domain.Repositories.Interfaces;
+
+using Foundation.Template.Context.DTOs;
 
 namespace Foundation.Template.Context.Repositories
 {
-    public class RoleAdminPermissionRepository : IRoleAdminPermissionRepository
+    public class RoleAdminRepository : IRoleAdminRepository
     {
         private DbSet<RoleAdminPermissionDTO> _dbSet;
 
-        public RoleAdminPermissionRepository(ApplicationContext context)
+        public RoleAdminRepository(ApplicationContext context)
         {
             _dbSet = context.RoleAdminPermissions;
         }
 
-        public async Task<IEnumerable<RoleAdminPermission>> GetMany(RoleAdminPermissionsFilter filter)
+        public async Task<RoleAdminDetails> Get(Guid id)
         {
-            var query = _dbSet.Include(p => p.PermissionAdmin).AsQueryable();
-                
-            query = query.Where(p => p.RoleAdminId == filter.RoleAdminId);
+            var permissions = await _dbSet
+                .Include(p => p.PermissionAdmin)
+                .Where(p => p.RoleAdminId == id)
+                .AsNoTracking()
+                .ToListAsync();
 
-            IEnumerable<RoleAdminPermissionDTO> dtos = await query.AsNoTracking().ToListAsync();
-
-            return dtos.Select(rolePermissionDTO => new RoleAdminPermission()
+            return new RoleAdminDetails()
             {
-                Id = rolePermissionDTO.Id,
-                PermissionAdminId = rolePermissionDTO.PermissionAdminId,
-                PermissionAdminCode = rolePermissionDTO.PermissionAdmin.Code
-            }).ToList();
+                Id = id,
+                Permissions = permissions.Select(p => new PermissionItem()
+                {
+                    Id = p.PermissionAdminId,
+                    Code = p.PermissionAdmin.Code
+                }).ToList()
+            };
         }
 
-        public Task RemoveRange(Guid[] permissionsIds)
+        public async Task<IEntity<Guid>> Update(UpdateRoleAdmin payload)
         {
-            _dbSet.RemoveRange(permissionsIds.Select(id => new RoleAdminPermissionDTO()
-            {
-                Id = id
-            }));
+            var formerPermissions = await _dbSet.Where(p => p.RoleAdminId == payload.Id).ToListAsync();
 
-            return Task.CompletedTask;
-        }
+            _dbSet.RemoveRange(formerPermissions);
 
-        public Task CreateRange(IEnumerable<UpdateRoleAdminPermissions> payload)
-        {
-            _dbSet.AddRange(payload.Select(p => new RoleAdminPermissionDTO()
+            _dbSet.AddRange(payload.PermissionIds.Select(p => new RoleAdminPermissionDTO()
             {
                 Id = Guid.NewGuid(),
-                RoleAdminId = p.RoleAdminId,
-                PermissionAdminId = p.PermissionAdminId,
-                Disabled = false
+                RoleAdminId = payload.Id,
+                PermissionAdminId = p
             }));
 
-            return Task.CompletedTask;
+            return new FakeEntity<Guid>(payload.Id);
         }
-
     }
 }

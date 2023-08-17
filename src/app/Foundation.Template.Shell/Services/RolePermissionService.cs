@@ -12,7 +12,7 @@ using Foundation.Template.Domain.Models;
 using Foundation.Template.Domain.Repositories.Interfaces;
 
 using Foundation.Template.Shell.Abstractions;
-using Foundation.Template.Shell.Interfaces;
+using Foundation.Template.Shell.Abstractions;
 using Foundation.Template.Shell.ViewModels;
 
 using static Foundation.Template.Shell.AutoMapper.Consts;
@@ -22,14 +22,14 @@ namespace Foundation.Template.Shell.Services
     public class RoleOrganisationService : IRoleOrganisationService
     {
         private readonly IQueryHandler<RoleOrganisationQuery, RoleOrganisationDetails> _roleOrganisationQueryHandler;
-        private readonly ICommandHandler<UpdateRolePermissionsCommand, IEntity<Guid>> _updateRoleOrganisationCommandHandler;
+        private readonly ICommandHandler<UpdateRoleOrganisationCommand, IEntity<Guid>> _updateRoleOrganisationCommandHandler;
         private readonly IRoleOrganisationRepository _roleOrganisationRepository;
         private readonly IRequestContextProvider _requestContextProvider;
         private readonly IMapper _mapper;
 
         public RoleOrganisationService(
             IQueryHandler<RoleOrganisationQuery, RoleOrganisationDetails> roleOrganisationQueryHandler,
-            ICommandHandler<UpdateRolePermissionsCommand, IEntity<Guid>> updateRoleOrganisationCommandHandler,
+            ICommandHandler<UpdateRoleOrganisationCommand, IEntity<Guid>> updateRoleOrganisationCommandHandler,
             IRequestContextProvider requestContextProvider,
             IRoleOrganisationRepository roleOrganisationRepository,
             IMapper mapper
@@ -58,7 +58,7 @@ namespace Foundation.Template.Shell.Services
 
         public async Task<RoleOrganisationDetailsViewModel> Update(Guid roleId, UpdateRoleOrganisationViewModel payload)
         {
-            var command = new UpdateRolePermissionsCommand() {
+            var command = new UpdateRoleOrganisationCommand() {
                 RoleOrganisationId = roleId,
                 PermissionIds = payload.PermissionIds
             };

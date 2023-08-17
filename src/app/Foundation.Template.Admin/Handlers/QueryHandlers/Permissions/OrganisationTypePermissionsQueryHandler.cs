@@ -14,12 +14,12 @@ namespace Foundation.Template.Admin.Handlers
 {
     public class OrganisationTypePermissionsQueryHandler : IMiddleware<OrganisationTypePermissionsQuery, IEnumerable<OrganisationTypePermissionInfos>>
     {
-        private IPermissionRepository _permissionRepository;
+        private IPermissionOrganisationRepository _permissionRepository;
         private IOrganisationTypePermissionRepository _organisationTypePermissionRepository;
 
         public OrganisationTypePermissionsQueryHandler(
             IOrganisationTypePermissionRepository organisationTypePermissionRepository,
-            IPermissionRepository permissionRepository)
+            IPermissionOrganisationRepository permissionRepository)
         {
             _permissionRepository = permissionRepository;
             _organisationTypePermissionRepository = organisationTypePermissionRepository;

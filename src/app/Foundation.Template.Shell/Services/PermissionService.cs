@@ -8,7 +8,7 @@ using Bones.Flow;
 
 using Foundation.Template.Domain.Models;
 using Foundation.Template.Shell.Abstractions;
-using Foundation.Template.Shell.Interfaces;
+using Foundation.Template.Shell.Abstractions;
 using Foundation.Template.Shell.ViewModels;
 
 using static Foundation.Template.Shell.AutoMapper.Consts;

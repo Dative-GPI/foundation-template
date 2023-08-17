@@ -13,9 +13,9 @@ namespace Foundation.Template.Admin.Handlers
 {
     public class PermissionCategoriesQueryHandler : IMiddleware<PermissionCategoriesQuery, IEnumerable<PermissionCategory>>
     {
-        private IPermissionCategoryRepository _permissionCategoryRepository;
+        private IPermissionOrganisationCategoryRepository _permissionCategoryRepository;
         
-        public PermissionCategoriesQueryHandler(IPermissionCategoryRepository permissionCategoryRepository)
+        public PermissionCategoriesQueryHandler(IPermissionOrganisationCategoryRepository permissionCategoryRepository)
         {
             _permissionCategoryRepository = permissionCategoryRepository;
         }

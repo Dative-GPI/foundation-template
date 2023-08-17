@@ -7,7 +7,7 @@ using AutoMapper;
 using Bones.Flow;
 
 using Foundation.Template.Domain.Models;
-using Foundation.Template.Admin.Interfaces;
+using Foundation.Template.Admin.Abstractions;
 using Foundation.Template.Admin.ViewModels;
 using Foundation.Template.Admin.Requests;
 using System.Linq;

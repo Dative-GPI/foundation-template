@@ -6,7 +6,6 @@ using AutoMapper;
 using Foundation.Template.Domain.Models;
 
 using Foundation.Template.Shell.Abstractions;
-using Foundation.Template.Shell.Interfaces;
 using Foundation.Template.Shell.ViewModels;
 
 namespace Foundation.Template.Shell.Services

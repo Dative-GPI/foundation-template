@@ -13,13 +13,15 @@ namespace Foundation.Template.Context.DI
             services.AddScoped<IApplicationRepository, ApplicationRepository>();
             services.AddScoped<IImageRepository, ImageRepository>();
 
-            services.AddScoped<IPermissionRepository, PermissionRepository>();
-            services.AddScoped<IPermissionCategoryRepository, PermissionCategoryRepository>();
+            services.AddScoped<IPermissionOrganisationRepository, PermissionOrganisationRepository>();
+            services.AddScoped<IPermissionOrganisationCategoryRepository, PermissionOrganisationCategoryRepository>();
             services.AddScoped<IOrganisationTypePermissionRepository, OrganisationTypePermissionRepository>();
-            services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
+
             services.AddScoped<IPermissionAdminRepository, PermissionAdminRepository>();
             services.AddScoped<IPermissionAdminCategoryRepository, PermissionAdminCategoryRepository>();
-            services.AddScoped<IRoleAdminPermissionRepository, RoleAdminPermissionRepository>();
+
+            services.AddScoped<IRoleOrganisationRepository, RoleOrganisationRepository>();
+            services.AddScoped<IRoleAdminRepository, RoleAdminRepository>();
 
             services.AddScoped<IApplicationTranslationRepository, ApplicationTranslationRepository>();
             services.AddScoped<ITranslationRepository, TranslationRepository>();

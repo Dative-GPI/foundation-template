@@ -14,12 +14,12 @@ namespace Foundation.Template.Context
         #endregion
 
         #region Permissions
-        public DbSet<PermissionDTO> Permissions { get; set; }
+        public DbSet<PermissionOrganisationDTO> Permissions { get; set; }
         public DbSet<PermissionAdminDTO> PermissionAdmins { get; set; }
-        public DbSet<PermissionCategoryDTO> PermissionCategories { get; set; }
+        public DbSet<PermissionOrganisationCategoryDTO> PermissionCategories { get; set; }
         public DbSet<PermissionAdminCategoryDTO> PermissionAdminCategories { get; set; }
         public DbSet<OrganisationTypePermissionDTO> OrganisationTypePermissions { get; set; }
-        public DbSet<RolePermissionDTO> RolePermissions { get; set; }
+        public DbSet<RoleOrganisationPermissionDTO> RoleOrganisationPermissions { get; set; }
         public DbSet<RoleAdminPermissionDTO> RoleAdminPermissions { get; set; }
         #endregion
 
@@ -57,7 +57,7 @@ namespace Foundation.Template.Context
             #endregion
 
             #region Permissions
-            modelBuilder.Entity<PermissionDTO>(m =>
+            modelBuilder.Entity<PermissionOrganisationDTO>(m =>
             {
                 m.HasKey(p => p.Id);
                 m.Property(p => p.Translations)
@@ -71,7 +71,7 @@ namespace Foundation.Template.Context
                     .HasColumnType("jsonb");
             });
 
-            modelBuilder.Entity<PermissionCategoryDTO>(m =>
+            modelBuilder.Entity<PermissionOrganisationCategoryDTO>(m =>
             {
                 m.HasKey(p => p.Id);
                 m.Property(p => p.Translations)
@@ -93,12 +93,12 @@ namespace Foundation.Template.Context
                     .HasForeignKey(otp => otp.PermissionId);
             });
 
-            modelBuilder.Entity<RolePermissionDTO>(m =>
+            modelBuilder.Entity<RoleOrganisationPermissionDTO>(m =>
             {
                 m.HasKey(rp => rp.Id);
-                m.HasOne(rp => rp.Permission)
-                    .WithMany(p => p.RolePermissions)
-                    .HasForeignKey(rp => rp.PermissionId);
+                m.HasOne(rp => rp.PermissionOrganisation)
+                    .WithMany(p => p.RoleOrganisationPermissions)
+                    .HasForeignKey(rp => rp.PermissionOrganisationId);
             });
 
             modelBuilder.Entity<RoleAdminPermissionDTO>(m =>

@@ -13,11 +13,11 @@ using Foundation.Template.Domain.Repositories.Interfaces;
 
 namespace Foundation.Template.Context.Repositories
 {
-    public class PermissionRepository : IPermissionRepository
+    public class PermissionOrganisationRepository : IPermissionOrganisationRepository
     {
-        private DbSet<PermissionDTO> _dbSet;
+        private DbSet<PermissionOrganisationDTO> _dbSet;
 
-        public PermissionRepository(ApplicationContext context)
+        public PermissionOrganisationRepository(ApplicationContext context)
         {
             _dbSet = context.Permissions;
         }
@@ -26,7 +26,7 @@ namespace Foundation.Template.Context.Repositories
         {
             var query = _dbSet
                 .Include(p => p.OrganisationTypePermissions)
-                .Include(p => p.RolePermissions)
+                .Include(p => p.RoleOrganisationPermissions)
                 .AsQueryable();
 
             if (filter.PermissionIds != null && filter.PermissionIds.Any())
@@ -55,12 +55,12 @@ namespace Foundation.Template.Context.Repositories
             if (filter.RoleId.HasValue)
             {
                 query = query.Where(
-                    p => p.RolePermissions
-                        .Any(rp => rp.RoleId == filter.RoleId.Value)
+                    p => p.RoleOrganisationPermissions
+                        .Any(rp => rp.RoleOrganisationId == filter.RoleId.Value)
                 );
             }
 
-            IEnumerable<PermissionDTO> dtos = await query.AsNoTracking().ToListAsync();
+            IEnumerable<PermissionOrganisationDTO> dtos = await query.AsNoTracking().ToListAsync();
 
             return dtos.Select(permissionDTO => new PermissionInfos()
             {

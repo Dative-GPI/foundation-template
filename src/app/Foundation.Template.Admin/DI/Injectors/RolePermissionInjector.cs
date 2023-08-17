@@ -10,7 +10,7 @@ using Bones.Repository.Interfaces;
 
 namespace Foundation.Template.Admin.DI
 {
-    public static class RolePermissionInjector
+    public static class RoleOrganisationPermissionInjector
     {
         public static IServiceCollection AddRoleOrganisation(this IServiceCollection services)
         {

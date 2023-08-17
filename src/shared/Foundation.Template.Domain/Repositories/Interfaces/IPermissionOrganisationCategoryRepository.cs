@@ -5,7 +5,7 @@ using Foundation.Template.Domain.Models;
 
 namespace Foundation.Template.Domain.Repositories.Interfaces
 {
-    public interface IPermissionCategoryRepository
+    public interface IPermissionOrganisationCategoryRepository
     {
         Task<IEnumerable<PermissionCategory>> GetMany();
     }

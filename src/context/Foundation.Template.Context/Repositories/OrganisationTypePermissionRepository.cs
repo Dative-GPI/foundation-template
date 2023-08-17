@@ -23,19 +23,20 @@ namespace Foundation.Template.Context.Repositories
             _dbSet = context.OrganisationTypePermissions;
         }
 
-        public async Task<IEnumerable<OrganisationTypePermission>> GetMany(OrganisationTypePermissionsFilter filter)
+        public async Task<IEnumerable<OrganisationTypePermissionInfos>> GetMany(OrganisationTypePermissionsFilter filter)
         {
             var query = _dbSet.Include(p => p.Permission).AsQueryable();
-                
+
             query = query.Where(p => p.OrganisationTypeId == filter.OrganisationTypeId);
 
             IEnumerable<OrganisationTypePermissionDTO> dtos = await query.AsNoTracking().ToListAsync();
 
-            return dtos.Select(organisationTypePermissionDTO => new OrganisationTypePermission()
+            return dtos.Select(organisationTypePermissionDTO => new OrganisationTypePermissionInfos()
             {
                 Id = organisationTypePermissionDTO.Id,
                 PermissionId = organisationTypePermissionDTO.PermissionId,
-                PermissionCode = organisationTypePermissionDTO.Permission.Code
+                PermissionCode = organisationTypePermissionDTO.Permission.Code,
+                OrganisationTypeId = organisationTypePermissionDTO.OrganisationTypeId,
             });
         }
 
@@ -49,13 +50,13 @@ namespace Foundation.Template.Context.Repositories
             return Task.CompletedTask;
         }
 
-        public Task CreateRange(IEnumerable<UpdateOrganisationTypePermissions> payload)
+        public Task CreateRange(IEnumerable<CreateOrganisationTypePermission> payload)
         {
             _dbSet.AddRange(payload.Select(p => new OrganisationTypePermissionDTO()
             {
                 Id = Guid.NewGuid(),
                 OrganisationTypeId = p.OrganisationTypeId,
-                PermissionId = p.PermissionsId,
+                PermissionId = p.PermissionId,
                 Disabled = false
             }));
 

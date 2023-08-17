@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
+
 using Bones.Repository.Interfaces;
 
 namespace Foundation.Template.Context.DTOs
 {
-    public class PermissionCategoryDTO : IEntity<Guid>
+    public class PermissionOrganisationDTO : IEntity<Guid>, IDTO
     {
         public Guid Id { get; set; }
         public string Code { get; set; }
         public string LabelDefault { get; set; }
-        public string Prefix { get; set; }
-        public List<TranslationPermissionCategoryDTO> Translations { get; set; }
+        public List<OrganisationTypePermissionDTO> OrganisationTypePermissions { get; set; }
+        public List<RoleOrganisationPermissionDTO> RoleOrganisationPermissions { get; set; }
+        public List<TranslationPermissionDTO> Translations { get; set; }
         public bool Disabled { get; set; }
     }
 
-    public class TranslationPermissionCategoryDTO
+    public class TranslationPermissionDTO
     {
         public string LanguageCode { get; set; }
         public string Label { get; set; }

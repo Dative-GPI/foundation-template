@@ -12,11 +12,11 @@ using Foundation.Template.Domain.Repositories.Interfaces;
 
 namespace Foundation.Template.Context.Repositories
 {
-    public class PermissionCategoryRepository : IPermissionCategoryRepository
+    public class PermissionOrganisationCategoryRepository : IPermissionOrganisationCategoryRepository
     {
-        private DbSet<PermissionCategoryDTO> _categorySet;
+        private DbSet<PermissionOrganisationCategoryDTO> _categorySet;
 
-        public PermissionCategoryRepository(ApplicationContext context)
+        public PermissionOrganisationCategoryRepository(ApplicationContext context)
         {
             _categorySet = context.PermissionCategories;
         }

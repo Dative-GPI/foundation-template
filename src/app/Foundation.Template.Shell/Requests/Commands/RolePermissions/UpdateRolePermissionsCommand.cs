@@ -8,7 +8,7 @@ using Foundation.Clients;
 
 namespace Foundation.Template.Shell
 {
-    public class UpdateRolePermissionsCommand : ICoreRequest, IRequest<IEntity<Guid>>
+    public class UpdateRoleOrganisationCommand : ICoreRequest, IRequest<IEntity<Guid>>
     {
         public IEnumerable<string> Authorizations => new[] { ShellAuthorizations.APP_PERMISSIONROLE_UPDATE };
 

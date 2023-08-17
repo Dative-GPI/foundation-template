@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 using Foundation.Template.Shell.Services;
-using Foundation.Template.Shell.Interfaces;
+using Foundation.Template.Shell.Abstractions;
 
 namespace Foundation.Template.Shell.DI
 {
@@ -10,6 +10,7 @@ namespace Foundation.Template.Shell.DI
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IRouteService, RouteService>();
+            services.AddScoped<IActionService, ActionService>();
             
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IRoleOrganisationService, RoleOrganisationService>();

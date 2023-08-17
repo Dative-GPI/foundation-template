@@ -5,14 +5,21 @@ on:
     branches:
       - "**"
     tags-ignore:
-      - '**'
+      - "**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        folder: ["Foundation.Template.Admin", "Foundation.Template.Gateway", "Foundation.Template.Shell"]
+        folder:
+          - "src/app/Foundation.Template.Admin"
+          - "src/app/Foundation.Template.Gateway"
+          - "src/app/Foundation.Template.Shell"
+          - "context/Foundation.Template.Context"
+          - "context/Foundation.Template.Fixtures"
+          - "shared/Foundation.Template.CrossCutting"
+          - "shared/Foundation.Template.Domain"
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET

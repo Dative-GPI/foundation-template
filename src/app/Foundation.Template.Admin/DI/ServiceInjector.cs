@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
+
 using Foundation.Template.Admin.Services;
-using Foundation.Template.Admin.Interfaces;
+using Foundation.Template.Admin.Abstractions;
 
 namespace Foundation.Template.Admin.DI
 {
@@ -9,6 +10,7 @@ namespace Foundation.Template.Admin.DI
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IRouteService, RouteService>();
+            services.AddScoped<IActionService, ActionService>();
 
             services.AddScoped<IOrganisationTypePermissionService, OrganisationTypePermissionService>();
             services.AddScoped<IPermissionService, PermissionService>();

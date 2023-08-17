@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Foundation.Template.Admin.Interfaces;
+using Foundation.Template.Admin.Abstractions;
 
 namespace Foundation.Template.Admin.Controllers
 {
