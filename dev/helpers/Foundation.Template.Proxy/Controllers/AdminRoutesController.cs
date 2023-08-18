@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 using Foundation.Template.Proxy.Extensions;
 using System.Linq;
+using Foundation.Template.Proxy.Tools;
 
 namespace Foundation.Template.Proxy.Controllers
 {
@@ -17,15 +18,18 @@ namespace Foundation.Template.Proxy.Controllers
     {
         private IHttpClientFactory _httpClientFactory;
         private string _foundationPrefix;
+        private LocalClient _localClient;
         private string _localPrefix;
 
         public AdminRoutesController(
             IHttpClientFactory httpClientFactory,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            LocalClient localClient)
         {
             _httpClientFactory = httpClientFactory;
             _foundationPrefix = configuration.GetConnectionString("Foundation");
             _localPrefix = configuration.GetConnectionString("Local");
+            _localClient = localClient;
         }
 
 
@@ -34,15 +38,10 @@ namespace Foundation.Template.Proxy.Controllers
         {
             var foundationClient = _httpClientFactory.CreateClient();
             var foundationResponse = await foundationClient.SendAsync(HttpContext, _foundationPrefix);
-
-            var localClient = _httpClientFactory.CreateClient();
-            var localReponse = await localClient.SendAsync(HttpContext, _localPrefix, "/api/admin/routes");
-
             var foundationContent = await foundationResponse.Content.ReadAsStringAsync();
-            var localContent = await localReponse.Content.ReadAsStringAsync();
-
             var foundationResult = JsonSerializer.Deserialize<List<JsonElement>>(foundationContent);
-            var localResult = JsonSerializer.Deserialize<List<JsonElement>>(localContent);
+
+            var localResult = await _localClient.Get<List<JsonElement>>(HttpContext, "/api/admin/routes");
 
             var result = new List<JsonElement>();
 

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 using Foundation.Template.Proxy.Extensions;
-using System.Linq;
+using Foundation.Template.Proxy.Tools;
 
 namespace Foundation.Template.Proxy.Controllers
 {
@@ -18,14 +19,17 @@ namespace Foundation.Template.Proxy.Controllers
         private IHttpClientFactory _httpClientFactory;
         private string _foundationPrefix;
         private string _localPrefix;
+        private LocalClient _localClient;
 
         public ShellActionsController(
             IHttpClientFactory httpClientFactory,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            LocalClient localClient)
         {
             _httpClientFactory = httpClientFactory;
             _foundationPrefix = configuration.GetConnectionString("Foundation");
-            _localPrefix = configuration.GetConnectionString("Local");
+            _localPrefix = configuration.GetConnectionString("Local");           
+            _localClient = localClient;
         }
 
 
@@ -39,15 +43,10 @@ namespace Foundation.Template.Proxy.Controllers
 
             var foundationClient = _httpClientFactory.CreateClient();
             var foundationResponse = await foundationClient.SendAsync(HttpContext, _foundationPrefix);
-
-            var localClient = _httpClientFactory.CreateClient();
-            var localReponse = await localClient.SendAsync(HttpContext, _localPrefix, "/api/organisations/" + organisationId + "/actions");
-
             var foundationContent = await foundationResponse.Content.ReadAsStringAsync();
-            var localContent = await localReponse.Content.ReadAsStringAsync();
-
             var foundationResult = JsonSerializer.Deserialize<List<JsonElement>>(foundationContent);
-            var localResult = JsonSerializer.Deserialize<List<JsonElement>>(localContent);
+            
+            var localResult = await _localClient.Get<List<JsonElement>>(HttpContext, "/api/organisations/" + organisationId + "/actions");
 
             var result = new List<JsonElement>();
 

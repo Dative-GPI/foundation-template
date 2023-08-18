@@ -27,7 +27,7 @@ namespace Foundation.Template.Gateway.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (context.Features.Get<IEndpointFeature>().Endpoint.Metadata.Any(m => m is AllowAnonymousAttribute))
+            if (context.GetEndpoint()?.Metadata.Any(m => m is AllowAnonymousAttribute) ?? false)
             {
                 await _next(context);
                 return;

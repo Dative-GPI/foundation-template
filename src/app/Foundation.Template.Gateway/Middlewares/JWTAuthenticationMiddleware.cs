@@ -35,51 +35,52 @@ namespace Foundation.Template.Gateway.Middlewares
         {
             _logger.LogTrace("Invoked");
 
-            if (context.Features.Get<IEndpointFeature>().Endpoint.Metadata.Any(m => m is AllowAnonymousAttribute))
+            if (context.GetEndpoint()?.Metadata.Any(m => m is AllowAnonymousAttribute) ?? false)
             {
                 _logger.LogTrace("Anonymous request");
+                await _next(context);
+                return;
+            }
+
+            _logger.LogTrace("Authenticated request");
+
+            using var scope = _serviceProvider.CreateScope();
+            var sp = scope.ServiceProvider;
+
+            var bearer = context.Request.Headers[HeaderNames.Authorization];
+
+            if (String.IsNullOrWhiteSpace(bearer))
+            {
+                Unauthorized(context);
+                return;
+            }
+
+            var toRead = bearer.ToString().Substring("Bearer ".Length);
+            var token = new JwtSecurityTokenHandler().ReadJwtToken(toRead);
+            var claimsFactory = sp.GetRequiredService<IClaimsFactory>();
+
+            var claims = claimsFactory.Get(token.Claims);
+
+            var clientFactory = sp.GetRequiredService<IFoundationClientFactory>();
+
+            var client = await clientFactory.CreateAuthenticated(claims.ApplicationId, claims.LanguageCode, toRead);
+
+            var isAuthenticated = await client.Gateway.Accounts.IsAuthenticated();
+
+            if (isAuthenticated)
+            {
+                _logger.LogTrace("Authentication succeed");
+
+                ClaimsIdentity identity = new ClaimsIdentity(token.Claims, "Custom");
+
+                context.User = new ClaimsPrincipal(identity);
                 await _next(context);
             }
             else
             {
-                using var scope = _serviceProvider.CreateScope();
-                var sp = scope.ServiceProvider;
-
-                var bearer = context.Request.Headers[HeaderNames.Authorization];
-
-                if (String.IsNullOrWhiteSpace(bearer))
-                {
-                    Unauthorized(context);
-                    return;
-                }
-
-                var toRead = bearer.ToString().Substring("Bearer ".Length);
-                var token = new JwtSecurityTokenHandler().ReadJwtToken(toRead);
-                var claimsFactory = sp.GetRequiredService<IClaimsFactory>();
-
-                var claims = claimsFactory.Get(token.Claims);
-
-                var clientFactory = sp.GetRequiredService<IFoundationClientFactory>();
-
-                var client = await clientFactory.CreateAuthenticated(claims.ApplicationId, claims.LanguageCode, toRead);
-
-                var isAuthenticated = await client.Gateway.Accounts.IsAuthenticated();
-
-                if (isAuthenticated)
-                {
-                    _logger.LogTrace("Authentication succeed");
-
-                    ClaimsIdentity identity = new ClaimsIdentity(token.Claims, "Custom");
-
-                    context.User = new ClaimsPrincipal(identity);
-                    await _next(context);
-                }
-                else
-                {
-                    _logger.LogInformation("Unable to authenticate current request : User {user} - Source {source}", claims.UserId, claims.SourceId);
-                    Unauthorized(context);
-                    return;
-                }
+                _logger.LogInformation("Unable to authenticate current request : User {user} - Source {source}", claims.UserId, claims.SourceId);
+                Unauthorized(context);
+                return;
             }
         }
 

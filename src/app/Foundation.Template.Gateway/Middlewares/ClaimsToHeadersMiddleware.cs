@@ -37,27 +37,24 @@ namespace Foundation.Template.Gateway.Middlewares
             context.Request.Headers.Remove("X-Source-Id");
             context.Request.Headers.Remove("X-Application-Id");
 
-            if (context.Features.Get<IEndpointFeature>().Endpoint.Metadata.Any(m => m is AllowAnonymousAttribute))
+            if (context.GetEndpoint()?.Metadata.Any(m => m is AllowAnonymousAttribute) ?? false)
             {
                 _logger.LogTrace("Anonymous request");
                 await _next(context);
+                return;
             }
-            else
-            {
-                var claims = claimFactory.Get(context.User.Claims);
 
-                context.Request.Headers.Add("X-Application-Id", claims.ApplicationId.ToString());
+            var claims = claimFactory.Get(context.User.Claims);
 
-                if (claims.UserId.HasValue)
-                    context.Request.Headers.Add("X-User-Id", claims.UserId.ToString());
+            context.Request.Headers.Add("X-Application-Id", claims.ApplicationId.ToString());
 
-                if (claims.SourceId.HasValue)
-                    context.Request.Headers.Add("X-Source-Id", claims.SourceId.ToString());
+            if (claims.UserId.HasValue)
+                context.Request.Headers.Add("X-User-Id", claims.UserId.ToString());
 
-                // _logger.LogTrace("Headers {headers} added", context.Request.Headers.ToDictionary(h => h.Key, h => h.Value));
+            if (claims.SourceId.HasValue)
+                context.Request.Headers.Add("X-Source-Id", claims.SourceId.ToString());
 
-                await _next(context);
-            }
+            await _next(context);
         }
     }
 }

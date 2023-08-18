@@ -17,7 +17,7 @@ namespace Foundation.Template.Gateway.Extensions
                 endpoints.MapControllers();
 
                 var foundationForwarder = endpoints.ServiceProvider.GetRequiredService<FoundationForwarderMiddleware>();
-
+                
                 endpoints.Map("/api/core/{**catch-all}", foundationForwarder.Forward)
                     .AllowAnonymous();
             });

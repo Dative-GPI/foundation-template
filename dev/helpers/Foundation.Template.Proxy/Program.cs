@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Foundation.Template.Proxy.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddHttpClient(string.Empty, c => { }).ConfigurePrimaryHttpMessa
        ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, certChain, policyErrors) => true
    }
 );
+builder.Services.AddScoped<LocalClient>();
 
 
 var app = builder.Build();
@@ -32,10 +34,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-    endpoints.MapForwarder("/{**catch-all}", app.Configuration.GetConnectionString("Foundation"));
-});
+app.MapControllers();
+app.MapForwarder("/{**catch-all}", app.Configuration.GetConnectionString("Foundation"));
 
 app.Run();
