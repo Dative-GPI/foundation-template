@@ -1,3 +1,5 @@
+using Foundation.Shared;
+
 namespace Foundation.Template.Domain.Models
 {
     public class ActionInfos

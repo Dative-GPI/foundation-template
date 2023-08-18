@@ -12,7 +12,6 @@ using Foundation.Template.Domain.Models;
 using Foundation.Template.Domain.Repositories.Interfaces;
 
 using Foundation.Template.Shell.Abstractions;
-using Foundation.Template.Shell.Abstractions;
 using Foundation.Template.Shell.ViewModels;
 
 using static Foundation.Template.Shell.AutoMapper.Consts;

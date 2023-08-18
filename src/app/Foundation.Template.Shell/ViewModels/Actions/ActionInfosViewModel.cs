@@ -1,4 +1,4 @@
-using Foundation.Template.Domain.Models;
+using Foundation.Shared;
 
 namespace Foundation.Template.Shell.ViewModels
 {
