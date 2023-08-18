@@ -1,0 +1,45 @@
+name: Publish docker image to hub.docker.com
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        file:
+          - "ci/dockerfiles/foundation-template-proxy.dockerfile"
+  
+    steps:
+      # Checking out repository
+      - uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Compute docker image name
+        id: imageName
+        run: |
+          DOCKER_IMAGE=$(basename ${{ matrix.file }} .dockerfile)
+          echo "::set-output name=imageName::dativegpi/$DOCKER_IMAGE"
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{steps.imageName.outputs.imageName}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ${{ matrix.file }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

@@ -16,6 +16,7 @@ namespace Foundation.Template.Gateway.DI
     {
         public static IServiceCollection AddGatewayTemplate(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddReverseProxy();
             services.AddHttpForwarder();
             services.AddMemoryCache();
 

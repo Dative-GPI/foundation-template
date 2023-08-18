@@ -18,6 +18,7 @@ namespace Foundation.Template.CrossCutting.DI
             services.AddScoped<IClaimsFactory, ClaimsFactory>();
             services.AddScoped<IFoundationClientFactory, FoundationClientFactory>();
             services.AddScoped<ITranslationsProvider, TranslationsProvider>();
+            services.AddScoped<ITemplateMatcher, RouteTemplateMatcher>();
 
             return services;
         }
