@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 
 using Bones.Repository.Interfaces;
+using Foundation.Template.Context.Abstractions;
 
 namespace Foundation.Template.Context.DTOs
 {
-    public class PermissionAdminDTO : IEntity<Guid>, IDTO
+    public class PermissionAdminDTO : IEntity<Guid>, ICodeEntity
     {
         public Guid Id { get; set; }
         public string Code { get; set; }

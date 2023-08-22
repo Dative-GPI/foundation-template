@@ -4,7 +4,7 @@ using Bones.Repository.Interfaces;
 
 namespace Foundation.Template.Context.DTOs
 {
-    public class RoleAdminPermissionDTO : IEntity<Guid>, IDTO
+    public class RoleAdminPermissionDTO : IEntity<Guid>
     {
         public Guid Id { get; set; }
         public Guid RoleAdminId { get; set; }

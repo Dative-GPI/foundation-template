@@ -6,7 +6,7 @@ using Foundation.Template.Domain.Enums;
 
 namespace Foundation.Template.Context.DTOs
 {
-    public class FileDTO : IEntity<Guid>, IDTO
+    public class FileDTO : IEntity<Guid>
     {
         public Guid Id { get; set; }
         public string Label { get; set; }

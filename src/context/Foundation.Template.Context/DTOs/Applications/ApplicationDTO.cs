@@ -3,7 +3,7 @@ using Bones.Repository.Interfaces;
 
 namespace Foundation.Template.Context.DTOs
 {
-    public class ApplicationDTO: IEntity<Guid>, IDTO
+    public class ApplicationDTO: IEntity<Guid>
     {
         public Guid Id { get; set; }
         public string AdminHost { get; set; }

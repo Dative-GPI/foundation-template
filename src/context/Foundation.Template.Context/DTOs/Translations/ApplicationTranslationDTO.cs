@@ -4,7 +4,7 @@ using Bones.Repository.Interfaces;
 
 namespace Foundation.Template.Context.DTOs
 {
-    public class ApplicationTranslationDTO : IEntity<Guid>, IDTO
+    public class ApplicationTranslationDTO : IEntity<Guid>
     {
         public Guid Id { get; set; }
 
