@@ -14,7 +14,8 @@ namespace Foundation.Template.Fixtures
     public class BaseFixtureManager
     {
         public delegate Task<List<T>> FixtureGenerator<T>();
-        private List<Func<Task>> _saveActions = new List<Func<Task>>();
+        private List<Func<bool, Task>> _generateActions = new List<Func<bool, Task>>();
+        private List<Func<Task>> _listActions = new List<Func<Task>>();
 
         protected ILogger<BaseFixtureManager> Logger { get; private set; }
         protected IFixtureHelper FixtureHelper { get; private set; }
@@ -27,11 +28,22 @@ namespace Foundation.Template.Fixtures
             FixtureHelper = fixtureHelper;
         }
 
-        public async Task Run()
+        public async Task Generate(bool dryRun = false)
         {
-            Logger.LogInformation("Start");
+            Logger.LogInformation("Generate fixtures");
 
-            foreach (var action in _saveActions)
+            foreach (var action in _generateActions)
+            {
+                await action(dryRun);
+                Logger.LogInformation("------------------------");
+            }
+        }
+
+        public async Task List()
+        {
+            Logger.LogInformation("List fixtures");
+
+            foreach (var action in _listActions)
             {
                 await action();
             }
@@ -44,28 +56,36 @@ namespace Foundation.Template.Fixtures
             where TDTO : ICodeEntity
             where TPartial : ICodeEntity
         {
-            if(update == default)
+            if (update == default)
             {
                 update = (partial, former) => former;
             }
 
-            _saveActions.Add(() => Save<TDTO, TPartial>(provider, create, update));
+            _generateActions.Add((dryRun) => Generate<TDTO, TPartial>(provider, create, update, dryRun));
+            _listActions.Add(() => PrintInfos<TDTO>());
         }
 
-        private async Task Save<TDTO, TPartial>(
+        private async Task PrintInfos<TDTO>() where TDTO : ICodeEntity
+        {
+            var formers = await FixtureHelper.Get<TDTO>();
+            Logger.LogInformation("Found {count} {type}", formers.Count(), typeof(TDTO).Name);
+        }
+
+        private async Task Generate<TDTO, TPartial>(
             FixtureGenerator<TPartial> provider,
             Func<TPartial, TDTO> create,
-            Func<TPartial, TDTO, TDTO> update)
+            Func<TPartial, TDTO, TDTO> update,
+            bool dryRun = false)
             where TDTO : ICodeEntity
             where TPartial : ICodeEntity
         {
             var formers = await FixtureHelper.Get<TDTO>();
 
-            Logger.LogInformation("Found {count} {type} existing", formers.Count(), typeof(TDTO).Name);
+            Logger.LogInformation("{count} {type} existing", formers.Count(), typeof(TDTO).Name);
 
             var alls = await provider();
 
-            Logger.LogInformation("Found {count} {type} actual", alls.Count(), typeof(TDTO).Name);
+            Logger.LogInformation("{count} {type} actual", alls.Count(), typeof(TDTO).Name);
 
             var news = alls.ExceptBy(formers.Select(f => f.Code), a => a.Code).ToList();
 
@@ -75,7 +95,8 @@ namespace Foundation.Template.Fixtures
                 .Concat(news.Select(n => create(n))) // + news
                 .ToList();
 
-            await FixtureHelper.Save<TDTO>(saved);
+            if(!dryRun)
+                await FixtureHelper.Save<TDTO>(saved);
 
             Logger.LogInformation("{count} {type} saved", saved.Count(), typeof(TDTO).Name);
         }

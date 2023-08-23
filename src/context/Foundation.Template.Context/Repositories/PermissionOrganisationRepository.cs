@@ -25,11 +25,9 @@ namespace Foundation.Template.Context.Repositories
         public async Task<IEnumerable<PermissionInfos>> GetMany(PermissionsFilter filter)
         {
             var query = _dbSet
-                .Include(p => p.OrganisationTypePermissions)
-                .Include(p => p.RoleOrganisationPermissions)
                 .AsQueryable();
 
-            if (filter.PermissionIds != null && filter.PermissionIds.Any())
+            if (filter.PermissionIds != null)
             {
                 query = query.Where(p => filter.PermissionIds.Contains(p.Id));
             }
@@ -40,23 +38,6 @@ namespace Foundation.Template.Context.Repositories
                 query = query.Where(p => 
                     p.LabelDefault.ToLowerInvariant().Contains(caseInsensitiveSearch) ||
                     p.Code.ToLowerInvariant().Contains(caseInsensitiveSearch)    
-                );
-            }
-
-            if (filter.OrganisationTypeId.HasValue)
-            {
-                query = query.Where(
-                    p => p.OrganisationTypePermissions.Any(
-                        otp => otp.OrganisationTypeId == filter.OrganisationTypeId.Value
-                    )
-                );
-            }
-
-            if (filter.RoleId.HasValue)
-            {
-                query = query.Where(
-                    p => p.RoleOrganisationPermissions
-                        .Any(rp => rp.RoleOrganisationId == filter.RoleId.Value)
                 );
             }
 

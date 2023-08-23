@@ -89,7 +89,7 @@ namespace Foundation.Template.Context
             {
                 m.HasKey(otp => otp.Id);
                 m.HasOne(otp => otp.Permission)
-                    .WithMany(p => p.OrganisationTypePermissions)
+                    .WithMany()
                     .HasForeignKey(otp => otp.PermissionId);
             });
 
@@ -97,7 +97,7 @@ namespace Foundation.Template.Context
             {
                 m.HasKey(rp => rp.Id);
                 m.HasOne(rp => rp.PermissionOrganisation)
-                    .WithMany(p => p.RoleOrganisationPermissions)
+                    .WithMany()
                     .HasForeignKey(rp => rp.PermissionOrganisationId);
             });
 
@@ -105,7 +105,7 @@ namespace Foundation.Template.Context
             {
                 m.HasKey(rp => rp.Id);
                 m.HasOne(rp => rp.PermissionAdmin)
-                    .WithMany(p => p.RoleAdminPermissions)
+                    .WithMany()
                     .HasForeignKey(rp => rp.PermissionAdminId);
             });
             #endregion

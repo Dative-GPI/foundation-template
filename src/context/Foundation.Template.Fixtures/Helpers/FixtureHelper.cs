@@ -10,13 +10,20 @@ using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 
 using Foundation.Template.Fixtures.Abstractions;
+using Microsoft.Extensions.Logging;
 
 namespace Foundation.Template.Fixtures
 {
     public class FixtureHelper : IFixtureHelper
     {
+        private ILogger<FixtureHelper> _logger;
         const string FIXTURES_DIRECTORY = "Fixtures";
         static readonly string BASE_DIRECTORY = Directory.GetCurrentDirectory();
+
+        public FixtureHelper(ILogger<FixtureHelper> logger)
+        {
+            _logger = logger;
+        }
 
         public void Feed<TEntity>(ModelBuilder builder) where TEntity : class
         {
@@ -41,7 +48,8 @@ namespace Foundation.Template.Fixtures
         {
             if (!File.Exists(file))
             {
-                throw new Exception($"Unable to find file {file}");
+                _logger.LogWarning($"Unable to find file {file}");
+                return Enumerable.Empty<TEntity>();
             }
 
             IEnumerable<TEntity> result;
@@ -85,7 +93,7 @@ namespace Foundation.Template.Fixtures
         {
             var serializer = GetSerializer<TEntity>();
 
-            using var stream = File.OpenWrite(file);
+            using var stream = File.Create(file);
             serializer.Serialize(stream, entities);
         }
 
@@ -101,7 +109,21 @@ namespace Foundation.Template.Fixtures
         {
             XmlAttributeOverrides overrides = new XmlAttributeOverrides();
 
-            foreach (var property in typeof(TEntity).GetProperties())
+            Inline(overrides, typeof(TEntity), new HashSet<Type>());
+
+            return new XmlSerializer(typeof(List<TEntity>), overrides);
+        }
+
+        public XmlAttributeOverrides Inline(XmlAttributeOverrides overrides, Type type, HashSet<Type> visited)
+        {
+            if (visited.Contains(type))
+            {
+                return overrides;
+            }
+
+            visited.Add(type);
+
+            foreach (var property in type.GetProperties())
             {
                 if (
                     property.PropertyType.IsPrimitive ||
@@ -110,19 +132,35 @@ namespace Foundation.Template.Fixtures
                     property.PropertyType == typeof(Guid)
                 )
                 {
-                    overrides.Add(typeof(TEntity), property.Name, new XmlAttributes { XmlAttribute = new XmlAttributeAttribute() });
+                    overrides.Add(type, property.Name, new XmlAttributes { XmlAttribute = new XmlAttributeAttribute() });
                 }
-                // else
-                // {
-                //     overrides.Add(typeof(TEntity), property.Name, new XmlAttributes { XmlIgnore = true });
-                // }
+                else
+                {
+                    if (property.PropertyType.IsGenericType)
+                    {
+                        foreach (var item in property.PropertyType.GetGenericArguments())
+                        {
+                            Inline(overrides, item, visited);
+                        }
+                    }
+                    else
+                    {
+                        Inline(overrides, property.PropertyType, visited);
+                    }
+                }
             }
 
-            return new XmlSerializer(typeof(List<TEntity>), overrides);
+            return overrides;
         }
 
         private string GetPath<TEntity>()
         {
+            // TODO create directory
+            if (Directory.Exists(Path.Join(BASE_DIRECTORY, FIXTURES_DIRECTORY)) == false)
+            {
+                Directory.CreateDirectory(Path.Join(BASE_DIRECTORY, FIXTURES_DIRECTORY));
+            }
+
             var baseName = GetFileBaseName<TEntity>();
             var files = Directory.EnumerateFiles(Path.Join(BASE_DIRECTORY, FIXTURES_DIRECTORY), $"*{baseName}*");
 
@@ -136,7 +174,7 @@ namespace Foundation.Template.Fixtures
                 return files.First();
             }
 
-            return $"{baseName}.xml";
+            return Path.Join(BASE_DIRECTORY, FIXTURES_DIRECTORY, $"{baseName}.xml");
         }
 
         private string GetFileBaseName<TEntity>()

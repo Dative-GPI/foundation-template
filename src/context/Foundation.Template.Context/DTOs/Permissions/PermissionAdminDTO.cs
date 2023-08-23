@@ -11,7 +11,6 @@ namespace Foundation.Template.Context.DTOs
         public Guid Id { get; set; }
         public string Code { get; set; }
         public string LabelDefault { get; set; }
-        public List<RoleAdminPermissionDTO> RoleAdminPermissions { get; set; }
         public List<TranslationPermissionAdminDTO> Translations { get; set; }
         public bool Disabled { get; set; }
     }

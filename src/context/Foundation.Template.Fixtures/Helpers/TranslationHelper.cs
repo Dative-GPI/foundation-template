@@ -5,17 +5,15 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using Foundation.Template.Context.Abstractions;
-
 namespace Foundation.Template.Fixtures
 {
-    public static class TranslationProvider
+    public static class TranslationHelper
     {
         static string[] FILES_PATTERN = new[] { ".vue", ".ts" };
         const string REGEX_PATTERN = @"\$tr\(\s*['""]([\w\.-]*)['""],\s*(?:[']([^']*)[']|[""]([^""]*)[""])\s*\)";
         static Regex Regex = new Regex(REGEX_PATTERN);
 
-        public static async Task<List<ICodeEntity>> GetAllTranslations(params string[] projects)
+        public static async Task<List<Fixture>> GetTranslations(params string[] projects)
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
 
@@ -52,7 +50,6 @@ namespace Foundation.Template.Fixtures
                     Code = kv.Key,
                     Value = kv.Value
                 })
-                .Cast<ICodeEntity>()
                 .ToList();
         }
     }

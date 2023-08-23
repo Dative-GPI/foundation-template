@@ -4,31 +4,29 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Foundation.Template.Context.Abstractions;
-
 using static Foundation.Template.Fixtures.BaseFixtureManager;
 
 namespace Foundation.Template.Fixtures
 {
-    public static class PermissionProvider
+    public static class PermissionHelper
     {
         private const BindingFlags PublicStaticFlags = BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy;
 
-        public static FixtureGenerator<ICodeEntity> GetPermissions(Type type)
+        public static FixtureGenerator<Fixture> GetPermissions(Type type)
         {
             var permissions = GetAllPermissions(type);
-            return () => Task.FromResult<List<ICodeEntity>>(permissions.Cast<ICodeEntity>().ToList());
+            return () => Task.FromResult(permissions);
         }
 
-        public static FixtureGenerator<ICodeEntity> GetCategories(Type type)
+        public static FixtureGenerator<Fixture> GetCategories(Type type)
         {
             var permissions = GetAllPermissions(type);
             var categories = ExtractCategories(permissions);
 
-            return () => Task.FromResult<List<ICodeEntity>>(categories);
+            return () => Task.FromResult(categories);
         }
 
-        private static List<ICodeEntity> ExtractCategories(List<Fixture> permissions)
+        private static List<Fixture> ExtractCategories(List<Fixture> permissions)
         {
             return permissions
                 .Select(p => new { Code = String.Join('.', p.Code.Split(".")[0..^1]), Value = p.Value })
@@ -36,12 +34,12 @@ namespace Foundation.Template.Fixtures
                 .Select(kv => new Fixture()
                 {
                     Code = kv.Key,
-                    Value = kv.SelectMany(p => p.Value.Split(new char[] { ' ', ',', '.' }, StringSplitOptions.RemoveEmptyEntries))
+                    Value = kv.SelectMany(p => p.Value.Split(new char[] { ' ', ',', '.', '_' }, StringSplitOptions.RemoveEmptyEntries))
                         .GroupBy(word => word)
-                        .OrderByDescending(g => g.Count() + g.Key.Length)
-                        .FirstOrDefault()?.Key
+                        .OrderBy(g => g.Count() + g.Key.Length)
+                        .LastOrDefault()?.Key
                 })
-                .ToList<ICodeEntity>();
+                .ToList();
         }
 
         private static List<Fixture> GetAllPermissions(Type type)
@@ -51,8 +49,8 @@ namespace Foundation.Template.Fixtures
                 .Select(
                     field => new Fixture()
                     {
-                        Code = field.Name,
-                        Value = field.GetRawConstantValue()?.ToString()
+                        Code = field.GetRawConstantValue()?.ToString(),
+                        Value = field.Name,
                     }
                 ).ToList();
         }
