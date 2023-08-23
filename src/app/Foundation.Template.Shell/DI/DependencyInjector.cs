@@ -14,6 +14,8 @@ namespace Foundation.Template.Shell.DI
     {
         public static IServiceCollection AddShellTemplate(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddAutoMapper(typeof(DependencyInjector).Assembly);
+
             services.AddCrossCutting(configuration);
 
             services.AddScoped<RequestContextProvider>();
@@ -26,17 +28,8 @@ namespace Foundation.Template.Shell.DI
 
             services.AddPermissions();
             services.AddRoleOrganisations();
-            
-            services.AddAutoMapper();
 
             services.AddScoped<IPermissionProvider, PermissionProvider>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddAutoMapper(this IServiceCollection services)
-        {
-            services.AddAutoMapper(typeof(DependencyInjector).Assembly);
 
             return services;
         }

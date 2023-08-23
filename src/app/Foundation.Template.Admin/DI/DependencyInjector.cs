@@ -25,7 +25,6 @@ namespace Foundation.Template.Admin.DI
             services.AddFlow();
             services.AddServices();
             services.AddMiddlewares();
-            services.AddAutoMapper();
 
             services.AddPermissions();
             services.AddPermissionCategories();
