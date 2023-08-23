@@ -20,6 +20,7 @@ jobs:
           - "src/context/Foundation.Template.Fixtures"
           - "src/shared/Foundation.Template.CrossCutting"
           - "src/shared/Foundation.Template.Domain"
+          - "dev/helpers/Foundation.Template.Proxy"
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
