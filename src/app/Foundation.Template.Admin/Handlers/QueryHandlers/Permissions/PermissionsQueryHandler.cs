@@ -24,10 +24,7 @@ namespace Foundation.Template.Admin.Handlers
         {
             var filter = new PermissionsFilter()
             {
-                Search = request.Search,
-                OrganisationTypeId = request.OrganisationTypeId,
-                RoleId = request.RoleId,
-                PermissionIds = request.PermissionIds
+                Search = request.Search
             };
 
             return await _permissionRepository.GetMany(filter);

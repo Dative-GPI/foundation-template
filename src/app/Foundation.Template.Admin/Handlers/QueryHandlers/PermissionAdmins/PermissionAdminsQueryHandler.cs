@@ -24,9 +24,7 @@ namespace Foundation.Template.Admin.Handlers
         {
             var filter = new PermissionAdminFilter()
             {
-                Search = request.Search,
-                PermissionAdminIds = request.PermissionAdminIds,
-                RoleAdminId = request.RoleAdminId
+                Search = request.Search
             };
 
             return await _permissionAdminRepository.GetMany(filter);

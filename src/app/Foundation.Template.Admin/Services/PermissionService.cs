@@ -32,10 +32,7 @@ namespace Foundation.Template.Admin.Services
         {
             var query = new PermissionsQuery()
             {
-                Search = filter.Search,
-                OrganisationTypeId = filter.OrganisationTypeId,
-                RoleId = filter.RoleId,
-                PermissionIds = filter.PermissionIds
+                Search = filter.Search
             };
 
             var result = await _permissionsQueryHandler.HandleAsync(query);

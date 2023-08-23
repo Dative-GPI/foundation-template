@@ -13,7 +13,5 @@ namespace Foundation.Template.Admin
         public IEnumerable<string> Authorizations => Enumerable.Empty<string>();
 
         public string Search { get; set; }
-        public Guid? RoleAdminId { get; set; }
-        public IEnumerable<Guid> PermissionAdminIds { get; set; }
     }
 }

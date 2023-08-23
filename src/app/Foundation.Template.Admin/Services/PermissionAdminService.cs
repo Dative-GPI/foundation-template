@@ -37,9 +37,7 @@ namespace Foundation.Template.Admin.Services
         {
             var query = new PermissionAdminsQuery()
             {
-                Search = filter.Search,
-                RoleAdminId = filter.RoleAdminId,
-                PermissionAdminIds = filter.PermissionAdminIds
+                Search = filter.Search
             };
 
             var result = await _permissionAdminsQueryHandler.HandleAsync(query);
