@@ -18,7 +18,8 @@ namespace Foundation.Template.Gateway.Middlewares
         private ILogger<ClaimsToHeadersMiddleware> _logger;
         private IServiceProvider _sp;
 
-        public ClaimsToHeadersMiddleware(RequestDelegate next, ILogger<ClaimsToHeadersMiddleware> logger,
+        public ClaimsToHeadersMiddleware(RequestDelegate next, 
+            ILogger<ClaimsToHeadersMiddleware> logger,
             IServiceProvider sp)
         {
             _next = next;

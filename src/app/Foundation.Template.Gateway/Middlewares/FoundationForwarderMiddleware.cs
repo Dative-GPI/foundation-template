@@ -48,37 +48,30 @@ namespace Foundation.Template.Gateway.Middlewares
 
             var sp = scope.ServiceProvider;
 
-            var bearer = httpContext.Request.Headers[HeaderNames.Authorization];
+            var applicationId = Guid.Parse(
+                httpContext.Request.Headers["X-Application-Id"].ToString()
+            );
 
-            if (String.IsNullOrWhiteSpace(bearer))
+            if (!_memoryCache.TryGetValue(applicationId, out string host))
             {
-                _logger.LogWarning("No bearer token found, can't find the application to forward the request to.");
-                httpContext.Response.StatusCode = 401;
-                return;
-            }
-
-            var toRead = bearer.ToString().Substring("Bearer ".Length);
-            var token = new JwtSecurityTokenHandler().ReadJwtToken(toRead);
-            var claimsFactory = sp.GetRequiredService<IClaimsFactory>();
-
-            var claims = claimsFactory.Get(token.Claims);
-
-            if (!_memoryCache.TryGetValue(claims.ApplicationId, out string host))
-            {
+                _logger.LogTrace("MemoryCache does not contain the host, fetching it from the database.");
+                
                 var applicationRepository = httpContext.RequestServices.GetRequiredService<IApplicationRepository>();
-                var application = await applicationRepository.Get(claims.ApplicationId);
+                var application = await applicationRepository.Get(applicationId);
 
                 if (application == null)
                 {
-                    _logger.LogWarning("No application found with id {0}, can't forward the request.", claims.ApplicationId);
+                    _logger.LogWarning("No application found with id {0}, can't forward the request.", applicationId);
                     httpContext.Response.StatusCode = 400;
                     return;
                 }
 
                 host = application.ShellHost;
 
-                _memoryCache.Set(claims.ApplicationId, host, _cacheEntryOptions);
+                _memoryCache.Set(applicationId, host, _cacheEntryOptions);
             }
+
+            _logger.LogTrace("Forwarding");
 
             await _forwarder.SendAsync(httpContext, host, _httpClient);
         }
