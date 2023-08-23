@@ -20,6 +20,8 @@ namespace Foundation.Template.Gateway.DI
             services.AddHttpForwarder();
             services.AddMemoryCache();
 
+            services.AddAutoMapper(typeof(DependencyInjector).Assembly);
+            
             services.AddCrossCutting(configuration);
             services.AddSingleton<FoundationForwarderMiddleware>();
 

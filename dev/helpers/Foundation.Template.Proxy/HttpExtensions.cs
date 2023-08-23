@@ -9,31 +9,35 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Yarp.ReverseProxy.Forwarder;
 using System.Net.Http.Json;
+using Microsoft.Net.Http.Headers;
 
 namespace Foundation.Template.Proxy.Extensions
 {
     public static class HttpExtensions
     {
-        public static async Task<HttpResponseMessage> SendAsync(this HttpClient client, HttpContext context, string destinationPrefix, string overridePath = null)
+        static string NOT_FORWARDED_HEADERS = "Connection,Keep-Alive,Proxy-Authenticate,Proxy-Authorization,TE,Trailers,Transfer-Encoding,Upgrade,Host";
+
+        public static async Task<HttpResponseMessage> GetAsync(this HttpClient client, HttpContext context, string destinationPrefix, string overridePath = null)
         {
             var request = new HttpRequestMessage()
             {
+                Method = HttpMethod.Get,
+                Content = context.Request.Body != null ? new StreamContent(context.Request.Body) : null,
+                RequestUri = new UriBuilder(new Uri(destinationPrefix).Scheme, new Uri(destinationPrefix).Host,
+                    context.Request.Host.Port ?? -1,
+                    overridePath ?? context.Request.PathBase.Value +
+                    context.Request.Path.Value + context.Request.QueryString.Value)
+                    .Uri
             };
 
-            await HttpTransformer.Default.TransformRequestAsync(context, request, destinationPrefix, CancellationToken.None);
-
-            request.RequestUri = new UriBuilder(request.RequestUri) { Path = overridePath ?? request.RequestUri.PathAndQuery }.Uri;
-
-            HttpResponseMessage response;
-
-            try
+            foreach (var header in context.Request.Headers.Where(h => !NOT_FORWARDED_HEADERS.Contains(h.Key)))
             {
-                response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted);
+                request.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
             }
-            catch (System.Exception)
-            {
-                return null;
-            }
+
+            var response = await client.SendAsync(request, context.RequestAborted);
+
+            response.EnsureSuccessStatusCode();
 
             return response;
         }
@@ -43,23 +47,22 @@ namespace Foundation.Template.Proxy.Extensions
             var request = new HttpRequestMessage()
             {
                 Method = HttpMethod.Post,
-                Content = JsonContent.Create(body)
+                Content = body != null ? JsonContent.Create(body) : null,
+                RequestUri = new UriBuilder(new Uri(destinationPrefix).Scheme, new Uri(destinationPrefix).Host,
+                    context.Request.Host.Port ?? -1,
+                    overridePath ?? context.Request.PathBase.Value +
+                    context.Request.Path.Value + context.Request.QueryString.Value)
+                    .Uri
             };
 
-            await HttpTransformer.Default.TransformRequestAsync(context, request, destinationPrefix, CancellationToken.None);
-
-            request.RequestUri = new UriBuilder(request.RequestUri) { Path = overridePath ?? request.RequestUri.PathAndQuery }.Uri;
-
-            HttpResponseMessage response;
-
-            try
+            foreach (var header in context.Request.Headers.Where(h => !NOT_FORWARDED_HEADERS.Contains(h.Key)))
             {
-                response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted);
+                request.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
             }
-            catch (System.Exception)
-            {
-                return null;
-            }
+            
+            var response = await client.SendAsync(request, context.RequestAborted);
+
+            response.EnsureSuccessStatusCode();
 
             return response;
         }

@@ -14,6 +14,8 @@ namespace Foundation.Template.Admin.DI
     {
         public static IServiceCollection AddAdminTemplate(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddAutoMapper(typeof(DependencyInjector).Assembly);
+
             services.AddCrossCutting(configuration);
 
             services.AddScoped<RequestContextProvider>();
@@ -38,13 +40,6 @@ namespace Foundation.Template.Admin.DI
             services.AddApplicationTranslations();
 
             services.AddScoped<IPermissionProvider, PermissionProvider>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddAutoMapper(this IServiceCollection services)
-        {
-            services.AddAutoMapper(typeof(DependencyInjector).Assembly);
 
             return services;
         }

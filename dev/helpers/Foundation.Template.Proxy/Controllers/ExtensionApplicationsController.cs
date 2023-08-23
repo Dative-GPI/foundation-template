@@ -19,6 +19,7 @@ namespace Foundation.Template.Proxy.Controllers
         private ILogger<ExtensionApplicationsController> _logger;
         private IHttpClientFactory _httpClientFactory;
         private string _foundationPrefix;
+        private string _localPrefix;
 
         public ExtensionApplicationsController(
             ILogger<ExtensionApplicationsController> logger,
@@ -28,6 +29,7 @@ namespace Foundation.Template.Proxy.Controllers
             _logger = logger;
             _httpClientFactory = httpClientFactory;
             _foundationPrefix = configuration.GetConnectionString("Foundation");
+            _localPrefix = configuration.GetConnectionString("Local");
         }
 
         [Route("extension-applications")]
@@ -38,7 +40,7 @@ namespace Foundation.Template.Proxy.Controllers
 
             if (payload.ExtensionId.HasValue)
             {
-                var foundationResponse = await foundationClient.SendAsync(HttpContext, _foundationPrefix);
+                var foundationResponse = await foundationClient.GetAsync(HttpContext, _foundationPrefix);
 
                 var content = await foundationResponse.Content.ReadAsStringAsync();
 
@@ -47,14 +49,14 @@ namespace Foundation.Template.Proxy.Controllers
                 return Ok(result);
             }
 
-            var applicationResponse = await foundationClient.SendAsync(HttpContext, _foundationPrefix, "/api/v1/applications/current");
+            var applicationResponse = await foundationClient.GetAsync(HttpContext, _foundationPrefix, "/api/v1/applications/current");
             applicationResponse.EnsureSuccessStatusCode();
 
             var applicationContent = await applicationResponse.Content.ReadAsStringAsync();
             var applicationDocument = JsonSerializer.Deserialize<JsonDocument>(applicationContent);
             var applicationId = applicationDocument.RootElement.GetProperty("id").GetGuid();
 
-            var jwtResponse = await foundationClient.PostAsync(HttpContext, _foundationPrefix, "/api/v1/auth_tokens", new
+            var jwtResponse = await foundationClient.PostAsync(HttpContext, _foundationPrefix, "/api/v1/auth-tokens", new
             {
                 lifetime = 60 * 24 * 7, // one week
                 label = "Foundation.Template.Proxy - Admin JWT",
@@ -81,7 +83,7 @@ namespace Foundation.Template.Proxy.Controllers
                     shellHost = host,
                     adminJWT = jwt
                 }),
-                RequestUri = new Uri($"{_foundationPrefix}/api/applications")
+                RequestUri = new Uri($"{_localPrefix}/api/applications")
             });
 
             response.EnsureSuccessStatusCode();

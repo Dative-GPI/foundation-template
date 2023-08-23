@@ -30,7 +30,7 @@ namespace Foundation.Template.Proxy.Controllers
         public async Task<IActionResult> GetMany()
         {
             var foundationClient = _httpClientFactory.CreateClient();
-            var foundationResponse = await foundationClient.SendAsync(HttpContext, _foundationPrefix);
+            var foundationResponse = await foundationClient.GetAsync(HttpContext, _foundationPrefix);
 
             var content = await foundationResponse.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<List<JsonElement>>(content);
