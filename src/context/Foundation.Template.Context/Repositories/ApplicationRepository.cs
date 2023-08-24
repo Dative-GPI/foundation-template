@@ -25,8 +25,7 @@ namespace Foundation.Template.Context.Repositories
             var dto = new ApplicationDTO()
             {
                 Id = payload.ApplicationId,
-                AdminHost = payload.AdminHost,
-                CoreHost = payload.CoreHost,
+                Host = payload.Host,
                 AdminJWT = payload.AdminJWT,
                 Disabled = false
             };
@@ -49,8 +48,7 @@ namespace Foundation.Template.Context.Repositories
             return new ApplicationDetails()
             {
                 Id = applicationDTO.Id,
-                AdminHost = applicationDTO.AdminHost,
-                CoreHost = applicationDTO.CoreHost,
+                Host = applicationDTO.Host,
                 AdminJWT = applicationDTO.AdminJWT,
                 Disabled = applicationDTO.Disabled
             };
@@ -66,9 +64,8 @@ namespace Foundation.Template.Context.Repositories
                 return null;
             }
             
-            dto.AdminHost = payload.AdminHost;
             dto.AdminJWT = payload.AdminJWT;
-            dto.CoreHost = payload.CoreHost;
+            dto.Host = payload.Host;
             dto.Disabled = false;
 
             _dbSet.Update(dto);

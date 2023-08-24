@@ -30,10 +30,9 @@ namespace Foundation.Template.Gateway.Handlers
             {
                 result = await _applicationRepository.Update(new UpdateApplication()
                 {
-                    AdminHost = request.AdminHost,
                     AdminJWT = request.AdminJWT,
                     ApplicationId = app.Id,
-                    CoreHost = request.CoreHost
+                    Host = request.Host
                 });
             }
             else
@@ -41,8 +40,7 @@ namespace Foundation.Template.Gateway.Handlers
                 result = await _applicationRepository.Create(new CreateApplication()
                 {
                     ApplicationId = request.ApplicationId,
-                    AdminHost = request.AdminHost,
-                    CoreHost = request.CoreHost,
+                    Host = request.Host,
                     AdminJWT = request.AdminJWT
                 });
             }

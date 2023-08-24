@@ -41,8 +41,7 @@ namespace Foundation.Template.Gateway.Services
             var command = new CreateApplicationCommand()
             {
                 ApplicationId = payload.ApplicationId,
-                AdminHost = payload.AdminHost,
-                CoreHost = payload.CoreHost,
+                Host = payload.Host,
                 AdminJWT = payload.AdminJWT
             };
 

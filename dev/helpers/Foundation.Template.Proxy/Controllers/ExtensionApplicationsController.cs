@@ -79,8 +79,7 @@ namespace Foundation.Template.Proxy.Controllers
                 Content = JsonContent.Create(new
                 {
                     applicationId = applicationId,
-                    adminHost = host,
-                    shellHost = host,
+                    host = host,
                     adminJWT = jwt
                 }),
                 RequestUri = new Uri($"{_localPrefix}/api/applications")
