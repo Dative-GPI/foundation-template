@@ -16,7 +16,7 @@ namespace Foundation.Template.Gateway.Extensions
             return builder;
         }
 
-        public static IEndpointRouteBuilder MapTemplateEndpoints(this IEndpointRouteBuilder endpoints)
+        public static IEndpointRouteBuilder MapGatewayTemplateEndpoints(this IEndpointRouteBuilder endpoints)
         {
             var foundationForwarder = endpoints.ServiceProvider.GetRequiredService<FoundationForwarderMiddleware>();
 

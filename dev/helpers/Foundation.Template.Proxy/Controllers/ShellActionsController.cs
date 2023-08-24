@@ -58,7 +58,7 @@ namespace Foundation.Template.Proxy.Controllers
                 path = l.GetProperty("path").GetString(),
                 label = l.GetProperty("label").GetString(),
                 icon = l.GetProperty("icon").GetString(),
-                uri = new UriBuilder("https", new Uri(_localPrefix).Host)
+                uri = new UriBuilder("https", new Uri(_localPrefix).Host).Uri.ToString()
             })));
 
             return Ok(result);
