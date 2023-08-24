@@ -7,7 +7,7 @@ using Foundation.Template.Core.Abstractions;
 
 namespace Foundation.Template.Core.Controllers
 {
-    [Route("api/v1")]
+    [Route("api/core/v1")]
     public class PermissionsController : ControllerBase
     {
         private readonly IPermissionService _permissionService;

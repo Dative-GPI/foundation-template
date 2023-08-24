@@ -6,7 +6,7 @@ using Foundation.Template.Admin.ViewModels;
 
 namespace Foundation.Template.Admin.Controllers
 {
-    [Route("api/admin/routes")]
+    [Route("api/admin/v1/routes")]
     public class RoutesController : ControllerBase
     {
         private IRouteService _routeService;

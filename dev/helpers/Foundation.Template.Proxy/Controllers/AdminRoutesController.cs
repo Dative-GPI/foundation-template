@@ -41,7 +41,7 @@ namespace Foundation.Template.Proxy.Controllers
             var foundationContent = await foundationResponse.Content.ReadAsStringAsync();
             var foundationResult = JsonSerializer.Deserialize<List<JsonElement>>(foundationContent);
 
-            var localResult = await _localClient.Get<List<JsonElement>>(HttpContext, "/api/admin/routes");
+            var localResult = await _localClient.Get<List<JsonElement>>(HttpContext, "/api/admin/v1/routes");
 
             var result = new List<JsonElement>();
 

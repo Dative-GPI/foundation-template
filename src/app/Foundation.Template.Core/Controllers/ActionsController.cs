@@ -7,7 +7,7 @@ using Foundation.Template.Core.ViewModels;
 
 namespace Foundation.Template.Core.Controllers
 {
-    [Route("api")]
+    [Route("api/core/v1")]
     public class ActionsController : ControllerBase
     {
         private IActionService _actionService;

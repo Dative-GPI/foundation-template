@@ -9,7 +9,7 @@ using Foundation.Template.Core.ViewModels;
 
 namespace Foundation.Template.Core.Controllers
 {
-    [Route("api/v1")]
+    [Route("api/core/v1")]
     public class RoleOrganisationsController : ControllerBase
     {
         private readonly IRoleOrganisationService _roleOrganisationService;
