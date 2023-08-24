@@ -24,15 +24,11 @@ def rename_files(root_dir, old_text, new_text):
                 os.rename(src, dst)
 
 def rename_folders(root_dir, old_text, new_text):
-    folders_to_rename = []
-
     for foldername, subfolders, filenames in os.walk(root_dir, topdown=False):
-        if old_text in foldername:
+        last_folder = os.path.basename(foldername)
+        if old_text in last_folder:
             new_foldername = foldername.replace(old_text, new_text)
-            folders_to_rename.append((foldername, new_foldername))
-
-    for old, new in folders_to_rename:
-        os.rename(old, new)
+            os.rename(foldername, new_foldername)
 
 def main():
     root_dir = "src"
