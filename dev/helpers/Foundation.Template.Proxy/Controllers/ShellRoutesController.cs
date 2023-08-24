@@ -61,7 +61,7 @@ namespace Foundation.Template.Proxy.Controllers
                 name = l.GetProperty("name").GetString(),
                 path = l.GetProperty("path").GetString(),
                 showOnDrawer = l.GetProperty("showOnDrawer").GetBoolean(),
-                uri = _localPrefix
+                uri = new UriBuilder("https", new Uri(_localPrefix).Host)
             })));
 
             return Ok(result);

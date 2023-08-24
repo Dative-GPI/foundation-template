@@ -18,6 +18,7 @@ namespace Foundation.Template.Gateway.Middlewares
 {
     public class JWTAuthenticationMiddleware
     {
+        public const string AuthenticationScheme = "CUSTOM";
         private readonly RequestDelegate _next;
         private IServiceProvider _serviceProvider;
         private HttpClient _httpClient;
@@ -71,7 +72,7 @@ namespace Foundation.Template.Gateway.Middlewares
             {
                 _logger.LogTrace("Authentication succeed");
 
-                ClaimsIdentity identity = new ClaimsIdentity(token.Claims, "Custom");
+                ClaimsIdentity identity = new ClaimsIdentity(token.Claims, AuthenticationScheme);
 
                 context.User = new ClaimsPrincipal(identity);
                 await _next(context);

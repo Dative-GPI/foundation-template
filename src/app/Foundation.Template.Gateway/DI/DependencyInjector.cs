@@ -20,6 +20,8 @@ namespace Foundation.Template.Gateway.DI
             services.AddHttpForwarder();
             services.AddMemoryCache();
 
+            services.AddAuthentication(JWTAuthenticationMiddleware.AuthenticationScheme);
+
             services.AddAutoMapper(typeof(DependencyInjector).Assembly);
             
             services.AddCrossCutting(configuration);

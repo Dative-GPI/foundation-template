@@ -49,8 +49,11 @@ namespace Foundation.Template.Proxy.Controllers
             result.AddRange(localResult.Select(l => JsonSerializer.SerializeToElement(new
             {
                 extensionId = (Guid?)null,
-                
-                uri = _localPrefix
+                actionType = l.GetProperty("actionType").GetInt32(),
+                path = l.GetProperty("path").GetString(),
+                label = l.GetProperty("label").GetString(),
+                icon = l.GetProperty("icon").GetString(),
+                uri = new UriBuilder("https", new Uri(_localPrefix).Host)
             })));
 
             return Ok(result);
