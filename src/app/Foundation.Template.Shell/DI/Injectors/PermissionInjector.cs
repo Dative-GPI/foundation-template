@@ -25,6 +25,17 @@ namespace Foundation.Template.Shell.DI
                 return pipeline;
             });
 
+            services.AddScoped<PermissionsQueryHandler>();
+            services.AddScoped<IQueryHandler<PermissionsQuery, IEnumerable<PermissionInfos>>>(sp =>
+            {
+                var pipeline = sp.GetPipelineFactory<PermissionsQuery, IEnumerable<PermissionInfos>>()
+                    .With<PermissionsMiddleware>()
+                    .Add<PermissionsQueryHandler>()
+                    .Build();
+
+                return pipeline;
+            });
+
             return services;
         }
     }

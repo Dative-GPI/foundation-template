@@ -46,7 +46,7 @@ namespace Foundation.Template.Proxy.Controllers
             var foundationContent = await foundationResponse.Content.ReadAsStringAsync();
             var foundationResult = JsonSerializer.Deserialize<List<JsonElement>>(foundationContent);
 
-            var localResult = await _localClient.Get<List<JsonElement>>(HttpContext,  "/api/organisations/" + organisationId + "/routes");
+            var localResult = await _localClient.Get<List<JsonElement>>(HttpContext, "/api/organisations/" + organisationId + "/routes");
 
             var result = new List<JsonElement>();
 
@@ -61,7 +61,7 @@ namespace Foundation.Template.Proxy.Controllers
                 name = l.GetProperty("name").GetString(),
                 path = l.GetProperty("path").GetString(),
                 showOnDrawer = l.GetProperty("showOnDrawer").GetBoolean(),
-                uri = new UriBuilder("https", new Uri(_localPrefix).Host).Uri.ToString()
+                uri = _localPrefix
             })));
 
             return Ok(result);
