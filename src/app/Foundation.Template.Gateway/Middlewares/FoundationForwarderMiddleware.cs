@@ -66,7 +66,7 @@ namespace Foundation.Template.Gateway.Middlewares
                     return;
                 }
 
-                host = application.ShellHost;
+                host = application.CoreHost;
 
                 _memoryCache.Set(applicationId, host, _cacheEntryOptions);
             }

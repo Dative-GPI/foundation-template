@@ -33,7 +33,7 @@ namespace Foundation.Template.Gateway.Handlers
                     AdminHost = request.AdminHost,
                     AdminJWT = request.AdminJWT,
                     ApplicationId = app.Id,
-                    ShellHost = request.ShellHost
+                    CoreHost = request.CoreHost
                 });
             }
             else
@@ -42,7 +42,7 @@ namespace Foundation.Template.Gateway.Handlers
                 {
                     ApplicationId = request.ApplicationId,
                     AdminHost = request.AdminHost,
-                    ShellHost = request.ShellHost,
+                    CoreHost = request.CoreHost,
                     AdminJWT = request.AdminJWT
                 });
             }

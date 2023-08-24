@@ -30,7 +30,7 @@ namespace Foundation.Template.CrossCutting.Services
 
             var app = await _applicationRepository.Get(applicationId);
 
-            client.Init(app.AdminHost, app.ShellHost, languageCode, null);
+            client.Init(app.AdminHost, app.CoreHost, languageCode, null);
 
             return client;
         }
@@ -41,7 +41,7 @@ namespace Foundation.Template.CrossCutting.Services
 
             var app = await _applicationRepository.Get(applicationId);
 
-            client.Init(app.AdminHost, app.ShellHost, languageCode, jwt);
+            client.Init(app.AdminHost, app.CoreHost, languageCode, jwt);
 
             return client;
         }
@@ -52,7 +52,7 @@ namespace Foundation.Template.CrossCutting.Services
 
             var app = await _applicationRepository.Get(applicationId);
 
-            client.Init(app.AdminHost, app.ShellHost, languageCode, app.AdminJWT);
+            client.Init(app.AdminHost, app.CoreHost, languageCode, app.AdminJWT);
 
             return client;
         }

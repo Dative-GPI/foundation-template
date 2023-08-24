@@ -42,7 +42,7 @@ namespace Foundation.Template.Gateway.Services
             {
                 ApplicationId = payload.ApplicationId,
                 AdminHost = payload.AdminHost,
-                ShellHost = payload.ShellHost,
+                CoreHost = payload.CoreHost,
                 AdminJWT = payload.AdminJWT
             };
 

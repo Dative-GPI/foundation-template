@@ -13,7 +13,7 @@ jobs:
         folder:
           - "src/app/Foundation.Template.Admin"
           - "src/app/Foundation.Template.Gateway"
-          - "src/app/Foundation.Template.Shell"
+          - "src/app/Foundation.Template.Core"
           - "src/context/Foundation.Template.Context"
           - "src/context/Foundation.Template.Fixtures"
           - "src/shared/Foundation.Template.CrossCutting"
