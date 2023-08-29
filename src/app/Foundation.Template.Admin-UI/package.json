@@ -1,5 +1,5 @@
 {
-  "name": "foundation-template-admin-ui",
+  "name": "@dative-gpi/foundation-template-admin-ui",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",

@@ -1,5 +1,5 @@
 {
-  "name": "foundation-template-core-ui",
+  "name": "@dative-gpi/foundation-template-core-ui",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
@@ -7,5 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "peerDependencies": {
+    "@types/lodash": "^4.14.197",
+    "ajv": "^8.11.0",
+    "axios": "^0.21.1",
+    "tsyringe": "^4.6.0",
+    "vue": "^2.7.14"
+  }
 }

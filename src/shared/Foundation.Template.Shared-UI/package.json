@@ -1,5 +1,5 @@
 {
-  "name": "foundation-template-shared-ui",
+  "name": "@dative-gpi/foundation-template-shared-ui",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
