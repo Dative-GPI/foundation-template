@@ -1,2 +1,2 @@
-export * as SERVICES from "./services"
-// export * as URLS from "./urls"
+export const EXTENSION_COMMUNICATION_BRIDGE = Symbol("ExtensionCommunicationBridge");
+export const EVENT_QUEUE = Symbol("EventQueue");

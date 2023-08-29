@@ -68,7 +68,7 @@ interface Subscriber<TDetails> {
   callback: AllCallback<TDetails>;
 }
 
-type EntityEvent<TDetails> = AddEntityEvent<TDetails> | UpdateEntityEvent<TDetails> | DeleteEntityEvent;
+export type EntityEvent<TDetails> = AddEntityEvent<TDetails> | UpdateEntityEvent<TDetails> | DeleteEntityEvent;
 
 interface AddEntityEvent<TDetails> {
   action: "add";

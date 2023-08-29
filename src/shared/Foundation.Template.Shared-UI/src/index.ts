@@ -1,6 +1,6 @@
-export * as DI from "./di";
-export * as TOOLS from "./tools"
-export * as CONFIG from "./config"
-export * as ABSTRACTIONS from "./abstractions"
+export * from "./di";
+export * from "./tools"
+export * from "./config"
 
-export { NotifyService } from "./core";
+export { INotifyService, IEventQueue } from "./abstractions"
+export { NotifyService, EntityEvent } from "./core";
