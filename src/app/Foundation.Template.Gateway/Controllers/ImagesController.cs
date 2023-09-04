@@ -19,7 +19,8 @@ namespace Foundation.Template.Gateway.Controllers
         }
 
         [ResponseCache(Duration = 3600)]
-        [HttpGet("api/v1/images/raw/{id:Guid}")]
+        [HttpGet("api/v1/images/raw/{id:Guid}")] // keep for backward compatibility
+        [HttpGet("api/gateway/v1/raw-images/{id:Guid}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetRaw([FromRoute] Guid id)
         {
@@ -28,7 +29,8 @@ namespace Foundation.Template.Gateway.Controllers
         }
 
         [ResponseCache(Duration = 3600)]
-        [HttpGet("api/v1/images/thumbnail/{id:Guid}")]
+        [HttpGet("api/v1/images/thumbnail/{id:Guid}")] // keep for backward compatibility
+        [HttpGet("api/gateway/v1/images/thumbnail/{id:Guid}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetThumbnail([FromRoute] Guid id)
         {

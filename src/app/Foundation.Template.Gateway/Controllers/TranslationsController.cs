@@ -9,7 +9,6 @@ using Foundation.Template.Gateway.ViewModels;
 
 namespace Foundation.Template.Gateway.Controllers
 {
-    [Route("api")]
     public class ApplicationTranslationsController : ControllerBase
     {
         private IApplicationTranslationService _applicationTranslationService;
@@ -19,7 +18,8 @@ namespace Foundation.Template.Gateway.Controllers
             _applicationTranslationService = applicationTranslationService;
         }
 
-        [HttpGet("translations")]
+        [HttpGet("api/translations")]
+        [HttpGet("api/gateway/v1/translations")]
         public async Task<IActionResult> GetMany()
         {
             var translations = await _applicationTranslationService.GetMany();

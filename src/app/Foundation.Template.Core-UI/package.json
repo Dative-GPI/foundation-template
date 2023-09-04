@@ -13,6 +13,9 @@
     "ajv": "^8.11.0",
     "axios": "^0.21.1",
     "tsyringe": "^4.6.0",
-    "vue": "^2.7.14"
+    "vue": "^2.7.14",
+    "vue-router": "^3.6.5",
+    "@dative-gpi/foundation-template-shared-ui": "^0.0.16",
+    "@dative-gpi/bones-ui": "^0.0.34"
   }
 }
