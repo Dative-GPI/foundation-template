@@ -1,25 +1,16 @@
+import { ref } from "vue";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { PERMISSIONS_URL, PERMISSION_CATEGORIES_URL } from "../config";
 
-import { useOrganisationId } from "./useOrganisationId";
 import { PermissionCategory, PermissionInfos, PermissionInfosDTO } from "../domain";
-import { ref } from "vue";
-
-const { organisationId } = useOrganisationId()
 
 const PermissionServiceFactory = ServiceFactory.create("permissions", f => {
 
-    const { getMany: getCategories } = f.addGetMany(() => {
-        if (organisationId.value) return PERMISSION_CATEGORIES_URL(organisationId.value)
-        throw "No OrganisationId"
-    }, PermissionCategory)
+    const { getMany: getCategories } = f.addGetMany(PERMISSION_CATEGORIES_URL, PermissionCategory)
 
     return f.build(
-        f.addGetMany<PermissionInfosDTO, PermissionInfos, void>(() => {
-            if (organisationId.value) return PERMISSIONS_URL(organisationId.value)
-            throw "No OrganisationId"
-        }, PermissionInfos),
+        f.addGetMany<PermissionInfosDTO, PermissionInfos, void>(PERMISSIONS_URL, PermissionInfos),
         {
             getCategories
         }

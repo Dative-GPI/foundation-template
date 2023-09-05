@@ -3,15 +3,8 @@ import { ComposableFactory } from "@dative-gpi/bones-ui";
 
 import { CURRENT_USER_PERMISSIONS_URL } from "../config";
 
-import { useOrganisationId } from "./useOrganisationId";
-
-const { organisationId } = useOrganisationId()
-
 const CurrentPermissionServiceFactory = ServiceFactory.create("permissions", f => f.build(
-    f.addGetMany(() => {
-        if (organisationId.value) return CURRENT_USER_PERMISSIONS_URL(organisationId.value)
-        throw "No OrganisationId"
-    }, String),
+    f.addGetMany(CURRENT_USER_PERMISSIONS_URL, String),
     f.addNotify<string>()
 ));
 

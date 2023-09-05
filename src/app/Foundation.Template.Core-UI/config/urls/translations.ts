@@ -1,1 +1,1 @@
-export const APPLICATION_TRANSLATIONS_URL = `/api/translations`;
+export const APPLICATION_TRANSLATIONS_URL = `/api/gateway/v1/translations`;
