@@ -11,9 +11,9 @@ const ApplicationTranslationServiceFactory = ServiceFactory.create("application-
 
 const useApplicationTranslations = ComposableFactory.getMany(ApplicationTranslationServiceFactory);
 
-export const useTranslationsProvider = () => {
-    const { entities: translations, getMany, fetching } = useApplicationTranslations()
+const { entities: translations, getMany, fetching } = useApplicationTranslations()
 
+export const useTranslationsProvider = () => {
     const has = (code: string) => {
         return !!translations.value.find(t => t.code === code);
     }

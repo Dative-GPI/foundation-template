@@ -1,5 +1,5 @@
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router/types/composables';
+import { computed, onMounted, onUnmounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import { ServiceFactory } from '@dative-gpi/bones-ui';
 
