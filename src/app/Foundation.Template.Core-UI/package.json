@@ -13,7 +13,7 @@
     "axios": "^0.21.1",
     "vue": "^3.2.0",
     "vue-router": "^4.0.0",
-    "@dative-gpi/foundation-template-shared-ui": "^0.0.22",
+    "@dative-gpi/foundation-template-shared-ui": "^0.0.24",
     "@dative-gpi/bones-ui": "^0.0.36"
   }
 }
