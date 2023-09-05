@@ -1,10 +1,8 @@
-import { CustomRouteConfig } from "@dative-gpi/foundation-template-shared-ui";
+import { RouteRecordRaw } from "vue-router";
 
-export * from "./paths";
-
-export const routes: CustomRouteConfig[] = [
+export const routes: RouteRecordRaw[] = [
     {
-        path: "/role-organisations/:roleId/permissions",
+        path: "/organisations/:organisation-id/role-organisations/:roleId",
         name: "organisation-role-permissions",
         components: {
             default: () => import("../views/RoleOrganisation.vue")

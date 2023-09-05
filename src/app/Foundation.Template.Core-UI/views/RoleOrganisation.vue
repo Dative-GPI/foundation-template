@@ -8,7 +8,7 @@ import {
     defineComponent,
 } from "vue";
 
-import { useRoute } from "vue-router/composables";
+import { useRoute } from "vue-router";
 
 import RoleOrganisationDetails from "../components/RoleOrganisationDetails.vue";
 
@@ -21,7 +21,7 @@ export default defineComponent({
 
         return {
             editMode: route.hash.includes("editMode=true"),
-            roleId: route.params.roleId
+            roleId: route.params.roleId as string
         }
     }
 });
