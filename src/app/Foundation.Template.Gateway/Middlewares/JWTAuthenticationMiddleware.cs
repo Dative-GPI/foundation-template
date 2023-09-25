@@ -48,23 +48,37 @@ namespace Foundation.Template.Gateway.Middlewares
             using var scope = _serviceProvider.CreateScope();
             var sp = scope.ServiceProvider;
 
-            var bearer = context.Request.Headers[HeaderNames.Authorization];
+            string jwt = null;
 
-            if (String.IsNullOrWhiteSpace(bearer))
+            if (context.Request.Headers.ContainsKey(HeaderNames.Authorization))
+            {
+                var bearer = context.Request.Headers[HeaderNames.Authorization].ToString();
+                if(bearer.StartsWith("Bearer ")) jwt = bearer.Substring("Bearer ".Length);
+            }
+            else if (context.Request.Query.ContainsKey("access_token"))
+            {
+                jwt = context.Request.Query["access_token"].ToString();
+            }
+            else
             {
                 Unauthorized(context);
                 return;
             }
 
-            var toRead = bearer.ToString().Substring("Bearer ".Length);
-            var token = new JwtSecurityTokenHandler().ReadJwtToken(toRead);
+            if (String.IsNullOrWhiteSpace(jwt))
+            {
+                Unauthorized(context);
+                return;
+            }
+
+            var token = new JwtSecurityTokenHandler().ReadJwtToken(jwt);
             var claimsFactory = sp.GetRequiredService<IClaimsFactory>();
 
             var claims = claimsFactory.Get(token.Claims);
 
             var clientFactory = sp.GetRequiredService<IFoundationClientFactory>();
 
-            var client = await clientFactory.CreateAuthenticated(claims.ApplicationId, claims.LanguageCode, toRead);
+            var client = await clientFactory.CreateAuthenticated(claims.ApplicationId, claims.LanguageCode, jwt);
 
             var isAuthenticated = await client.Gateway.Accounts.IsAuthenticated();
 
