@@ -39,7 +39,15 @@ namespace Foundation.Template.Gateway.Middlewares
             var request = context.Request;
             var provider = context.RequestServices.GetRequiredService<RequestContextProvider>();
 
-            var actorId = new Guid(request.Headers["X-User-Id"].ToString());
+            Guid? actorId = null;
+            Guid? sourceId = null;
+
+            if (request.Headers.ContainsKey("X-User-Id"))
+                actorId = new Guid(request.Headers["X-User-Id"].ToString());
+
+            if (request.Headers.ContainsKey("X-Source-Id"))
+                sourceId = new Guid(request.Headers["X-Source-Id"].ToString());
+
             var applicationId = new Guid(request.Headers["X-Application-Id"].ToString());
             var languageCode = request.Headers["Accept-Language"].ToString();
 
@@ -50,6 +58,7 @@ namespace Foundation.Template.Gateway.Middlewares
             {
                 ApplicationId = applicationId,
                 ActorId = actorId,
+                SourceId = sourceId,
                 LanguageCode = languageCode,
 
                 Jwt = jwt
