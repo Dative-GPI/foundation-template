@@ -5,7 +5,7 @@
   "main": "index.ts",
   "author": "",
   "license": "ISC",
-  "peerDependencies": {
+  "dependencies": {
     "@dative-gpi/bones-ui": "^0.0.44",
     "@types/lodash": "^4.14.197",
     "ajv": "^8.11.0",

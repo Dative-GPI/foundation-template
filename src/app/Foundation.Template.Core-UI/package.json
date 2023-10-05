@@ -8,9 +8,9 @@
   },
   "author": "",
   "license": "ISC",
-  "peerDependencies": {
+  "dependencies": {
     "@dative-gpi/bones-ui": "^0.0.44",
-    "@dative-gpi/foundation-template-shared-ui": "^0.0.27",
+    "@dative-gpi/foundation-template-shared-ui": "1.0.0",
     "@types/lodash": "^4.14.197",
     "axios": "^0.21.1",
     "vue": "^3.2.0",

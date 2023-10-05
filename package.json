@@ -1,10 +1,13 @@
 {
   "private": true,
   "workspaces": [
+    "src/shared/Foundation.Template.Shared-UI",
     "src/app/Foundation.Template.Admin-UI",
     "src/app/Foundation.Template.Core-UI",
-    "src/shared/Foundation.Template.Shared-UI",
     "tests/app/Foundation.Template.Core-UI.Tests"
   ],
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^7.3.0"
+  }
 }
