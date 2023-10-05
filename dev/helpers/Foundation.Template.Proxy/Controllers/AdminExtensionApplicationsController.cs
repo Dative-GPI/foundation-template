@@ -3,26 +3,24 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-
-using Foundation.Template.Proxy.ViewModels;
 using Foundation.Template.Proxy.Extensions;
+using Foundation.Template.Proxy.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Foundation.Template.Proxy.Controllers
 {
     [Route("api/admin/v1")]
-    public class ExtensionApplicationsController : ControllerBase
+    public class AdminExtensionApplicationsController : ControllerBase
     {
-        private ILogger<ExtensionApplicationsController> _logger;
+        private ILogger<AdminExtensionApplicationsController> _logger;
         private IHttpClientFactory _httpClientFactory;
         private string _foundationPrefix;
         private string _localPrefix;
 
-        public ExtensionApplicationsController(
-            ILogger<ExtensionApplicationsController> logger,
+        public AdminExtensionApplicationsController(
+            ILogger<AdminExtensionApplicationsController> logger,
             IHttpClientFactory httpClientFactory,
             IConfiguration configuration)
         {
