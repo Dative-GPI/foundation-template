@@ -1,0 +1,15 @@
+name: UI Tests
+
+on: [push]
+
+jobs:
+  ui-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tests: [core-ui-tests]
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build and Run tests ui
+        run: docker compose run --build tests-ui ${{ matrix.tests }}

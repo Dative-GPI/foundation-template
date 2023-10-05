@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "workspaces": [
+    "src/app/Foundation.Template.Admin-UI",
+    "src/app/Foundation.Template.Core-UI",
+    "src/shared/Foundation.Template.Shared-UI",
+    "tests/app/Foundation.Template.Core-UI.Tests"
+  ],
+  "dependencies": {}
+}
