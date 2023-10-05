@@ -2,6 +2,9 @@
   "name": "@dative-gpi/foundation-template-core-ui",
   "version": "1.0.0",
   "description": "",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

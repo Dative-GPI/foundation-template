@@ -8,12 +8,6 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        folder:
-          - "src/app/Foundation.Template.Admin-UI"
-          - "src/app/Foundation.Template.Core-UI"
-          - "src/shared/Foundation.Template.Shared-UI"
   
     steps:
       # Checking out repository
@@ -31,9 +25,7 @@ jobs:
       # Publishing with tag name as version
       - name: Publishing to npm 🚀
         run: |
-          cd ${{ matrix.folder}}
-          yarn
-          yarn version --new-version ${{ github.ref_name }} --no-git-tag-version
-          yarn publish --access public
+          lerna version ${{ github.ref_name }} --exact --no-git-tag-version --no-push --yes --no-private
+          lerna publish from-package --yes --public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
