@@ -26,6 +26,6 @@ jobs:
       - name: Publishing to npm 🚀
         run: |
           lerna version ${{ github.ref_name }} --exact --no-git-tag-version --no-push --yes --no-private
-          lerna publish from-package --yes --public
+          lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
