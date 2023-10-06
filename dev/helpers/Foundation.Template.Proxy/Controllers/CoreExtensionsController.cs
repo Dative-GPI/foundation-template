@@ -1,28 +1,29 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-
+using Foundation.Template.Proxy.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-using Foundation.Template.Proxy.Extensions;
-
 namespace Foundation.Template.Proxy.Controllers
 {
-    [Route("api/admin/v1")]
-    public class ExtensionsController : ControllerBase
+    [Route("api/v1")]
+    public class CoreExtensionsController : ControllerBase
     {
         private IHttpClientFactory _httpClientFactory;
         private string _foundationPrefix;
 
-        public ExtensionsController(
+        private string _hostLocal;
+
+        public CoreExtensionsController(
             IHttpClientFactory httpClientFactory,
             IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
             _foundationPrefix = configuration.GetConnectionString("Foundation");
+            _hostLocal = configuration.GetConnectionString("Local");
         }
 
 
@@ -45,6 +46,19 @@ namespace Foundation.Template.Proxy.Controllers
             }));
 
             return Ok(result);
+        }
+
+        [HttpGet("extensions/null")]
+        public async Task<IActionResult> GetRoleEXtension()
+        {
+            return Ok(new
+            {
+                id = (Guid?)null,
+                extensionId = (Guid?)null,
+                shellHost = new Uri(_hostLocal).Host,
+                label = "local extension",
+                description = "extension local pour dev"
+            });
         }
     }
 }
