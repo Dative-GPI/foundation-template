@@ -13,19 +13,19 @@ export function useExtensionCommunicationBridge() {
   const notifyDebounced = _.debounce(notify, 50);
 
   const goTo = (path: string) => {
-    notifyDebounced({
+    notify({
       path: path,
     });
   }
 
   const setTitle = (title: string) => {
-    notifyDebounced({
+    notify({
       title: title,
     });
   }
 
   const setCrumbs = (crumbs: any[]) => {
-    notifyDebounced({
+    notify({
       crumbs: crumbs,
     });
   }
