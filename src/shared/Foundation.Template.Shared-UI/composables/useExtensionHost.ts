@@ -1,4 +1,4 @@
-import { computed, onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { ServiceFactory } from '@dative-gpi/bones-ui';
@@ -8,16 +8,18 @@ import { useExtensionCommunicationBridge } from './useExtensionCommunicationBrid
 let extensionHostInitialized = false;
 
 export function useExtensionHost() {
-    const token = computed(() => new URL(window.location.toString())
-        .searchParams.get("token"));
-
-    const languageCode = computed(() => new URL(window.location.toString())
-        .searchParams.get("languageCode"));
-
+    const token = ref<string | null>(null);
+    const languageCode = ref<string | null>(null);
 
     onMounted(() => {
         if (extensionHostInitialized) return;
         extensionHostInitialized = true;
+
+        token.value = new URL(window.location.toString())
+            .searchParams.get("token")
+
+        languageCode.value = new URL(window.location.toString())
+            .searchParams.get("languageCode")
 
         const { goTo, setHeight } = useExtensionCommunicationBridge();
 
