@@ -19,6 +19,7 @@ namespace Foundation.Template.Gateway.Middlewares
     public class JWTAuthenticationMiddleware
     {
         public const string AuthenticationScheme = "CUSTOM";
+        public const string JwtQueryParamKey = "access_token";
         private readonly RequestDelegate _next;
         private IServiceProvider _serviceProvider;
         private HttpClient _httpClient;
@@ -50,14 +51,16 @@ namespace Foundation.Template.Gateway.Middlewares
 
             string jwt = null;
 
+            if (context.Request.Query.ContainsKey(JwtQueryParamKey))
+            {
+                jwt = context.Request.Query[JwtQueryParamKey].ToString();
+                context.Request.Headers.Add(HeaderNames.Authorization, $"Bearer {jwt}");
+            }
+
             if (context.Request.Headers.ContainsKey(HeaderNames.Authorization))
             {
                 var bearer = context.Request.Headers[HeaderNames.Authorization].ToString();
                 if(bearer.StartsWith("Bearer ")) jwt = bearer.Substring("Bearer ".Length);
-            }
-            else if (context.Request.Query.ContainsKey("access_token"))
-            {
-                jwt = context.Request.Query["access_token"].ToString();
             }
             else
             {

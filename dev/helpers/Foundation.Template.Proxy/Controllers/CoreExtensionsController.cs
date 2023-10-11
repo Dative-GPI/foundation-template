@@ -49,7 +49,7 @@ namespace Foundation.Template.Proxy.Controllers
         }
 
         [HttpGet("extensions/null")]
-        public async Task<IActionResult> GetRoleEXtension()
+        public IActionResult GetRoleExtension()
         {
             return Ok(new
             {
