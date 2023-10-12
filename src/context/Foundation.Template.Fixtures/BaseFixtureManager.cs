@@ -65,7 +65,12 @@ namespace Foundation.Template.Fixtures
             _listActions.Add(() => PrintInfos<TDTO>());
         }
 
-        private async Task PrintInfos<TDTO>() where TDTO : ICodeEntity
+        public void With<TDTO>()
+        {
+            _listActions.Add(() => PrintInfos<TDTO>());
+        }
+
+        private async Task PrintInfos<TDTO>()
         {
             var formers = await FixtureHelper.Get<TDTO>();
             Logger.LogInformation("Found {count} {type}", formers.Count(), typeof(TDTO).Name);
@@ -95,7 +100,7 @@ namespace Foundation.Template.Fixtures
                 .Concat(news.Select(n => create(n))) // + news
                 .ToList();
 
-            if(!dryRun)
+            if (!dryRun)
                 await FixtureHelper.Save<TDTO>(saved);
 
             Logger.LogInformation("{count} {type} saved", saved.Count(), typeof(TDTO).Name);
