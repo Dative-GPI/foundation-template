@@ -136,17 +136,20 @@ namespace Foundation.Template.Fixtures
                 }
                 else
                 {
-                    if (property.PropertyType.IsGenericType)
-                    {
-                        foreach (var item in property.PropertyType.GetGenericArguments())
-                        {
-                            Inline(overrides, item, visited);
-                        }
-                    }
-                    else
-                    {
-                        Inline(overrides, property.PropertyType, visited);
-                    }
+                    // ignore property
+                    overrides.Add(type, property.Name, new XmlAttributes { XmlIgnore = true });
+
+                    // if (property.PropertyType.IsGenericType)
+                    // {
+                    //     foreach (var item in property.PropertyType.GetGenericArguments())
+                    //     {
+                    //         Inline(overrides, item, visited);
+                    //     }
+                    // }
+                    // else
+                    // {
+                    //     Inline(overrides, property.PropertyType, visited);
+                    // }
                 }
             }
 

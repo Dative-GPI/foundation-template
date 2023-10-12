@@ -67,6 +67,7 @@ namespace Foundation.Template.Fixtures
 
         public void With<TDTO>()
         {
+            _generateActions.Add((_) => PrintInfos<TDTO>());
             _listActions.Add(() => PrintInfos<TDTO>());
         }
 
