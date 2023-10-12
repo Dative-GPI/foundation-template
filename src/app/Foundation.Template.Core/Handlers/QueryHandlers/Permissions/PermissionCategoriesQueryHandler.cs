@@ -9,20 +9,20 @@ using Foundation.Template.Domain.Models;
 using Foundation.Template.Domain.Repositories.Interfaces;
 
 namespace Foundation.Template.Core.Handlers {
-    public class PermissionCategoriesQueryHandler : IMiddleware<PermissionCategoriesQuery, IEnumerable<PermissionCategory>>
+    public class PermissionCategoriesQueryHandler : IMiddleware<PermissionOrganisationCategoriesQuery, IEnumerable<PermissionOrganisationCategory>>
     {
-        private readonly IPermissionOrganisationCategoryRepository _permissionCategoryRepository;
+        private readonly IPermissionOrganisationCategoryRepository _permissionOrganisationCategoryRepository;
 
         public PermissionCategoriesQueryHandler(
-            IPermissionOrganisationCategoryRepository permissionCategoryRepository
+            IPermissionOrganisationCategoryRepository permissionOrganisationCategoryRepository
         )
         {
-            _permissionCategoryRepository = permissionCategoryRepository;
+            _permissionOrganisationCategoryRepository = permissionOrganisationCategoryRepository;
         }
 
-        public async Task<IEnumerable<PermissionCategory>> HandleAsync(PermissionCategoriesQuery request, Func<Task<IEnumerable<PermissionCategory>>> next, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PermissionOrganisationCategory>> HandleAsync(PermissionOrganisationCategoriesQuery request, Func<Task<IEnumerable<PermissionOrganisationCategory>>> next, CancellationToken cancellationToken)
         {
-            var categories = await _permissionCategoryRepository.GetMany();
+            var categories = await _permissionOrganisationCategoryRepository.GetMany();
             return categories;
         }
     }

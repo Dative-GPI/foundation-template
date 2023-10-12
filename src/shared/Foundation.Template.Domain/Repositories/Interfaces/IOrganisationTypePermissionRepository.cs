@@ -10,7 +10,7 @@ namespace Foundation.Template.Domain.Repositories.Interfaces
 {
     public interface IOrganisationTypePermissionRepository
     {
-        Task<IEnumerable<OrganisationTypePermissionInfos>> GetMany(OrganisationTypePermissionsFilter filter);
+        Task<IEnumerable<OrganisationTypePermissionOrganisationInfos>> GetMany(OrganisationTypePermissionsFilter filter);
         Task CreateRange(IEnumerable<CreateOrganisationTypePermission> payload);
         Task RemoveRange(Guid[] permissionsIds);
     }

@@ -23,7 +23,7 @@ namespace Foundation.Template.Context.Repositories
             _dbSet = context.OrganisationTypePermissions;
         }
 
-        public async Task<IEnumerable<OrganisationTypePermissionInfos>> GetMany(OrganisationTypePermissionsFilter filter)
+        public async Task<IEnumerable<OrganisationTypePermissionOrganisationInfos>> GetMany(OrganisationTypePermissionsFilter filter)
         {
             var query = _dbSet.Include(p => p.Permission).AsQueryable();
 
@@ -31,7 +31,7 @@ namespace Foundation.Template.Context.Repositories
 
             IEnumerable<OrganisationTypePermissionDTO> dtos = await query.AsNoTracking().ToListAsync();
 
-            return dtos.Select(organisationTypePermissionDTO => new OrganisationTypePermissionInfos()
+            return dtos.Select(organisationTypePermissionDTO => new OrganisationTypePermissionOrganisationInfos()
             {
                 Id = organisationTypePermissionDTO.Id,
                 PermissionId = organisationTypePermissionDTO.PermissionId,

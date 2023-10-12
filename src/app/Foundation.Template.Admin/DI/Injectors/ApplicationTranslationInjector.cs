@@ -20,7 +20,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IQueryHandler<ApplicationTranslationsQuery, IEnumerable<ApplicationTranslation>>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<ApplicationTranslationsQuery, IEnumerable<ApplicationTranslation>>()
-                    .With<PermissionsMiddleware>()
+                    .With<PermissionAdminsMiddleware>()
 					.Add<ApplicationTranslationsQueryHandler>()
                     .Build();
 
@@ -32,7 +32,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<ICommandHandler<UpdateApplicationTranslationCommand>>(sp => 
             {
                 var pipeline = sp.GetPipelineFactory<UpdateApplicationTranslationCommand>()
-                    .Add<PermissionsMiddleware>()
+                    .Add<PermissionAdminsMiddleware>()
                     .Add<UpdateApplicationTranslationsCommandHandler>()
                     .Build();
                 

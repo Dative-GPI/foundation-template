@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Foundation.Template.Admin.ViewModels
 {
-    public class PermissionDetailsViewModel
+    public class PermissionOrganisationDetailsViewModel
     {
         public Guid Id { get; set; }
         public string Code { get; set; }

@@ -8,6 +8,6 @@ namespace Foundation.Template.Domain.Repositories.Interfaces
 {
     public interface IPermissionOrganisationRepository
     {
-        Task<IEnumerable<PermissionInfos>> GetMany(PermissionsFilter filter);
+        Task<IEnumerable<PermissionOrganisationInfos>> GetMany(PermissionsFilter filter);
     }
 }

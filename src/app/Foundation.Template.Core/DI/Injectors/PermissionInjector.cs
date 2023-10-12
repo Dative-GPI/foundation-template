@@ -15,9 +15,9 @@ namespace Foundation.Template.Core.DI
         public static IServiceCollection AddPermissions(this IServiceCollection services)
         {
             services.AddScoped<PermissionCategoriesQueryHandler>();
-            services.AddScoped<IQueryHandler<PermissionCategoriesQuery, IEnumerable<PermissionCategory>>>(sp =>
+            services.AddScoped<IQueryHandler<PermissionOrganisationCategoriesQuery, IEnumerable<PermissionOrganisationCategory>>>(sp =>
             {
-                var pipeline = sp.GetPipelineFactory<PermissionCategoriesQuery, IEnumerable<PermissionCategory>>()
+                var pipeline = sp.GetPipelineFactory<PermissionOrganisationCategoriesQuery, IEnumerable<PermissionOrganisationCategory>>()
                     .With<PermissionsMiddleware>()
                     .Add<PermissionCategoriesQueryHandler>()
                     .Build();
@@ -26,9 +26,9 @@ namespace Foundation.Template.Core.DI
             });
 
             services.AddScoped<PermissionsQueryHandler>();
-            services.AddScoped<IQueryHandler<PermissionsQuery, IEnumerable<PermissionInfos>>>(sp =>
+            services.AddScoped<IQueryHandler<PermissionOrganisationsQuery, IEnumerable<PermissionOrganisationInfos>>>(sp =>
             {
-                var pipeline = sp.GetPipelineFactory<PermissionsQuery, IEnumerable<PermissionInfos>>()
+                var pipeline = sp.GetPipelineFactory<PermissionOrganisationsQuery, IEnumerable<PermissionOrganisationInfos>>()
                     .With<PermissionsMiddleware>()
                     .Add<PermissionsQueryHandler>()
                     .Build();

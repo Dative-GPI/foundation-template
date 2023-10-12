@@ -14,8 +14,8 @@ namespace Foundation.Template.Core.AutoMapper
 
             CreateMap<RouteInfos, RouteInfosViewModel>();
 
-            CreateMap<PermissionInfos, PermissionInfosViewModel>();
-            CreateMap<PermissionCategory, PermissionCategoryViewModel>();
+            CreateMap<PermissionOrganisationInfos, PermissionOrganisationInfosViewModel>();
+            CreateMap<PermissionOrganisationCategory, PermissionOrganisationCategoryViewModel>();
             CreateMap<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>();
             CreateMap<ActionInfos, ActionInfosViewModel>();
         }

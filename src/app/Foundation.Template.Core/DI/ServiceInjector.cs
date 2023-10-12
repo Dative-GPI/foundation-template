@@ -12,7 +12,7 @@ namespace Foundation.Template.Core.DI
             services.AddScoped<IRouteService, RouteService>();
             services.AddScoped<IActionService, ActionService>();
             
-            services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<IPermissionOrganisationService, PermissionOrganisationService>();
             services.AddScoped<IRoleOrganisationService, RoleOrganisationService>();
 
             return services;

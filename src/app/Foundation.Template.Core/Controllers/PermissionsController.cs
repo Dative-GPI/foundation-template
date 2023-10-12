@@ -10,9 +10,9 @@ namespace Foundation.Template.Core.Controllers
     [Route("api/core/v1")]
     public class PermissionsController : ControllerBase
     {
-        private readonly IPermissionService _permissionService;
+        private readonly IPermissionOrganisationService _permissionService;
 
-        public PermissionsController(IPermissionService permissionService)
+        public PermissionsController(IPermissionOrganisationService permissionService)
         {
             _permissionService = permissionService;
         }

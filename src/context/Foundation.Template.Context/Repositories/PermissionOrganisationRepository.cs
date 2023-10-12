@@ -22,7 +22,7 @@ namespace Foundation.Template.Context.Repositories
             _dbSet = context.Permissions;
         }
 
-        public async Task<IEnumerable<PermissionInfos>> GetMany(PermissionsFilter filter)
+        public async Task<IEnumerable<PermissionOrganisationInfos>> GetMany(PermissionsFilter filter)
         {
             var query = _dbSet
                 .AsQueryable();
@@ -43,16 +43,16 @@ namespace Foundation.Template.Context.Repositories
 
             IEnumerable<PermissionOrganisationDTO> dtos = await query.AsNoTracking().ToListAsync();
 
-            return dtos.Select(permissionDTO => new PermissionInfos()
+            return dtos.Select(permissionDTO => new PermissionOrganisationInfos()
             {
                 Id = permissionDTO.Id,
                 Code = permissionDTO.Code,
                 Label = permissionDTO.LabelDefault,
-                Translations = permissionDTO.Translations?.Select(t => new TranslationPermission()
+                Translations = permissionDTO.Translations?.Select(t => new TranslationPermissionOrganisation()
                 {
                     LanguageCode = t.LanguageCode,
                     Label = t.Label
-                })?.ToList() ?? new List<TranslationPermission>()
+                })?.ToList() ?? new List<TranslationPermissionOrganisation>()
             }).ToList();
         }
     }

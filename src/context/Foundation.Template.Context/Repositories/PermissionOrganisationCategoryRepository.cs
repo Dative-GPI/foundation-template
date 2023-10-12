@@ -21,19 +21,19 @@ namespace Foundation.Template.Context.Repositories
             _categorySet = context.PermissionCategories;
         }
 
-        public async Task<IEnumerable<PermissionCategory>> GetMany()
+        public async Task<IEnumerable<PermissionOrganisationCategory>> GetMany()
         {
             var dtos = await _categorySet.AsNoTracking().ToListAsync();
 
-            return dtos.Select(c => new PermissionCategory()
+            return dtos.Select(c => new PermissionOrganisationCategory()
             {
                 Label = c.LabelDefault,
                 Prefix = c.Prefix,
-                Translations = c.Translations?.Select(t => new TranslationPermissionCategory()
+                Translations = c.Translations?.Select(t => new TranslationPermissionOrganisationCategory()
                 {
                     Label = t.Label,
                     LanguageCode = t.LanguageCode
-                }).ToList() ?? new List<TranslationPermissionCategory>()
+                }).ToList() ?? new List<TranslationPermissionOrganisationCategory>()
             }).ToList();
         }
     }

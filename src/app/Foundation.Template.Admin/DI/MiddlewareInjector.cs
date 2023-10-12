@@ -8,7 +8,7 @@ namespace Foundation.Template.Admin.DI
     {
         public static IServiceCollection AddMiddlewares(this IServiceCollection services)
         {
-            services.AddScoped<PermissionsMiddleware>();
+            services.AddScoped<PermissionAdminsMiddleware>();
             
             return services;
         }

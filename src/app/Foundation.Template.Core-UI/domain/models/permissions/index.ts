@@ -1,2 +1,2 @@
-export * from "./permissionInfos";
-export * from "./permissionCategory";
+export * from "./permissionOrganisationInfos";
+export * from "./permissionOrganisationCategory";

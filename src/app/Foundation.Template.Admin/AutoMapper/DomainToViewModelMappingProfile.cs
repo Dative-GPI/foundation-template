@@ -9,9 +9,9 @@ namespace Foundation.Template.Admin.AutoMapper
     {
         public DomainToViewModelMappingProfile()
         {
-            CreateMap<PermissionCategory, PermissionCategoryViewModel>();
-            CreateMap<PermissionDetails, PermissionDetailsViewModel>();
-            CreateMap<PermissionInfos, PermissionInfosViewModel>();
+            CreateMap<PermissionOrganisationCategory, PermissionOrganisationCategoryViewModel>();
+            CreateMap<PermissionOrganisationDetails, PermissionOrganisationDetailsViewModel>();
+            CreateMap<PermissionOrganisationInfos, PermissionOrganisationInfosViewModel>();
 
             CreateMap<PermissionAdminCategory, PermissionAdminCategoryViewModel>();
             CreateMap<PermissionAdminDetails, PermissionAdminDetailsViewModel>();

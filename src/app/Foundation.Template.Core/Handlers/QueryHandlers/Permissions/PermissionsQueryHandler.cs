@@ -14,7 +14,7 @@ using Foundation.Template.Core.Abstractions;
 
 namespace Foundation.Template.Core.Handlers
 {
-    public class PermissionsQueryHandler : IMiddleware<PermissionsQuery, IEnumerable<PermissionInfos>>
+    public class PermissionsQueryHandler : IMiddleware<PermissionOrganisationsQuery, IEnumerable<PermissionOrganisationInfos>>
     {
         private readonly IOrganisationTypePermissionRepository _organisationTypePermissionRepository;
         private readonly IPermissionOrganisationRepository _permissionRepository;
@@ -32,7 +32,7 @@ namespace Foundation.Template.Core.Handlers
             _requestContextProvider = requestContextProvider;
         }
 
-        public async Task<IEnumerable<PermissionInfos>> HandleAsync(PermissionsQuery request, Func<Task<IEnumerable<PermissionInfos>>> next, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PermissionOrganisationInfos>> HandleAsync(PermissionOrganisationsQuery request, Func<Task<IEnumerable<PermissionOrganisationInfos>>> next, CancellationToken cancellationToken)
         {
             var context = _requestContextProvider.Context;
 

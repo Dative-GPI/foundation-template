@@ -21,7 +21,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IQueryHandler<TranslationsQuery, IEnumerable<Translation>>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<TranslationsQuery, IEnumerable<Translation>>()
-                    .With<PermissionsMiddleware>()
+                    .With<PermissionAdminsMiddleware>()
 					.Add<TranslationsQueryHandler>()
                     .Build();
 

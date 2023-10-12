@@ -6,8 +6,8 @@ using Foundation.Template.Admin.ViewModels;
 
 namespace Foundation.Template.Admin.Abstractions
 {
-    public interface IPermissionCategoryService
+    public interface IPermissionOrganisationCategoryService
     {
-        Task<IEnumerable<PermissionCategoryViewModel>> GetMany();
+        Task<IEnumerable<PermissionOrganisationCategoryViewModel>> GetMany();
     }
 }

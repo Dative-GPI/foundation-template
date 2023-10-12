@@ -11,11 +11,11 @@ namespace Foundation.Template.Context.DTOs
         public string Code { get; set; }
         public string LabelDefault { get; set; }
         public string Prefix { get; set; }
-        public List<TranslationPermissionCategoryDTO> Translations { get; set; }
+        public List<TranslationPermissionOrganisationCategoryDTO> Translations { get; set; }
         public bool Disabled { get; set; }
     }
 
-    public class TranslationPermissionCategoryDTO
+    public class TranslationPermissionOrganisationCategoryDTO
     {
         public string LanguageCode { get; set; }
         public string Label { get; set; }

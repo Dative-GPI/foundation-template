@@ -12,9 +12,9 @@ namespace Foundation.Template.Admin.Controllers
     [Route("api/admin/v1")]
     public class OrganisationTypePermissionController : ControllerBase
     {
-        private readonly IOrganisationTypePermissionService _organisationTypePermissionService;
+        private readonly IOrganisationTypePermissionOrganisationService _organisationTypePermissionService;
 
-        public OrganisationTypePermissionController(IOrganisationTypePermissionService organisationTypePermissionService)
+        public OrganisationTypePermissionController(IOrganisationTypePermissionOrganisationService organisationTypePermissionService)
         {
             _organisationTypePermissionService = organisationTypePermissionService;
         }
