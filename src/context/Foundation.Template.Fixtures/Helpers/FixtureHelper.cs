@@ -162,11 +162,12 @@ namespace Foundation.Template.Fixtures
             }
 
             var baseName = GetFileBaseName<TEntity>();
-            var files = Directory.EnumerateFiles(Path.Join(BASE_DIRECTORY, FIXTURES_DIRECTORY), $"*{baseName}*");
+            var files = Directory.EnumerateFiles(Path.Join(BASE_DIRECTORY, FIXTURES_DIRECTORY), $"{baseName}.*");
 
             if (files.Count() > 1)
             {
-                throw new Exception($"Multiple files found for {baseName}");
+                _logger.LogError("Multiple files found for {file} taking first one : [{files}]", baseName, files);
+                return files.First();
             }
 
             if (files.Any())
