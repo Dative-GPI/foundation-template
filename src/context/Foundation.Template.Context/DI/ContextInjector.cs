@@ -24,7 +24,7 @@ namespace Foundation.Template.Context.DI
                 options.EnableSensitiveDataLogging();
             });
 
-            services.AddScoped<BaseApplicationContext, TContext>();
+            services.AddScoped<BaseApplicationContext>(sp => sp.GetRequiredService<TContext>());
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
