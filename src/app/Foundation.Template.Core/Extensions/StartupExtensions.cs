@@ -6,7 +6,7 @@ namespace Foundation.Template.Core.Extensions
 {
     public static class StartupExtensions
     {
-        public static IEndpointRouteBuilder MapCoreTemplateControllers(this IEndpointRouteBuilder endpoints, string subPath)
+        public static IEndpointRouteBuilder MapCoreTemplateControllers(this IEndpointRouteBuilder endpoints)
         {
             endpoints.MapControllers();
 
