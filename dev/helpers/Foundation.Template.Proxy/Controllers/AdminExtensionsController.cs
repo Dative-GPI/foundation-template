@@ -14,6 +14,7 @@ namespace Foundation.Template.Proxy.Controllers
     {
         private IHttpClientFactory _httpClientFactory;
         private string _foundationPrefix;
+        private string _hostLocal;
 
         public AdminExtensionsController(
             IHttpClientFactory httpClientFactory,
@@ -21,6 +22,7 @@ namespace Foundation.Template.Proxy.Controllers
         {
             _httpClientFactory = httpClientFactory;
             _foundationPrefix = configuration.GetConnectionString("Foundation");
+            _hostLocal = configuration.GetConnectionString("Local");
         }
 
 
@@ -43,6 +45,22 @@ namespace Foundation.Template.Proxy.Controllers
             }));
 
             return Ok(result);
+        }
+
+
+        [HttpGet("extensions/null")]
+        public IActionResult GetRoleExtension()
+        {
+            return Ok(new
+            {
+                id = (Guid?)null,
+                extensionId = (Guid?)null,
+                shellHost = new Uri(_hostLocal).Host,
+                adminHost = new Uri(_hostLocal).Host,
+                host = new Uri(_hostLocal).Host,
+                label = "Local extension",
+                description = "Added automatically by Foundation.Template.Proxy"
+            });
         }
     }
 }

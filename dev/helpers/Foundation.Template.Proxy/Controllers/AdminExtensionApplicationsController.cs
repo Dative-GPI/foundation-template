@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -93,6 +94,28 @@ namespace Foundation.Template.Proxy.Controllers
                 label = "Local extension",
                 description = "Added automatically by Foundation.Template.Proxy",
             });
+        }
+
+
+        [Route("extension-applications")]
+        [HttpGet]
+        public async Task<IActionResult> GetMany()
+        {
+            var foundationClient = _httpClientFactory.CreateClient();
+            var foundationResponse = await foundationClient.GetAsync(HttpContext, _foundationPrefix);
+
+            var content = await foundationResponse.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<List<JsonElement>>(content);
+
+            result.Add(JsonSerializer.SerializeToElement(new
+            {
+                description = "Added automatically by Foundation.Template.Proxy",
+                extensionId = (Guid?)null,
+                id = (Guid?)null,
+                label = "Local extension"
+            }));
+
+            return Ok(result);
         }
     }
 }

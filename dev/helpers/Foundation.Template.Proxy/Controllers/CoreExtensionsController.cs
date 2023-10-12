@@ -56,8 +56,10 @@ namespace Foundation.Template.Proxy.Controllers
                 id = (Guid?)null,
                 extensionId = (Guid?)null,
                 shellHost = new Uri(_hostLocal).Host,
-                label = "local extension",
-                description = "extension local pour dev"
+                adminHost = new Uri(_hostLocal).Host,
+                host = new Uri(_hostLocal).Host,
+                label = "Local extension",
+                description = "Added automatically by Foundation.Template.Proxy"
             });
         }
     }
