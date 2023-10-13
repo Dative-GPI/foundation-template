@@ -21,6 +21,9 @@ namespace Foundation.Template.Admin.AutoMapper
 
             CreateMap<Translation, TranslationViewModel>();
             CreateMap<ApplicationTranslation, ApplicationTranslationViewModel>();
+
+            CreateMap<RoleAdminDetails, RoleAdminDetailsViewModel>();
+            CreateMap<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>();
         }
     }
 }
