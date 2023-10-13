@@ -37,7 +37,7 @@ namespace Foundation.Template.Context.Repositories
                 PermissionId = organisationTypePermissionDTO.PermissionId,
                 PermissionCode = organisationTypePermissionDTO.Permission.Code,
                 OrganisationTypeId = organisationTypePermissionDTO.OrganisationTypeId,
-            });
+            }).ToList();
         }
 
         public Task RemoveRange(Guid[] permissionsIds)
