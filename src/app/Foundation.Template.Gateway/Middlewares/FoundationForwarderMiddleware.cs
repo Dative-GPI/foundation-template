@@ -66,12 +66,12 @@ namespace Foundation.Template.Gateway.Middlewares
                     return;
                 }
 
-                host = application.Host;
+                host = new UriBuilder("https", application.Host).Uri.ToString();
 
                 _memoryCache.Set(applicationId, host, _cacheEntryOptions);
             }
 
-            _logger.LogTrace("Forwarding");
+            _logger.LogTrace("Forwarding to {host}", host);
 
             await _forwarder.SendAsync(httpContext, host, _httpClient);
         }
