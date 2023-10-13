@@ -27,7 +27,15 @@ namespace Foundation.Template.Context.Repositories
         {
             var query = _dbSet.Include(p => p.Permission).AsQueryable();
 
-            query = query.Where(p => p.OrganisationTypeId == filter.OrganisationTypeId);
+            if (filter.OrganisationTypeId.HasValue)
+            {
+                query = query.Where(p => p.OrganisationTypeId == filter.OrganisationTypeId);
+            }
+
+            if(filter.OrganisationTypeIds != null)
+            {
+                query = query.Where(p => filter.OrganisationTypeIds.Contains(p.OrganisationTypeId));
+            }
 
             IEnumerable<OrganisationTypePermissionDTO> dtos = await query.AsNoTracking().ToListAsync();
 
