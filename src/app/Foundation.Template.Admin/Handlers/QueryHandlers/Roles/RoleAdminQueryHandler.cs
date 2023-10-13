@@ -14,20 +14,18 @@ namespace Foundation.Template.Admin.Handlers
 {
     public class RoleAdminQueryHandler : IMiddleware<RoleAdminQuery, RoleAdminDetails>
     {
-        private IPermissionAdminRepository _permissionAdminRepository;
         private IRoleAdminRepository _roleAdminRepository;
 
         public RoleAdminQueryHandler(
-            IRoleAdminRepository roleAdminRepository,
-            IPermissionAdminRepository permissionAdminRepository)
+            IRoleAdminRepository roleAdminRepository)
         {
-            _permissionAdminRepository = permissionAdminRepository;
             _roleAdminRepository = roleAdminRepository;
         }
 
         public async Task<RoleAdminDetails> HandleAsync(RoleAdminQuery request, Func<Task<RoleAdminDetails>> next, CancellationToken cancellationToken)
         {
             var result = await _roleAdminRepository.Get(request.RoleAdminId);
+            
             return result;
         }
     }

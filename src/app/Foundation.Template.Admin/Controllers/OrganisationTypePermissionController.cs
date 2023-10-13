@@ -29,7 +29,7 @@ namespace Foundation.Template.Admin.Controllers
 
         [Route("organisation-types-permissions")]
         [HttpPatch]
-        public async Task<IActionResult> Upsert(List<UpsertOrganisationTypePermissionsViewModel> payload)
+        public async Task<IActionResult> Upsert([FromBody] List<UpsertOrganisationTypePermissionsViewModel> payload)
         {
             await _organisationTypePermissionService.Upsert(payload);
             return Ok();
