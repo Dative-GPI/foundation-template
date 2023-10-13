@@ -21,7 +21,6 @@ namespace Foundation.Template.Gateway.Controllers
 
         [HttpGet("api/translations")]
         [HttpGet("api/gateway/v1/translations")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetMany()
         {
             var translations = await _applicationTranslationService.GetMany();

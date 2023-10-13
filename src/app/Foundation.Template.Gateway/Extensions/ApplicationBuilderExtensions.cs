@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+
 using Foundation.Template.Gateway.Middlewares;
+
 using Microsoft.AspNetCore.Routing;
 
 namespace Foundation.Template.Gateway.Extensions
