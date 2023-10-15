@@ -8,11 +8,11 @@ using Foundation.Template.Core.Abstractions;
 namespace Foundation.Template.Core.Controllers
 {
     [Route("api/core/v1")]
-    public class PermissionsController : ControllerBase
+    public class PermissionOrganisationsController : ControllerBase
     {
         private readonly IPermissionOrganisationService _permissionService;
 
-        public PermissionsController(IPermissionOrganisationService permissionService)
+        public PermissionOrganisationsController(IPermissionOrganisationService permissionService)
         {
             _permissionService = permissionService;
         }

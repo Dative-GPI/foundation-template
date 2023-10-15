@@ -61,12 +61,12 @@ namespace Foundation.Template.Context.Repositories
 
             var dtos = await query.AsNoTracking().ToListAsync();
 
-            return dtos.Select(translationDTO => new ApplicationTranslation()
+            return dtos.Select(dto => new ApplicationTranslation()
             {
-                Id = translationDTO.Id,
-                LanguageCode = translationDTO.LanguageCode,
-                TranslationCode = translationDTO.Translation.Code,
-                Value = translationDTO.Value
+                Id = dto.Id,
+                LanguageCode = dto.LanguageCode,
+                TranslationCode = dto.Translation.Code,
+                Value = dto.Value
             }).ToList();
         }
 

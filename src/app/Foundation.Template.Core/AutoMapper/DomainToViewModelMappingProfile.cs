@@ -3,6 +3,7 @@ using AutoMapper.Internal;
 
 using Foundation.Template.Domain.Models;
 using Foundation.Template.Core.ViewModels;
+using System.Linq;
 
 namespace Foundation.Template.Core.AutoMapper
 {
@@ -16,7 +17,8 @@ namespace Foundation.Template.Core.AutoMapper
 
             CreateMap<PermissionOrganisationInfos, PermissionOrganisationInfosViewModel>();
             CreateMap<PermissionOrganisationCategory, PermissionOrganisationCategoryViewModel>();
-            CreateMap<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>();
+            CreateMap<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>()
+                .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(p => p.Permissions.Select(p => p.Id).ToList()));
             CreateMap<ActionInfos, ActionInfosViewModel>();
         }
     }
