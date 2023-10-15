@@ -26,7 +26,8 @@ namespace Foundation.Template.Proxy.Extensions
                 RequestUri = new UriBuilder(new Uri(destinationPrefix).Scheme, new Uri(destinationPrefix).Host,
                     context.Request.Host.Port ?? -1,
                     overridePath ?? context.Request.PathBase.Value +
-                    context.Request.Path.Value + context.Request.QueryString.Value)
+                    context.Request.Path.Value,
+                    context.Request.QueryString.Value)
                     .Uri
             };
 
@@ -51,7 +52,8 @@ namespace Foundation.Template.Proxy.Extensions
                 RequestUri = new UriBuilder(new Uri(destinationPrefix).Scheme, new Uri(destinationPrefix).Host,
                     context.Request.Host.Port ?? -1,
                     overridePath ?? context.Request.PathBase.Value +
-                    context.Request.Path.Value + context.Request.QueryString.Value)
+                    context.Request.Path.Value,
+                    context.Request.QueryString.Value)
                     .Uri
             };
 

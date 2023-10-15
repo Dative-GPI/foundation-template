@@ -39,7 +39,11 @@ namespace Foundation.Template.Proxy.Tools
         {
             await PrepareClient(context);
 
-            var response = await _localClient.GetAsync(path);
+            var uri = path + context.Request.QueryString.ToString();
+
+            _logger.LogInformation("GET {uri}", uri);
+
+            var response = await _localClient.GetAsync(uri);
 
             response.EnsureSuccessStatusCode();
 
@@ -53,7 +57,11 @@ namespace Foundation.Template.Proxy.Tools
         {
             await PrepareClient(context);
 
-            var response = await _localClient.PostAsync(path, JsonContent.Create(payload));
+            var uri = path + context.Request.QueryString.ToString();
+
+            _logger.LogInformation("POST {uri}", uri);
+
+            var response = await _localClient.PostAsync(uri, JsonContent.Create(payload));
 
             response.EnsureSuccessStatusCode();
 
