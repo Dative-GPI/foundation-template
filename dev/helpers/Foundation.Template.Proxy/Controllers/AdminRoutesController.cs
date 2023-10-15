@@ -20,6 +20,7 @@ namespace Foundation.Template.Proxy.Controllers
         private string _foundationPrefix;
         private LocalClient _localClient;
         private string _localPrefix;
+        private bool _enableInstalledExtensions;
 
         public AdminRoutesController(
             IHttpClientFactory httpClientFactory,
@@ -29,6 +30,7 @@ namespace Foundation.Template.Proxy.Controllers
             _httpClientFactory = httpClientFactory;
             _foundationPrefix = configuration.GetConnectionString("Foundation");
             _localPrefix = configuration.GetConnectionString("Local");
+            _enableInstalledExtensions = configuration.GetValue<bool>("EnableInstalledExtensions", true);
             _localClient = localClient;
         }
 
@@ -36,16 +38,18 @@ namespace Foundation.Template.Proxy.Controllers
         [HttpGet("routes")]
         public async Task<IActionResult> GetMany()
         {
-            var foundationClient = _httpClientFactory.CreateClient();
-            var foundationResponse = await foundationClient.GetAsync(HttpContext, _foundationPrefix);
-            var foundationContent = await foundationResponse.Content.ReadAsStringAsync();
-            var foundationResult = JsonSerializer.Deserialize<List<JsonElement>>(foundationContent);
-
-            var localResult = await _localClient.Get<List<JsonElement>>(HttpContext, "/api/admin/v1/routes");
-
             var result = new List<JsonElement>();
 
-            result.AddRange(foundationResult);
+            if (_enableInstalledExtensions)
+            {
+                var foundationClient = _httpClientFactory.CreateClient();
+                var foundationResponse = await foundationClient.GetAsync(HttpContext, _foundationPrefix);
+                var foundationContent = await foundationResponse.Content.ReadAsStringAsync();
+                var foundationResult = JsonSerializer.Deserialize<List<JsonElement>>(foundationContent);
+                result.AddRange(foundationResult);
+            }
+
+            var localResult = await _localClient.Get<List<JsonElement>>(HttpContext, "/api/admin/v1/routes");
             result.AddRange(localResult.Select(l => JsonSerializer.SerializeToElement(new
             {
                 extensionId = (Guid?)null,

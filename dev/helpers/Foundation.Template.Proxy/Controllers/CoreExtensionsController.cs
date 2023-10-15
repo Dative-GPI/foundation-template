@@ -16,6 +16,7 @@ namespace Foundation.Template.Proxy.Controllers
         private string _foundationPrefix;
 
         private string _hostLocal;
+        private bool _enableInstalledExtensions;
 
         public CoreExtensionsController(
             IHttpClientFactory httpClientFactory,
@@ -24,17 +25,24 @@ namespace Foundation.Template.Proxy.Controllers
             _httpClientFactory = httpClientFactory;
             _foundationPrefix = configuration.GetConnectionString("Foundation");
             _hostLocal = configuration.GetConnectionString("Local");
+            _enableInstalledExtensions = configuration.GetValue<bool>("EnableInstalledExtensions", true);
         }
 
 
         [HttpGet("extensions")]
         public async Task<IActionResult> GetMany()
         {
-            var foundationClient = _httpClientFactory.CreateClient();
-            var foundationResponse = await foundationClient.GetAsync(HttpContext, _foundationPrefix);
+            var result = new List<JsonElement>();
 
-            var content = await foundationResponse.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<List<JsonElement>>(content);
+            if (_enableInstalledExtensions)
+            {
+                var foundationClient = _httpClientFactory.CreateClient();
+                var foundationResponse = await foundationClient.GetAsync(HttpContext, _foundationPrefix);
+
+                var content = await foundationResponse.Content.ReadAsStringAsync();
+                var foundationResult = JsonSerializer.Deserialize<List<JsonElement>>(content);
+                result.AddRange(foundationResult);
+            }
 
             result.Add(JsonSerializer.SerializeToElement(new
             {
