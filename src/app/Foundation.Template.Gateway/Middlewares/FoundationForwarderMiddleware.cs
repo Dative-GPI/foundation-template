@@ -37,8 +37,9 @@ namespace Foundation.Template.Gateway.Middlewares
             _forwarder = forwarder;
             _httpClient = httpClientFactory.CreateClient(new ForwarderHttpClientContext()
             {
-                NewConfig = HttpClientConfig.Empty
+                NewConfig = HttpClientConfig.Empty with { DangerousAcceptAnyServerCertificate = true }
             });
+
             _memoryCache = memoryCache;
         }
 
