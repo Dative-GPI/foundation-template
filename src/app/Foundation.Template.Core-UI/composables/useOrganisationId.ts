@@ -12,12 +12,13 @@ export const useOrganisationId = () => {
     }
 
     initiliazed = true
+    
+    provide(ORGANISATION_ID, organisationId);
 
     const router = useRouter();
 
     watch(router.currentRoute, () => {
         organisationId.value = router.currentRoute.value.params.organisationId as string | null;
-        provide(ORGANISATION_ID, organisationId);
     })
     
     return {

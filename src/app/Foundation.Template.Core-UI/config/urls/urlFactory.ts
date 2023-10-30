@@ -3,11 +3,11 @@ import { useRoute } from "vue-router";
 
 import { ORGANISATION_ID } from "../literals";
 
-export function urlFactory(url: (organisationId: string) => string) {
+export function urlFactory(url: (orgId: string) => string) {
     return () => {
         let result: string | null = null;
 
-        let organisationId: Ref<string | null> = inject(ORGANISATION_ID, ref<string | null>(null));
+        let organisationId: Ref<string | null> = inject(ORGANISATION_ID, () => ref<string | null>(null), true);
 
         result = organisationId.value;
 
