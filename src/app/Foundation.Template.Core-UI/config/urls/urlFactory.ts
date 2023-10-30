@@ -22,7 +22,7 @@ export function urlFactory(url: (organisationId: string) => string) {
             }
         }
 
-        if (!organisationId) throw new Error("Organisation ID is not defined");
+        if (!result) throw new Error("Organisation ID is not defined");
 
         return url(result);
     }
