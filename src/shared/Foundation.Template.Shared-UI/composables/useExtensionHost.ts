@@ -7,9 +7,10 @@ import { useExtensionCommunicationBridge } from './useExtensionCommunicationBrid
 
 let extensionHostInitialized = false;
 
+const token = ref<string | null>(null);
+const languageCode = ref<string | null>(null);
+
 export function useExtensionHost() {
-    const token = ref<string | null>(null);
-    const languageCode = ref<string | null>(null);
 
     onMounted(() => {
         if (extensionHostInitialized) return;

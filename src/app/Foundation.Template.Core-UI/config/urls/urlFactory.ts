@@ -1,29 +1,12 @@
-import { Ref, inject, ref } from "vue";
-import { useRoute } from "vue-router";
-
-import { ORGANISATION_ID } from "../literals";
+import { useOrganisationId } from "../../composables";
 
 export function urlFactory(url: (orgId: string) => string) {
     return () => {
-        let result: string | null = null;
+        const { organisationId } = useOrganisationId();
 
-        let organisationId: Ref<string | null> = inject(ORGANISATION_ID, () => ref<string | null>(null), true);
+        if (!organisationId.value)
+            throw new Error("OrganisationId is not set");
 
-        result = organisationId.value;
-
-        if (!result) {
-            const route = useRoute();
-
-            if ((!route || !route.params)) {
-                console.warn("You are trying to get organisationId without providing it nor in your route params. Please add it.", route, route.params)
-            }
-            else {
-                result = route.params[ORGANISATION_ID] as string;
-            }
-        }
-
-        if (!result) throw new Error("Organisation ID is not defined");
-
-        return url(result);
+        return url(organisationId.value);
     }
 }
