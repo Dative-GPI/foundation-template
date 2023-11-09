@@ -6,7 +6,7 @@ import { CURRENT_USER_PERMISSIONS_URL } from "../config";
 
 const CurrentPermissionServiceFactory = ServiceFactory.create("permissions", f => f.build(
     f.addGetMany(CURRENT_USER_PERMISSIONS_URL, String),
-    f.addNotify<string>()
+    f.addNotify<String>()
 ));
 
 const useCurrentPermissions = ComposableFactory.getMany(CurrentPermissionServiceFactory);
