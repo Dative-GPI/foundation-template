@@ -5,12 +5,12 @@ import { useOrganisationId } from "./useOrganisationId";
 import { usePermissionsProvider } from "./usePermissionsProvider";
 
 let called = false;
+const ready = ref(false);
 
 export function useCoreTemplate() {
-    if (called) return;
+    if (called) return { ready };
 
     called = true;
-    const ready = ref(false);
 
     useExtensionHost();
 
@@ -23,7 +23,7 @@ export function useCoreTemplate() {
         await initialized
         await initTranslations();
         await initPermissions();
-        
+
         ready.value = true;
     });
 
