@@ -1,9 +1,10 @@
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, provide, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { ServiceFactory } from '@dative-gpi/bones-ui';
 
 import { useExtensionCommunicationBridge } from './useExtensionCommunicationBridge';
+import { ACCESS_TOKEN, LANGUAGE_CODE } from '../config';
 
 let extensionHostInitialized = false;
 
@@ -43,6 +44,9 @@ export function useExtensionHost() {
             config.headers.common['Accept-Language'] = languageCode.value;
             return config;
         });
+
+        provide(ACCESS_TOKEN, token);
+        provide(LANGUAGE_CODE, languageCode);
 
         onUnmounted(() => {
             unsubscribe();

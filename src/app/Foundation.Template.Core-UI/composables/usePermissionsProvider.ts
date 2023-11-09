@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
 import { ComposableFactory } from "@dative-gpi/bones-ui";
 
@@ -12,14 +13,32 @@ const useCurrentPermissions = ComposableFactory.getMany(CurrentPermissionService
 
 const { entities: permissions, getMany, fetching } = useCurrentPermissions()
 
+const init = ref<Promise<any> | null>(null);
+
 export const usePermissionsProvider = () => {
     const has = (code: string) => {
         return !!permissions.value.includes(code);
     }
 
+    const some = (...permissionCodes: string[]) => {
+        return permissionCodes.some(p => permissions.value.includes(p));
+    }
+
+    const every = (...permissionCodes: string[]) => {
+        return permissionCodes.every(p => permissions.value.includes(p));
+    }
+
+    const fetch = () => {
+        if (!init.value)
+            init.value = getMany();
+        return init.value;
+    }
+
     return {
         has,
-        init: getMany,
+        some,
+        every,
+        init: fetch,
         initializing: fetching
     }
 }

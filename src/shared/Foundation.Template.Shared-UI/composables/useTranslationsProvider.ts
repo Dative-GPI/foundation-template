@@ -36,6 +36,6 @@ export const useTranslationsProvider = () => {
         has,
         get,
         init: fetch,
-        fetching
+        initializing: fetching
     }
 }
