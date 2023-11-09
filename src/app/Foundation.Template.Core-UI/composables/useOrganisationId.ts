@@ -4,13 +4,13 @@ import { useRouter } from "vue-router";
 import { ORGANISATION_ID } from "../config/literals";
 import { setOrganisationId } from "../config/urls/urlFactory";
 
-let initiliazed = false;
+let initialized = false;
 
 const organisationId = ref<string | null>(null);
 
 export const useOrganisationId = () => {
 
-    if (!initiliazed) {
+    if (!initialized) {
         provide(ORGANISATION_ID, organisationId);
 
         const router = useRouter();
@@ -27,7 +27,7 @@ export const useOrganisationId = () => {
         })
     }
 
-    initiliazed = true
+    initialized = true
 
     const ready = new Promise((resolve) => {
         if (organisationId.value) {

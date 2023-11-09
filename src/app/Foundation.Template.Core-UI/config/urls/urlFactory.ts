@@ -2,7 +2,7 @@ import { Ref, ref } from "vue";
 
 const organisationId = ref<string | null>(null);
 
-export function setOrganisationId(orgId: Ref<string>) {
+export function setOrganisationId(orgId: Ref<string | null>) {
     organisationId.value = orgId.value;
 }
 
