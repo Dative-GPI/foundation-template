@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import { ServiceFactory } from "@dative-gpi/bones-ui";
 import { ComposableFactory } from "@dative-gpi/bones-ui";
 
@@ -13,15 +14,25 @@ const useApplicationTranslations = ComposableFactory.getMany(ApplicationTranslat
 
 const { entities: translations, getMany, fetching } = useApplicationTranslations()
 
+const init = ref<Promise<any> | null>(null);
+
 export const useTranslationsProvider = () => {
     const has = (code: string) => {
         return !!translations.value.find(t => t.code === code);
     }
 
+    const get = (code: string) => {
+        return translations.value.find(t => t.code === code);
+    }
+
+    if (!init.value) {
+        init.value = getMany();
+    }
+
     return {
         has,
-        init: getMany,
-        initializing: fetching
+        get,
+        init: init.value
     }
 }
 
