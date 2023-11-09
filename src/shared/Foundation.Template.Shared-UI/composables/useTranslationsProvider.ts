@@ -22,7 +22,8 @@ export const useTranslationsProvider = () => {
     }
 
     const get = (code: string) => {
-        return translations.value.find(t => t.code === code);
+        const t = translations.value.find(t => t.code === code);
+        return t ? t.value : null
     }
 
     if (!init.value) {
@@ -32,7 +33,8 @@ export const useTranslationsProvider = () => {
     return {
         has,
         get,
-        init: init.value
+        init: init.value,
+        fetching
     }
 }
 
