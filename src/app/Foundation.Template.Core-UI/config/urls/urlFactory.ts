@@ -2,7 +2,7 @@ import { Ref, ref } from "vue";
 
 const organisationId = ref<string | null>(null);
 
-export function initUrlFactory(orgId: Ref<string>) {
+export function setOrganisationId(orgId: Ref<string>) {
     organisationId.value = orgId.value;
 }
 
