@@ -1,9 +1,11 @@
-import { inject } from "vue";
+import { Ref, inject } from "vue";
 import { ACCESS_TOKEN } from "../config";
 
 export function useCredentials() {
-    const token = inject(ACCESS_TOKEN);
-    
+    const token = inject<Ref<string>>(ACCESS_TOKEN);
+
+    if (!token || !token.value) throw new Error("No token found");
+
     return {
         token
     }
