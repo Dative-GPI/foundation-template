@@ -29,7 +29,20 @@ export const useOrganisationId = () => {
 
     initiliazed = true
 
+    const ready = new Promise((resolve) => {
+        if (organisationId.value) {
+            resolve(organisationId.value);
+        } else {
+            watch(organisationId, () => {
+                if (organisationId.value) {
+                    resolve(organisationId.value);
+                }
+            })
+        }
+    })
+
     return {
-        organisationId
+        ready
+        organisationId,
     }
 }
