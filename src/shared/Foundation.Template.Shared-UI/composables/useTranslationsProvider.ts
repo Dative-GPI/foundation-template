@@ -26,15 +26,16 @@ export const useTranslationsProvider = () => {
         return t ? t.value : null
     }
 
-    if (!init.value) {
-        init.value = getMany();
+    const fetch = () => {
+        if (!init.value)
+            init.value = getMany();
+        return init.value;
     }
 
     return {
         has,
         get,
-        init: init.value,
+        init: fetch,
         fetching
     }
 }
-
