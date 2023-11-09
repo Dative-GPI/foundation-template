@@ -42,7 +42,7 @@ export const useOrganisationId = () => {
     })
 
     return {
-        ready
+        ready,
         organisationId,
     }
 }
