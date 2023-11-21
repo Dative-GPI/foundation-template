@@ -4,11 +4,12 @@ import { ROLE_ORGANISATION_URL } from "../config";
 
 import { RoleOrganisationDetails, RoleOrganisationDetailsDTO, UpdateRoleOrganisationDTO } from "../domain";
 
-const RoleOrganisationServiceFactory = ServiceFactory.create("permissions", f => f.build(
-    f.addGet(ROLE_ORGANISATION_URL, RoleOrganisationDetails),
-    f.addUpdate<UpdateRoleOrganisationDTO, RoleOrganisationDetailsDTO, RoleOrganisationDetails>(ROLE_ORGANISATION_URL, RoleOrganisationDetails),
-    f.addNotify<RoleOrganisationDetails>()
-));
+const RoleOrganisationServiceFactory = new ServiceFactory<RoleOrganisationDetailsDTO, RoleOrganisationDetails>("role-permissions", RoleOrganisationDetails)
+    .create(f => f.build(
+        f.addGet(ROLE_ORGANISATION_URL),
+        f.addUpdate<UpdateRoleOrganisationDTO>(ROLE_ORGANISATION_URL),
+        f.addNotify()
+    ));
 
 export const useUpdateRoleOrganisation = ComposableFactory.update(RoleOrganisationServiceFactory);
 export const useRoleOrganisation = ComposableFactory.get(RoleOrganisationServiceFactory);

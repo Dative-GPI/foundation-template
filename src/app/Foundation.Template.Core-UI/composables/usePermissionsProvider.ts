@@ -4,10 +4,11 @@ import { ComposableFactory } from "@dative-gpi/bones-ui";
 
 import { CURRENT_USER_PERMISSIONS_URL } from "../config";
 
-const CurrentPermissionServiceFactory = ServiceFactory.create("permissions", f => f.build(
-    f.addGetMany(CURRENT_USER_PERMISSIONS_URL, String),
-    f.addNotify<String>()
-));
+const CurrentPermissionServiceFactory = new ServiceFactory("current-permissions", String)
+    .create(f => f.build(
+        f.addGetMany(CURRENT_USER_PERMISSIONS_URL, String),
+        f.addNotify()
+    ));
 
 const useCurrentPermissions = ComposableFactory.getMany(CurrentPermissionServiceFactory);
 

@@ -3,19 +3,20 @@ import { ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { PERMISSIONS_URL, PERMISSION_CATEGORIES_URL } from "../config";
 
-import { PermissionOrganisationCategory, PermissionOrganisationInfos, PermissionOrganisationInfosDTO } from "../domain";
+import { PermissionOrganisationCategory, PermissionOrganisationInfos } from "../domain";
 
-const PermissionServiceFactory = ServiceFactory.create("permissions", f => {
+const PermissionServiceFactory = new ServiceFactory("permission-organisation", PermissionOrganisationInfos)
+    .create(f => {
+        const { getMany: getCategories } = f.addGetMany(PERMISSION_CATEGORIES_URL, PermissionOrganisationCategory)
+        const { getMany } = f.addGetMany(PERMISSIONS_URL, PermissionOrganisationInfos)
 
-    const { getMany: getCategories } = f.addGetMany(PERMISSION_CATEGORIES_URL, PermissionOrganisationCategory)
-
-    return f.build(
-        f.addGetMany<PermissionOrganisationInfosDTO, PermissionOrganisationInfos, void>(PERMISSIONS_URL, PermissionOrganisationInfos),
-        {
-            getCategories
-        }
-    )
-});
+        return f.build(
+            {
+                getMany,
+                getCategories
+            }
+        )
+    });
 
 export const usePermissions = () => {
     const fetching = ref(false);

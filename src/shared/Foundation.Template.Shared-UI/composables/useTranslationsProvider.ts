@@ -5,10 +5,11 @@ import { ComposableFactory } from "@dative-gpi/bones-ui";
 import { APPLICATION_TRANSLATIONS_URL } from "../config";
 import { ApplicationTranslation } from "../models";
 
-const ApplicationTranslationServiceFactory = ServiceFactory.create("application-translation", f => f.build(
-    f.addGetMany(APPLICATION_TRANSLATIONS_URL, ApplicationTranslation),
-    f.addNotify<ApplicationTranslation>()
-));
+const ApplicationTranslationServiceFactory = new ServiceFactory("application-translation", ApplicationTranslation)
+    .create(f => f.build(
+        f.addGetMany(APPLICATION_TRANSLATIONS_URL, ApplicationTranslation),
+        f.addNotify()
+    ));
 
 const useApplicationTranslations = ComposableFactory.getMany(ApplicationTranslationServiceFactory);
 
