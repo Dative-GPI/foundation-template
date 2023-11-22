@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dative-gpi/bones-ui": "^0.0.52",
+    "@dative-gpi/bones-ui": "^0.0.53",
     "@dative-gpi/foundation-template-shared-ui": "1.0.0",
     "@types/lodash": "^4.14.197",
     "axios": "^0.21.1",
