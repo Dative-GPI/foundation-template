@@ -83,7 +83,7 @@ namespace Foundation.Template.Gateway.Middlewares
 
             var client = await clientFactory.CreateAuthenticated(claims.ApplicationId, claims.LanguageCode, jwt);
 
-            var isAuthenticated = await client.Gateway.Accounts.CheckIfLoggedIn();
+            var isAuthenticated = await client.Gateway.Accounts.IsAuthenticated();
 
             if (isAuthenticated)
             {
