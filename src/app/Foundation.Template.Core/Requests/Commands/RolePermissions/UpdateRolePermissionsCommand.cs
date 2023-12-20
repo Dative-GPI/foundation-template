@@ -10,7 +10,7 @@ namespace Foundation.Template.Core
 {
     public class UpdateRoleOrganisationCommand : ICoreRequest, IRequest<IEntity<Guid>>
     {
-        public IEnumerable<string> Authorizations => new[] { CoreAuthorizations.APP_ROLE_UPDATE };
+        public IEnumerable<string> Authorizations => new[] { "app.role.update" };
 
         public Guid RoleOrganisationId { get; set; }
         public List<Guid> PermissionIds { get; set; }

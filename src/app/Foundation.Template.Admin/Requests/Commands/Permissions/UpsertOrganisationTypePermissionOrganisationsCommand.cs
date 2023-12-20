@@ -9,7 +9,7 @@ namespace Foundation.Template.Admin
 {
     public class UpsertOrganisationTypePermissionOrganisationsCommand : ICoreRequest
     {
-        public IEnumerable<string> Authorizations => new[] { AdminAuthorizations.ADMIN_PERMISSIONORGANISATIONTYPE_UPDATE };
+        public IEnumerable<string> Authorizations => new[] { "admin.permissionorganisationtype.update" };
         public List<UpsertOrganisationTypePermissions> OrganisationTypePermissions { get; set; }
     }
 

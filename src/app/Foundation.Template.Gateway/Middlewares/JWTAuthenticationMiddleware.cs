@@ -60,7 +60,7 @@ namespace Foundation.Template.Gateway.Middlewares
             if (context.Request.Headers.ContainsKey(HeaderNames.Authorization))
             {
                 var bearer = context.Request.Headers[HeaderNames.Authorization].ToString();
-                if(bearer.StartsWith("Bearer ")) jwt = bearer.Substring("Bearer ".Length);
+                if (bearer.StartsWith("Bearer ")) jwt = bearer.Substring("Bearer ".Length);
             }
             else
             {

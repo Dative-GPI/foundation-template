@@ -11,7 +11,7 @@ namespace Foundation.Template.Admin
 {
     public class UpdateRoleOrganisationCommand : ICoreRequest, IRequest<IEntity<Guid>>
     {
-        public IEnumerable<string> Authorizations => new[] { AdminAuthorizations.ADMIN_ORGANISATION_TYPE_ROLE_UPDATE };
+        public IEnumerable<string> Authorizations => new[] { "admin.organisation-type.role.update" };
 
         public Guid RoleOrganisationId { get; set; }
         public List<Guid> PermissionIds { get; set; }
