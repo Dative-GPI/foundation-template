@@ -10,8 +10,8 @@ namespace Foundation.Template.Admin
 {
     public class OrganisationTypePermissionOrganisationsQuery : ICoreRequest, IRequest<IEnumerable<OrganisationTypePermissionOrganisationInfos>>
     {
-        public IEnumerable<string> Authorizations => new[] { AdminAuthorizations.ADMIN_PERMISSIONORGANISATIONTYPE_INFOS };
-        
+        public IEnumerable<string> Authorizations => new[] { "admin.permissionorganisationtype.infos" };
+
         public Guid? OrganisationTypeId { get; set; }
     }
 }

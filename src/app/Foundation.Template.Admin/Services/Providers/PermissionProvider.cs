@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Foundation.Clients.ViewModels.Admin;
 using Foundation.Clients.Abstractions;
 
 using Foundation.Template.Domain.Repositories.Filters;
@@ -48,7 +47,7 @@ namespace Foundation.Template.Admin.Providers
 
             var client = await _foundationClientFactory.CreateAuthenticated(context.ApplicationId, context.LanguageCode, context.Jwt);
 
-            var foundationPermissions = await client.Admin.Permissions.GetCurrent();
+            var foundationPermissions = await client.Admin.PermissionsAdmin.GetCurrent();
 
             var localPermissions = await GetLocalPermissions(client);
 
@@ -56,7 +55,7 @@ namespace Foundation.Template.Admin.Providers
         }
         private async Task<IEnumerable<string>> GetLocalPermissions(IFoundationClient client)
         {
-            var userApplication = await client.Admin.UserApplications.GetCurrent();
+            var userApplication = await client.Admin.Users.GetCurrent();
 
             if (userApplication.RoleAdminId.HasValue)
             {

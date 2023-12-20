@@ -60,7 +60,7 @@ namespace Foundation.Template.Gateway.Middlewares
             if (context.Request.Headers.ContainsKey(HeaderNames.Authorization))
             {
                 var bearer = context.Request.Headers[HeaderNames.Authorization].ToString();
-                if(bearer.StartsWith("Bearer ")) jwt = bearer.Substring("Bearer ".Length);
+                if (bearer.StartsWith("Bearer ")) jwt = bearer.Substring("Bearer ".Length);
             }
             else
             {
@@ -83,7 +83,7 @@ namespace Foundation.Template.Gateway.Middlewares
 
             var client = await clientFactory.CreateAuthenticated(claims.ApplicationId, claims.LanguageCode, jwt);
 
-            var isAuthenticated = await client.Gateway.Accounts.IsAuthenticated();
+            var isAuthenticated = await client.Gateway.Accounts.CheckIfLoggedIn();
 
             if (isAuthenticated)
             {

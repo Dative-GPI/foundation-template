@@ -65,7 +65,7 @@ namespace Foundation.Template.CrossCutting.Services
             try
             {
                 var client = await _foundationClientFactory.CreateAnonymous(applicationId, languageCode);
-                var foundationTranslations = await client.Gateway.Translations.GetMany(languageCode);
+                var foundationTranslations = await client.Gateway.Translations.Get(languageCode);
 
                 return foundationTranslations.Select(tr => new ApplicationTranslation()
                 {

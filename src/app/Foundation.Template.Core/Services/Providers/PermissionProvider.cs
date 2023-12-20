@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Foundation.Clients.Abstractions;
-using Foundation.Clients.ViewModels.Core;
 using Foundation.Template.Domain.Repositories.Filters;
 using Foundation.Template.Domain.Repositories.Interfaces;
 using Foundation.Template.Core.Abstractions;
 using Foundation.Template.Domain.Abstractions;
+
 
 namespace Foundation.Template.Core.Tools
 {
@@ -50,7 +50,7 @@ namespace Foundation.Template.Core.Tools
             var client = await _foundationClientFactory.CreateAuthenticated(context.ApplicationId, context.LanguageCode, context.Jwt);
             var foundationPermissions = await GetFoundationPermissions(client, organisationId);
 
-            var organisation = await client.Core.Organisations.Get(organisationId);
+            var organisation = await client.Gateway.Organisations.Get(organisationId);
             var organisationTypePermissions = await GetOrganisationTypePermissions(organisation.OrganisationTypeId);
 
             if (organisation.AdminId == context.ActorId)
@@ -71,7 +71,7 @@ namespace Foundation.Template.Core.Tools
 
         private async Task<IEnumerable<string>> GetFoundationPermissions(IFoundationClient client, Guid organisationId)
         {
-            var permissions = await client.Core.Permissions.GetMany(organisationId);
+            var permissions = await client.Core.Permissions.GetCurrent(organisationId);
             return permissions.Select(permission => permission.Code).ToList();
         }
 
@@ -94,11 +94,11 @@ namespace Foundation.Template.Core.Tools
             return role.Permissions.Select(rp => rp.Code).ToList();
         }
 
-        private async Task<UserOrganisationInfosViewModel> GetUserOrganisation(IFoundationClient client, Guid organisationId, Guid userId)
+        private async Task<Clients.Core.FoundationModels.UserOrganisationInfosFoundationModel> GetUserOrganisation(IFoundationClient client, Guid organisationId, Guid userId)
         {
             var userOrganisations = await client.Core.UserOrganisations.GetMany(
                 organisationId,
-                new UserOrganisationFilterViewModel()
+                new Clients.Core.FoundationModels.UserOrganisationsFilterFoundationModel()
                 {
                     UserId = userId
                 }

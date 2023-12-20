@@ -10,8 +10,8 @@ namespace Foundation.Template.Core
 {
     public class RoleOrganisationQuery : ICoreRequest, IRequest<RoleOrganisationDetails>
     {
-        public IEnumerable<string> Authorizations => new[] { CoreAuthorizations.APP_PERMISSIONROLE_INFOS };
-        
+        public IEnumerable<string> Authorizations => new[] { "app.permissionrole.infos" };
+
         public Guid RoleOrganisationId { get; set; }
     }
 }

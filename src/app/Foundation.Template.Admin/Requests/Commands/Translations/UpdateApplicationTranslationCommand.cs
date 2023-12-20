@@ -10,7 +10,7 @@ namespace Foundation.Template.Admin.Requests
 {
     public class UpdateApplicationTranslationCommand : ICoreRequest, IRequest
     {
-        public IEnumerable<string> Authorizations => new[] { AdminAuthorizations.ADMIN_APPLICATIONTRANSLATION_UPDATE };
+        public IEnumerable<string> Authorizations => new[] { "admin.application-translation.update" };
 
         public List<UpdateApplicationTranslation> ApplicationTranslations { get; set; }
     }

@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 
-using Foundation.Clients.ViewModels.Core;
-
 using Foundation.Template.Core.Tools;
 using Foundation.Template.Core.Models;
 using Foundation.Template.Domain.Models;
 using Foundation.Template.Domain.Abstractions;
+using Foundation.Clients.Core.FoundationModels;
 
 namespace Foundation.Template.Core.Middlewares
 {
@@ -61,7 +60,7 @@ namespace Foundation.Template.Core.Middlewares
                 var foundationClientFactory = context.RequestServices.GetRequiredService<IFoundationClientFactory>();
                 var foundationClient = await foundationClientFactory.CreateAuthenticated(applicationId, languageCode, jwt);
 
-                var organisation = await foundationClient.Core.Organisations.Get(organisationId);
+                var organisation = await foundationClient.Gateway.Organisations.Get(organisationId);
 
                 if (organisation == null)
                 {
@@ -71,7 +70,8 @@ namespace Foundation.Template.Core.Middlewares
                 organisationAdminId = organisation.AdminId;
                 organisationTypeId = organisation.OrganisationTypeId;
 
-                var userOrganisations = await foundationClient.Core.UserOrganisations.GetMany(organisationId, new UserOrganisationFilterViewModel(){
+                var userOrganisations = await foundationClient.Core.UserOrganisations.GetMany(organisationId, new UserOrganisationsFilterFoundationModel()
+                {
                     UserId = actorId
                 });
 

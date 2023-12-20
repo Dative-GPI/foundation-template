@@ -10,6 +10,6 @@ namespace Foundation.Template.Admin
 {
     public class PermissionOrganisationCategoriesQuery : ICoreRequest, IRequest<IEnumerable<PermissionOrganisationCategory>>
     {
-        public IEnumerable<string> Authorizations => new[] { AdminAuthorizations.ADMIN_PERMISSION_CATEGORY };
+        public IEnumerable<string> Authorizations => new[] { "admin.permission.category" };
     }
 }
