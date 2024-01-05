@@ -97,7 +97,7 @@ namespace Foundation.Template.Fixtures
 
             Logger.LogInformation("{count} {type} new", news.Count(), typeof(TDTO).Name);
 
-            var saved = formers.Join(alls, f => f.Code, a => a.Code, (f, a) => update(a, f)) // formers still present
+            var saved = alls.Join(formers, a => a.Code, f => f.Code, (a, f) => update(a, f)) // formers still present
                 .Concat(news.Select(n => create(n))) // + news
                 .ToList();
 
