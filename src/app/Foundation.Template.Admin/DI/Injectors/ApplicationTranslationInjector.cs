@@ -21,21 +21,43 @@ namespace Foundation.Template.Admin.DI
             {
                 var pipeline = sp.GetPipelineFactory<ApplicationTranslationsQuery, IEnumerable<ApplicationTranslation>>()
                     .With<PermissionAdminsMiddleware>()
-					.Add<ApplicationTranslationsQueryHandler>()
+                    .Add<ApplicationTranslationsQueryHandler>()
                     .Build();
 
                 return pipeline;
             });
 
-            
+
             services.AddScoped<UpdateApplicationTranslationsCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateApplicationTranslationCommand>>(sp => 
+            services.AddScoped<ICommandHandler<UpdateApplicationTranslationCommand>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<UpdateApplicationTranslationCommand>()
                     .Add<PermissionAdminsMiddleware>()
                     .Add<UpdateApplicationTranslationsCommandHandler>()
                     .Build();
-                
+
+                return pipeline;
+            });
+
+            services.AddScoped<DownloadApplicationTranslationsCommandHandler>();
+            services.AddScoped<ICommandHandler<DownloadApplicationTranslationsCommand>>(sp =>
+            {
+                var pipeline = sp.GetPipelineFactory<DownloadApplicationTranslationsCommand>()
+                    .Add<PermissionAdminsMiddleware>()
+                    .Add<DownloadApplicationTranslationsCommandHandler>()
+                    .Build();
+
+                return pipeline;
+            });
+
+            services.AddScoped<UploadApplicationTranslationsCommandHandler>();
+            services.AddScoped<ICommandHandler<UploadApplicationTranslationsCommand>>(sp =>
+            {
+                var pipeline = sp.GetPipelineFactory<UploadApplicationTranslationsCommand>()
+                    .Add<PermissionAdminsMiddleware>()
+                    .Add<UploadApplicationTranslationsCommandHandler>()
+                    .Build();
+
                 return pipeline;
             });
 
