@@ -50,7 +50,7 @@ namespace Foundation.Template.CrossCutting.Services
 
         private async Task<IEnumerable<ApplicationTranslation>> FetchApplicationTranslations(Guid applicationId, string languageCode)
         {
-            var filter = new ApplicationTranslationFilter()
+            var filter = new ApplicationTranslationsFilter()
             {
                 ApplicationId = applicationId,
                 LanguageCode = languageCode

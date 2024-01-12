@@ -34,7 +34,7 @@ namespace Foundation.Template.Admin.Handlers
             var context = _requestContextProvider.Context;
             var translations = await _translationRepository.GetMany();
 
-            var formerTranslations = await _applicationTranslationRepository.GetMany(new ApplicationTranslationFilter()
+            var formerTranslations = await _applicationTranslationRepository.GetMany(new ApplicationTranslationsFilter()
             {
                 ApplicationId = context.ApplicationId
             });
@@ -43,9 +43,9 @@ namespace Foundation.Template.Admin.Handlers
 
             await _applicationTranslationRepository.CreateRange(
                 request.ApplicationTranslations.Join(
-                    translations, 
-                    t => t.TranslationCode, 
-                    t => t.Code, 
+                    translations,
+                    t => t.TranslationCode,
+                    t => t.Code,
                     (req, tr) => new CreateApplicationTranslation()
                     {
                         ApplicationId = context.ApplicationId,
