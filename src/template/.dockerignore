@@ -1,0 +1,13 @@
+**/node_modules
+**/bin
+**/obj
+**/ci
+**/tests
+**/.*
+**/*.local
+**/*.md
+**/*.dockerfile
+
+!**/.env
+!**/.eslintrc.js
+!/ci/confs/**

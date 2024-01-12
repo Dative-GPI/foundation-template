@@ -1,0 +1,152 @@
+version: "3"
+
+services:
+  traefik:
+    image: traefik:v2.4
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    ports:
+      - 443:443
+      - 8080:8080
+
+  timescale:
+    image: timescale/timescaledb:latest-pg12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+  
+  proxy-core:
+    image: dativegpi/foundation-template-proxy:0.0.11
+    environment:
+      CUSTOMCONNSTR_FOUNDATION: https://mountain.dative-gpi.io
+      CUSTOMCONNSTR_LOCAL: https://extension.localhost
+    extra_hosts:
+      - "extension.localhost:172.17.0.1"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.proxy-core.loadbalancer.server.port=80"
+      - "traefik.http.routers.proxy-core.rule=Host(`foundation.localhost`)"
+      - "traefik.http.routers.proxy-core.entrypoints=websecure"
+      - "traefik.http.routers.proxy-core.tls=true"
+    
+  proxy-admin:
+    image: dativegpi/foundation-template-proxy:0.0.11
+    environment:
+      CUSTOMCONNSTR_FOUNDATION: https://mountain-admin.dative-gpi.io
+      CUSTOMCONNSTR_LOCAL: https://extension.localhost
+    extra_hosts:
+      - "extension.localhost:172.17.0.1"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.proxy-admin.loadbalancer.server.port=80"
+      - "traefik.http.routers.proxy-admin.rule=Host(`foundation-admin.localhost`)"
+      - "traefik.http.routers.proxy-admin.entrypoints=websecure"
+      - "traefik.http.routers.proxy-admin.tls=true"
+
+  core:
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/dotnet.dockerfile
+      args:
+        PROJECT: src/app/core/XXXXX.Core.API
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      DOTNET_URLS: http://+:80
+      CUSTOMCONNSTR_PGSQL: Host=timescale;Database=data-extension;Username=postgres;Password=example
+  
+  admin:
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/dotnet.dockerfile
+      args:
+        PROJECT: src/app/admin/XXXXX.Admin.API
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      DOTNET_URLS: http://+:80
+      CUSTOMCONNSTR_PGSQL: Host=timescale;Database=data-extension;Username=postgres;Password=example
+
+  gateway:
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/dotnet.dockerfile
+      args:
+        PROJECT: src/app/gateway/XXXXX.Gateway.API
+    ports:
+      - 5050:80
+    environment:
+      MEDIATOR__ENDPOINTURI: amqp://rabbitmq
+      DOTNET_ENVIRONMENT: Development
+      DOTNET_URLS: http://+:80
+      CUSTOMCONNSTR_PGSQL: Host=timescale;Database=data-extension;Username=postgres;Password=example
+      IMAGE__RAWFOLDER: /images/raw
+      IMAGE__THUMBNAILFOLDER: /images/thumbnails
+    labels:
+      - 'custom.label=extension'
+      - "traefik.enable=true"
+      - "traefik.http.services.extension-backend.loadbalancer.server.port=80"
+      - "traefik.http.routers.extension-backend.rule=(Host(`extension-admin.localhost`)|| Host(`extension.localhost`)) && (PathPrefix(`/api`))"
+      - "traefik.http.routers.extension-backend.entrypoints=websecure"
+      - "traefik.http.routers.extension-backend.tls=true"
+
+  ui:
+    build:
+      context: ..
+      dockerfile: dev/dockerfiles/vue.dockerfile
+      args:
+        PROJECT: "src/app/core/XXXXX.Core.UI"
+    volumes: # hot reload
+      - ../src/app/core/XXXXX.Core.UI/public:/app/src/app/core/XXXXX.Core.UI/public:delegated
+      - ../src/app/core/XXXXX.Core.UI/src:/app/src/app/core/XXXXX.Core.UI/src:delegated
+      - ../src/app/core/XXXXX.Core.UI/index.html:/app/src/app/core/XXXXX.Core.UI/index.html:delegated
+      - ../src/app/core/XXXXX.Core.UI/.env:/app/src/app/core/XXXXX.Core.UI/.env:delegated
+      - ../src/app/core/XXXXX.Core.UI/tsconfig.json:/app/src/app/core/XXXXX.Core.UI/tsconfig.json:delegated
+      - ../src/app/core/XXXXX.Core.UI/tsconfig.node.json:/app/src/app/core/XXXXX.Core.UI/tsconfig.node.json:delegated
+      - ../src/app/core/XXXXX.Core.UI/vite.config.ts:/app/src/app/core/XXXXX.Core.UI/vite.config.ts:delegated
+    labels:
+      - "custom.label=extension"
+      - "traefik.enable=true"
+      - "traefik.http.services.extension-frontend.loadbalancer.server.port=3000"
+      - "traefik.http.routers.extension-frontend.rule=Host(`extension.localhost`) && PathPrefix(`/`)"
+      - "traefik.http.routers.extension-frontend.entrypoints=websecure"
+      - "traefik.http.routers.extension-frontend.tls=true"
+  
+  admin-ui:
+    build:
+      context: ..
+      dockerfile: dev/dockerfiles/vue.dockerfile
+      args:
+        PROJECT: "src/app/admin/XXXXX.Admin.UI"
+    volumes: # hot reload
+    - ../src/app/admin/XXXXX.Admin.UI/public:/app/src/app/admin/XXXXX.Admin.UI/public:delegated
+    - ../src/app/admin/XXXXX.Admin.UI/src:/app/src/app/admin/XXXXX.Admin.UI/src:delegated
+    - ../src/app/admin/XXXXX.Admin.UI/.env:/app/src/app/admin/XXXXX.Admin.UI/.env:delegated
+    - ../src/app/admin/XXXXX.Admin.UI/.eslintrc.js:/app/src/app/admin/XXXXX.Admin.UI/.eslintrc.js:delegated
+    - ../src/app/admin/XXXXX.Admin.UI/babel.config.js:/app/src/app/admin/XXXXX.Admin.UI/babel.config.js:delegated
+    - ../src/app/admin/XXXXX.Admin.UI/tsconfig.json:/app/src/app/admin/XXXXX.Admin.UI/tsconfig.json:delegated
+    - ../src/app/admin/XXXXX.Admin.UI/vue.config.js:/app/src/app/admin/XXXXX.Admin.UI/vue.config.js:delegated
+    labels:
+      - "custom.label=extension"
+      - "traefik.enable=true"
+      - "traefik.http.services.extension-frontend-admin.loadbalancer.server.port=8080"
+      - "traefik.http.routers.extension-frontend-admin.rule=Host(`extension-admin.localhost`) && PathPrefix(`/`)"
+      - "traefik.http.routers.extension-frontend-admin.entrypoints=websecure"
+      - "traefik.http.routers.extension-frontend-admin.tls=true"
+
+  migrations:
+    build:
+      context: ..
+      dockerfile: dev/dockerfiles/dotnet.dockerfile
+      args:
+        PROJECT: src/context/XXXXX.Context.Migrations
+    environment:
+      CUSTOMCONNSTR_PGSQL: Host=timescale;Database=data-extension;Username=postgres;Password=example
+
+volumes:
+  data-postgres:

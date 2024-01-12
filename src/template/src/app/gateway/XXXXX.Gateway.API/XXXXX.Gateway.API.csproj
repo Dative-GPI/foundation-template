@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Foundation.Template.Gateway" Version="$(TEMPLATE_VERSION)" />
+    <PackageReference Include="Foundation.Template.CrossCutting" Version="$(TEMPLATE_VERSION)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XXXXX.Gateway.Kernel\XXXXX.Gateway.Kernel.csproj" />
+    <ProjectReference Include="..\..\..\context\XXXXX.Context.Kernel\XXXXX.Context.Kernel.csproj" />
+  </ItemGroup>
+</Project>
