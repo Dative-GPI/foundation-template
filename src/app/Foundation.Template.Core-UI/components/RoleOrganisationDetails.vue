@@ -19,6 +19,7 @@ import {
 } from "vue";
 
 import { usePermissions, useRoleOrganisation, useUpdateRoleOrganisation } from "../composables";
+import { PermissionOrganisationInfos } from "../domain";
 
 export default defineComponent({
   props: {
@@ -44,7 +45,7 @@ export default defineComponent({
       if (!roleOrganisation.value) return;
 
       selectedPermissions.value = roleOrganisation.value.permissions.map(
-        (p) => p.id
+        (p: PermissionOrganisationInfos) => p.id
       );
     };
 
