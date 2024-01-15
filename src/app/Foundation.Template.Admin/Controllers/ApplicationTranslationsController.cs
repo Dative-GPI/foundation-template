@@ -28,11 +28,11 @@ namespace Foundation.Template.Admin.Controllers
             return Ok(translations);
         }
 
-        [HttpPost("application-translations")]
-        public async Task<IActionResult> UpdateRange([FromBody] IEnumerable<UpdateApplicationTranslationViewModel> payload)
+        [HttpPost("application-translations/{code}")]
+        public async Task<IActionResult> UpdateRange([FromRoute] string code, [FromBody] UpdateApplicationTranslationViewModel payload)
         {
-            await _applicationTranslationService.UpdateRange(payload);
-            return Ok();
+            var applicationTranslations = await _applicationTranslationService.Update(code, payload);
+            return Ok(applicationTranslations);
         }
 
         [HttpGet("application-translations/workbook")]

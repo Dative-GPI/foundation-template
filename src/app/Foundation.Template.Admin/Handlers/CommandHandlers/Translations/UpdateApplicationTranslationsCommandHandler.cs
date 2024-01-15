@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Bones.Flow;
 using Foundation.Template.Admin.Abstractions;
 using Foundation.Template.Admin.Requests;
+using Foundation.Template.Domain.Models;
 using Foundation.Template.Domain.Repositories.Commands;
 using Foundation.Template.Domain.Repositories.Filters;
 using Foundation.Template.Domain.Repositories.Interfaces;
@@ -29,32 +30,34 @@ namespace Foundation.Template.Admin.Handlers
             _applicationTranslationRepository = applicationTranslationRepository;
         }
 
-        public async Task HandleAsync(UpdateApplicationTranslationCommand request, Func<Task> next, CancellationToken cancellationToken)
+        public async Task HandleAsync(UpdateApplicationTranslationCommand command, Func<Task> next, CancellationToken cancellationToken)
         {
-            var context = _requestContextProvider.Context;
-            var translations = await _translationRepository.GetMany();
 
-            var formerTranslations = await _applicationTranslationRepository.GetMany(new ApplicationTranslationsFilter()
+            var context = _requestContextProvider.Context;
+            var defaultTranslation = (await _translationRepository.GetMany())
+                 .FirstOrDefault(t => t.Code == command.Code);
+
+            if (defaultTranslation == default)
+            {
+                throw new Exception(ErrorCode.EntityNotFound);
+            }
+
+            var formerTranslations = (await _applicationTranslationRepository.GetMany(new ApplicationTranslationsFilter()
             {
                 ApplicationId = context.ApplicationId
-            });
+            })).Where(at => at.TranslationCode == command.Code);
 
             await _applicationTranslationRepository.RemoveRange(formerTranslations.Select(t => t.Id));
 
-            await _applicationTranslationRepository.CreateRange(
-                request.ApplicationTranslations.Join(
-                    translations,
-                    t => t.TranslationCode,
-                    t => t.Code,
-                    (req, tr) => new CreateApplicationTranslation()
-                    {
-                        ApplicationId = context.ApplicationId,
-                        LanguageCode = req.LanguageCode,
-                        TranslationId = tr.Id,
-                        Value = req.Value
-                    }
-                )
-            );
+            var newTranslations = command.Translations.Select(t => new CreateApplicationTranslation()
+            {
+                ApplicationId = context.ApplicationId,
+                LanguageCode = t.LanguageCode,
+                TranslationId = defaultTranslation.Id,
+                Value = t.Value
+            });
+
+            await _applicationTranslationRepository.CreateRange(newTranslations);
         }
     }
 }

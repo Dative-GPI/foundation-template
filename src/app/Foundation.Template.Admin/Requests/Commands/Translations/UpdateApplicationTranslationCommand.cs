@@ -12,13 +12,13 @@ namespace Foundation.Template.Admin.Requests
     {
         public IEnumerable<string> Authorizations => new[] { "admin.application-translation.update" };
 
-        public List<UpdateApplicationTranslation> ApplicationTranslations { get; set; }
+        public string Code { get; set; }
+        public IEnumerable<UpdateApplicationTranslationLanguageCommand> Translations { get; set; }
     }
 
-    public class UpdateApplicationTranslation
+    public class UpdateApplicationTranslationLanguageCommand
     {
         public string LanguageCode { get; set; }
         public string Value { get; set; }
-        public string TranslationCode { get; set; }
     }
 }
