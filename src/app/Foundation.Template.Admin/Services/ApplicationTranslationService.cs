@@ -48,19 +48,28 @@ namespace Foundation.Template.Admin.Services
             _mapper = mapper;
         }
 
-        public async Task UpdateRange(IEnumerable<UpdateApplicationTranslationViewModel> payload)
+        public async Task<IEnumerable<ApplicationTranslationViewModel>> Update(string code, UpdateApplicationTranslationViewModel payload)
         {
+
+            var context = _requestContextProvider.Context;
             var command = new UpdateApplicationTranslationCommand()
             {
-                ApplicationTranslations = payload.Select(tr => new UpdateApplicationTranslation()
+
+                Code = code,
+                Translations = payload.Translations.Select(t => new UpdateApplicationTranslationLanguageCommand()
                 {
-                    LanguageCode = tr.LanguageCode,
-                    TranslationCode = tr.TranslationCode,
-                    Value = tr.Value
-                }).ToList()
+                    LanguageCode = t.LanguageCode,
+                    Value = t.Value
+                })
             };
 
             await _updateApplicationTranslationsCommandHandler.HandleAsync(command);
+            var result = await _applicationTranslationRepository.GetMany(new ApplicationTranslationsFilter()
+            {
+                ApplicationId = context.ApplicationId,
+            });
+
+            return _mapper.Map<IEnumerable<ApplicationTranslation>, IEnumerable<ApplicationTranslationViewModel>>(result);
         }
 
         public async Task<IEnumerable<ApplicationTranslationViewModel>> GetMany(TranslationsFilterViewModel filter)

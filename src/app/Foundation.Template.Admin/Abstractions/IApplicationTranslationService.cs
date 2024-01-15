@@ -10,7 +10,7 @@ namespace Foundation.Template.Admin.Abstractions
     public interface IApplicationTranslationService
     {
         Task<IEnumerable<ApplicationTranslationViewModel>> GetMany(TranslationsFilterViewModel filter);
-        Task UpdateRange(IEnumerable<UpdateApplicationTranslationViewModel> payload);
+        Task<IEnumerable<ApplicationTranslationViewModel>> Update(string code, UpdateApplicationTranslationViewModel payload);
         Task Download(Stream file);
         Task<IEnumerable<ApplicationTranslationViewModel>> Upload(IEnumerable<ApplicationTranslationsColumnViewModel> languagesCodes, Stream file);
     }
