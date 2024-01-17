@@ -1,3 +1,7 @@
+using System.Net;
+using System.Net.Http;
+using System.Diagnostics;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -24,10 +28,16 @@ builder.Services.AddKernel(builder.Configuration);
 builder.Services.AddGatewayTemplate(builder.Configuration);
 builder.Services.AddContext(builder.Configuration);
 builder.Services.AddCrossCutting(builder.Configuration);
-builder.Services.AddHttpClient();
 
-builder.Services.AddAuthentication("Custom"); // to remove
 builder.Services.AddHealthChecks();
+
+builder.Services.AddHttpClient(string.Empty, c => { }).ConfigurePrimaryHttpMessageHandler(() =>
+    new HttpClientHandler
+    {
+        ClientCertificateOptions = ClientCertificateOption.Manual,
+        ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, certChain, policyErrors) => true
+    }
+);
 
 var app = builder.Build();
 

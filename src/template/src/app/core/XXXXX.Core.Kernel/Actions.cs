@@ -18,7 +18,6 @@ namespace XXXXX.Core.Kernel
         {
             new ActionDefinition()
             {
-                Authorizations = new [] { Foundation.Clients.APP_DEVICEORGANISATION_CREATE },
                 LabelCode = "ui.devices.add-connected",
                 LabelDefault = "Add connected device",
                 Icon = "mdi-wifi",
@@ -37,7 +36,7 @@ namespace XXXXX.Core.Kernel
                 ComputePath = async (dico, sp) => {
                     var ctx = sp.GetRequiredService<IRequestContextProvider>().Context;
                     var client = await sp.GetRequiredService<IFoundationClientFactory>().CreateAuthenticated(ctx.ApplicationId, ctx.LanguageCode, ctx.Jwt);
-                    var device = await client.Core.Devices.Get(ctx.OrganisationId.Value, Guid.Parse(dico["deviceId"]));
+                    var device = await client.Core.DeviceOrganisations.Get(ctx.OrganisationId.Value, Guid.Parse(dico["deviceId"]));
                     return $"{device.Code}&{device.ArticleCode}";
                 }
             }

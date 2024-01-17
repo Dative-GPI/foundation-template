@@ -1,3 +1,7 @@
+using System.Net;
+using System.Net.Http;
+using System.Diagnostics;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,8 +23,15 @@ builder.Services.AddKernel(builder.Configuration);
 builder.Services.AddCoreTemplate(builder.Configuration);
 builder.Services.AddContext(builder.Configuration);
 builder.Services.AddCrossCutting(builder.Configuration);
-builder.Services.AddHttpClient();
 
+
+builder.Services.AddHttpClient(string.Empty, c => { }).ConfigurePrimaryHttpMessageHandler(() =>
+    new HttpClientHandler
+    {
+        ClientCertificateOptions = ClientCertificateOption.Manual,
+        ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, certChain, policyErrors) => true
+    }
+);
 
 var app = builder.Build();
 
@@ -33,6 +44,6 @@ if (app.Environment.IsDevelopment())
 app.UseCoreTemplate();
 
 app.MapControllers();
-app.MapCoreTemplateControllers(null);
+app.MapCoreTemplateControllers();
 
 app.Run();

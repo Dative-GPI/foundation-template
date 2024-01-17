@@ -5,19 +5,9 @@ import { routes as templateRoutes } from "@dative-gpi/foundation-template-core-u
 
 const routes = [
   {
-    path: '/organisations/:organisationId/teleport/connect/:roomId?',
-    name: 'connect',
-    component: () => import('@/views/Connect.vue'),
-  },
-  {
-    path: '/organisations/:organisationId/teleport/rooms',
-    name: 'rooms',
-    component: () => import('@/views/Rooms.vue'),
-  },
-  {
-    path: '/organisations/:organisationId/teleport/rooms/:roomId',
-    name: 'room',
-    component: () => import('@/views/Room.vue'),
+    path: '/organisations/:organisationId/xxxxx/home',
+    name: 'home',
+    component: () => import('@/views/Home.vue'),
   },
 ]
 

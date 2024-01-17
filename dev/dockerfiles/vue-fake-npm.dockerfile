@@ -1,7 +1,5 @@
 FROM node:lts AS build-env
 
-ARG PROJECT
-
 WORKDIR /app
 
 RUN pwd
@@ -22,3 +20,4 @@ ENV NODE_OPTIONS="--max-old-space-size=8192"
 RUN npm install
 
 ENTRYPOINT npm run dev -w $PROJECT
+# ENTRYPOINT sleep 6000000000000

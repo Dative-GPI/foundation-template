@@ -17,7 +17,9 @@ export default defineConfig({
     vuetify({
       autoImport: true,
     }),
-    FoundationSharedAutoImport()
+    FoundationSharedAutoImport({
+      skipCore: true
+    })
   ],
   define: { 'process.env': {} },
   resolve: {
@@ -44,6 +46,6 @@ export default defineConfig({
     commonjsOptions: {
       include: [/ajv/, /axios/, /lodash/, /node_modules/, /color/],
     },
-    assetsDir: "dist",
+    assetsDir: "admin/dist",
   },
 })

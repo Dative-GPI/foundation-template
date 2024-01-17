@@ -95,7 +95,7 @@ services:
       - "traefik.http.routers.extension-backend.entrypoints=websecure"
       - "traefik.http.routers.extension-backend.tls=true"
 
-  ui:
+  core-ui:
     build:
       context: ..
       dockerfile: dev/dockerfiles/vue.dockerfile
@@ -124,18 +124,18 @@ services:
       args:
         PROJECT: "src/app/admin/XXXXX.Admin.UI"
     volumes: # hot reload
-    - ../src/app/admin/XXXXX.Admin.UI/public:/app/src/app/admin/XXXXX.Admin.UI/public:delegated
-    - ../src/app/admin/XXXXX.Admin.UI/src:/app/src/app/admin/XXXXX.Admin.UI/src:delegated
-    - ../src/app/admin/XXXXX.Admin.UI/.env:/app/src/app/admin/XXXXX.Admin.UI/.env:delegated
-    - ../src/app/admin/XXXXX.Admin.UI/.eslintrc.js:/app/src/app/admin/XXXXX.Admin.UI/.eslintrc.js:delegated
-    - ../src/app/admin/XXXXX.Admin.UI/babel.config.js:/app/src/app/admin/XXXXX.Admin.UI/babel.config.js:delegated
-    - ../src/app/admin/XXXXX.Admin.UI/tsconfig.json:/app/src/app/admin/XXXXX.Admin.UI/tsconfig.json:delegated
-    - ../src/app/admin/XXXXX.Admin.UI/vue.config.js:/app/src/app/admin/XXXXX.Admin.UI/vue.config.js:delegated
+      - ../src/app/admin/XXXXX.Admin.UI/public:/app/src/app/admin/XXXXX.Admin.UI/public:delegated
+      - ../src/app/admin/XXXXX.Admin.UI/src:/app/src/app/admin/XXXXX.Admin.UI/src:delegated
+      - ../src/app/admin/XXXXX.Admin.UI/index.html:/app/src/app/admin/XXXXX.Admin.UI/index.html:delegated
+      - ../src/app/admin/XXXXX.Admin.UI/.env:/app/src/app/admin/XXXXX.Admin.UI/.env:delegated
+      - ../src/app/admin/XXXXX.Admin.UI/tsconfig.json:/app/src/app/admin/XXXXX.Admin.UI/tsconfig.json:delegated
+      - ../src/app/admin/XXXXX.Admin.UI/tsconfig.node.json:/app/src/app/admin/XXXXX.Admin.UI/tsconfig.node.json:delegated
+      - ../src/app/admin/XXXXX.Admin.UI/vite.config.ts:/app/src/app/admin/XXXXX.Admin.UI/vite.config.ts:delegated
     labels:
       - "custom.label=extension"
       - "traefik.enable=true"
-      - "traefik.http.services.extension-frontend-admin.loadbalancer.server.port=8080"
-      - "traefik.http.routers.extension-frontend-admin.rule=Host(`extension-admin.localhost`) && PathPrefix(`/`)"
+      - "traefik.http.services.extension-frontend-admin.loadbalancer.server.port=3000"
+      - "traefik.http.routers.extension-frontend-admin.rule=Host(`extension.localhost`) && PathPrefix(`/admin`)"
       - "traefik.http.routers.extension-frontend-admin.entrypoints=websecure"
       - "traefik.http.routers.extension-frontend-admin.tls=true"
 
