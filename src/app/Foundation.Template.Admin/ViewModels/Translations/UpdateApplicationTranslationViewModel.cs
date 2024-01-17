@@ -5,7 +5,11 @@ namespace Foundation.Template.Admin.ViewModels
 {
     public class UpdateApplicationTranslationViewModel
     {
-        public string TranslationCode { get; set; }
+        public IEnumerable<UpdateApplicationTranslationLanguageViewModel> Translations { get; set; }
+    }
+
+    public class UpdateApplicationTranslationLanguageViewModel
+    {
         public string LanguageCode { get; set; }
         public string Value { get; set; }
     }

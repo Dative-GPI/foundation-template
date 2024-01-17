@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 
@@ -25,10 +26,10 @@ namespace Foundation.Template.Admin.AutoMapper
 
             CreateMap<RoleAdminDetails, RoleAdminDetailsViewModel>()
                 .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(r => r.Permissions.Select(p => p.Id).ToList()));
-                
+
             CreateMap<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>()
                 .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(r => r.Permissions.Select(p => p.Id).ToList()));
-            
+
             CreateMap<OrganisationTypePermissionOrganisationInfos, OrganisationTypePermissionOrganisationInfosViewModel>();
         }
     }

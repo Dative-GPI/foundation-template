@@ -1,0 +1,30 @@
+using System.Collections.Generic;
+using Foundation.Template.Admin.Models;
+
+namespace Foundation.Template.Admin
+{
+    public static class Routes
+    {
+        private static readonly RouteDefinition[] ROUTES = new RouteDefinition[] {
+            new RouteDefinition()
+            {
+                Authorizations = new string[] {},
+                Path = "/v1/application-translations",
+                Name = "apps.foundation-template.drawer",
+                DrawerCategoryLabelDefault = null,
+                DrawerCategoryCode = null,
+                DrawerIcon = null,
+                DrawerLabelDefault = null,
+                DrawerLabelCode = null,
+                Exact = false,
+                ShowOnDrawer = false
+            },
+        };
+
+
+        public static IEnumerable<RouteDefinition> GetRoutes()
+        {
+            return ROUTES;
+        }
+    }
+}
