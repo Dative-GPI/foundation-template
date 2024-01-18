@@ -22,7 +22,7 @@ namespace Foundation.Template.Admin.Controllers
         }
 
         [HttpGet("application-translations")]
-        public async Task<IActionResult> GetMany([FromQuery] TranslationsFilterViewModel filter)
+        public async Task<IActionResult> GetMany([FromQuery] ApplicationTranslationViewModel filter)
         {
             var translations = await _applicationTranslationService.GetMany(filter);
             return Ok(translations);

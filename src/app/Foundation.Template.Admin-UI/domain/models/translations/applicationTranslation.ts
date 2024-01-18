@@ -45,5 +45,5 @@ export interface ApplicationTranslationsColumn {
 
 export interface ApplicationTranslationsFilter {
     languageCode?: string;
-    prefix?: string;
+    translationCode?: string;
 }

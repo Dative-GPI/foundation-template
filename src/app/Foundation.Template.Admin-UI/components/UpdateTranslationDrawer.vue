@@ -4,7 +4,7 @@
     :title="$tr('ui.admin.translations.update-translation-drawer', 'Update translation')"
     v-model:value="drawer"
   >
-    <v-skeleton-loader type="article" v-if="!translation || !applicationTranslationCodes" />
+    <v-skeleton-loader type="article" v-if="!translation || !applicationTranslations" />
 
     <template v-else>
       <FSCol :gap="12">
@@ -80,8 +80,6 @@ export default defineComponent({
 
     const newTranslations = ref<UpdateApplicationTranslationLanguage[]>([]);
 
-    const applicationTranslationCodes = ref<ApplicationTranslation[]>([]);
-
     const { upserted, upsert, upserting } = useUpsertApplicationTranslation();
 
     const {
@@ -136,8 +134,6 @@ export default defineComponent({
     };
 
     const updateTranslations = () => {
-      // removeRange(applicationTranslationCodes);
-      // addRange
       upsert(translation.value.code, {
         translations: newTranslations.value,
       }).then(() => {
@@ -156,12 +152,8 @@ export default defineComponent({
 
     const fetch = async () => {
       await getManyLanguages();
-      await getManyApplicationTranslations();
-      applicationTranslationCodes.value = _.filter(
-        applicationTranslations.value,
-        (x) => x.translationCode == translation.value.code
-      );
-      newTranslations.value = applicationTranslationCodes.value.map((at) => new ApplicationTranslation(at));
+      await getManyApplicationTranslations({ translationCode: translation.value.code });
+      newTranslations.value = applicationTranslations.value.map((at) => new ApplicationTranslation(at));
     };
 
     onMounted(fetch);
@@ -173,7 +165,7 @@ export default defineComponent({
       items,
       fetchingLanguages,
       languages,
-      applicationTranslationCodes,
+      applicationTranslations,
       updateTranslations,
       close,
       getValue,

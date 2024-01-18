@@ -73,11 +73,12 @@ namespace Foundation.Template.Admin.Services
             return _mapper.Map<IEnumerable<ApplicationTranslation>, IEnumerable<ApplicationTranslationViewModel>>(result);
         }
 
-        public async Task<IEnumerable<ApplicationTranslationViewModel>> GetMany(TranslationsFilterViewModel filter)
+        public async Task<IEnumerable<ApplicationTranslationViewModel>> GetMany(ApplicationTranslationViewModel filter)
         {
             var query = new ApplicationTranslationsQuery()
             {
-                LanguageCode = filter.LanguageCode
+                LanguageCode = filter.LanguageCode,
+                TranslationCode = filter.TranslationCode
             };
 
             var results = await _applicationTranslationsQueryHandler.HandleAsync(query);

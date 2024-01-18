@@ -54,6 +54,10 @@ namespace Foundation.Template.Context.Repositories
             {
                 query = query.Where(ta => ta.LanguageCode == filter.LanguageCode);
             }
+            if (!string.IsNullOrWhiteSpace(filter.TranslationCode))
+            {
+                query = query.Where(ta => ta.Translation.Code == filter.TranslationCode);
+            }
             if (filter.Codes != null)
             {
                 query = query.Where(ta => filter.Codes.Contains(ta.Translation.Code));

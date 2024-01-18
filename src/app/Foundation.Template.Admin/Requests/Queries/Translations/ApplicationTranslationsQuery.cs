@@ -13,5 +13,8 @@ namespace Foundation.Template.Admin.Requests
         public IEnumerable<string> Authorizations => new string[] { "admin.application-translation.infos" };
 
         public string LanguageCode { get; set; }
+
+        public string TranslationCode { get; set; }
+
     }
 }

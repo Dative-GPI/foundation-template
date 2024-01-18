@@ -1,5 +1,4 @@
 import { RouteRecordRaw } from "vue-router";
-import SimpleTitle from "../components/shared/SimpleTitle.vue";
 import { IMPORT_TRANSLATIONS_DRAWER_URL } from "../config";
 
 const drawersRoutes: RouteRecordRaw[] = [
@@ -8,7 +7,6 @@ const drawersRoutes: RouteRecordRaw[] = [
         name: "update-translation-drawer",
         components: {
             default: () => import("../components/UpdateTranslationDrawer.vue"),
-            title: SimpleTitle
         },
         meta: {
             exact: false,
@@ -20,7 +18,6 @@ const drawersRoutes: RouteRecordRaw[] = [
         name: "import-translations-drawer",
         components: {
             default: () => import("../components/ImportTranslationsDrawer.vue"),
-            title: SimpleTitle
         },
         meta: {
             exact: false,
