@@ -67,6 +67,7 @@ namespace Foundation.Template.Admin.Services
             var result = await _applicationTranslationRepository.GetMany(new ApplicationTranslationsFilter()
             {
                 ApplicationId = context.ApplicationId,
+                Codes = new List<string>() { code }
             });
 
             return _mapper.Map<IEnumerable<ApplicationTranslation>, IEnumerable<ApplicationTranslationViewModel>>(result);

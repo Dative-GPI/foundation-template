@@ -29,7 +29,7 @@ namespace Foundation.Template.Admin.Controllers
         }
 
         [HttpPost("application-translations/{code}")]
-        public async Task<IActionResult> UpdateRange([FromRoute] string code, [FromBody] UpdateApplicationTranslationViewModel payload)
+        public async Task<IActionResult> Update([FromRoute] string code, [FromBody] UpdateApplicationTranslationViewModel payload)
         {
             var applicationTranslations = await _applicationTranslationService.Update(code, payload);
             return Ok(applicationTranslations);

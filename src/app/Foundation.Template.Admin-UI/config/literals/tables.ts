@@ -1,0 +1,1 @@
+export const RECIPES = "ui.tables.recipes";
