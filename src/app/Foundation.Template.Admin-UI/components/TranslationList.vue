@@ -27,7 +27,7 @@
         prepend-icon="mdi-download"
         color="light"
         variant="full"
-        @click="downloadTRanslation"
+        @click="downloadTranslation"
         :label="$tr('ui.common.export', 'Export')"
         class="align-self-end"
       />
@@ -155,7 +155,7 @@ export default defineComponent({
       extension.openDrawer(UPDATE_TRANSLATION_DRAWER_URL(path));
     };
 
-    const downloadTRanslation = async () => {
+    const downloadTranslation = async () => {
       const fileName = "translations.xlsx";
       await download({
         fileName: fileName,
@@ -192,7 +192,7 @@ export default defineComponent({
       getLanguages,
       getTranslations,
       openImport,
-      downloadTRanslation,
+      downloadTranslation,
     };
   },
 });

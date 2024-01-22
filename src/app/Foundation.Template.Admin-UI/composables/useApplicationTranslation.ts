@@ -14,8 +14,6 @@ const ApplicationTranslationServiceFactory = new ServiceFactory<ApplicationTrans
                 const dtos: ApplicationTranslationDTO[] = response.data;
                 const results = dtos.map(d => new ApplicationTranslation(d));
 
-                console.log(results);
-
                 for (const result of results) {
                     notifier.notify("update", result);
                 }

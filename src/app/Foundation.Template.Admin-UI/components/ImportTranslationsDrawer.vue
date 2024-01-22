@@ -178,7 +178,6 @@ export default defineComponent({
 
     const upload = async () => {
       if (!form.value.validate() || workbook.value == null) {
-        console.log("error");
         return;
       }
 
