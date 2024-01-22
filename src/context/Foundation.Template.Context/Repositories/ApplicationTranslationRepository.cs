@@ -44,15 +44,19 @@ namespace Foundation.Template.Context.Repositories
             };
         }
 
-        public async Task<IEnumerable<ApplicationTranslation>> GetMany(ApplicationTranslationFilter filter)
+        public async Task<IEnumerable<ApplicationTranslation>> GetMany(ApplicationTranslationsFilter filter)
         {
             IQueryable<ApplicationTranslationDTO> query = _dbSet
                 .Include(ta => ta.Translation)
                 .Where(ta => ta.ApplicationId == filter.ApplicationId);
 
-            if (!string.IsNullOrEmpty(filter.LanguageCode))
+            if (!string.IsNullOrWhiteSpace(filter.LanguageCode))
             {
                 query = query.Where(ta => ta.LanguageCode == filter.LanguageCode);
+            }
+            if (!string.IsNullOrWhiteSpace(filter.TranslationCode))
+            {
+                query = query.Where(ta => ta.Translation.Code == filter.TranslationCode);
             }
             if (filter.Codes != null)
             {

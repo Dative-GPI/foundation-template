@@ -8,19 +8,24 @@
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 
+import { DefaultTheme } from "@dative-gpi/foundation-shared-components/themes";
+import { FSButtonsAliases, FSButtonsProps } from "@dative-gpi/foundation-shared-components/models/FSButtons";
+
 // Composables
 import { createVuetify } from 'vuetify'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   theme: {
+    defaultTheme: "DefaultTheme",
     themes: {
-      light: {
-        colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
-        },
-      },
-    },
+      DefaultTheme
+    }
   },
+  aliases: {
+    ...FSButtonsAliases,
+  },
+  defaults: {
+    ...FSButtonsProps
+  }
 })

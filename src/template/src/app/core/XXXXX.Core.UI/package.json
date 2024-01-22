@@ -23,8 +23,8 @@
     "@dative-gpi/foundation-shared-domain": "0.0.7",
     "@dative-gpi/foundation-shared-services": "0.0.7",
 
-    "@dative-gpi/foundation-template-core-ui": "^1.0.0",
-    "@dative-gpi/foundation-template-shared-ui": "^1.0.0"
+    "@dative-gpi/foundation-template-core-ui": "1.0.0",
+    "@dative-gpi/foundation-template-shared-ui": "1.0.0"
   },
   "devDependencies": {
     "@babel/types": "^7.21.4",

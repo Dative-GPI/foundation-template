@@ -13,7 +13,7 @@ using Foundation.Template.Domain.Repositories.Interfaces;
 
 namespace Foundation.Template.Admin.Handlers
 {
-    public class ApplicationTranslationsQueryHandler: IMiddleware<ApplicationTranslationsQuery, IEnumerable<ApplicationTranslation>>
+    public class ApplicationTranslationsQueryHandler : IMiddleware<ApplicationTranslationsQuery, IEnumerable<ApplicationTranslation>>
     {
         private readonly IRequestContextProvider _requestContextProvider;
         private readonly IApplicationTranslationRepository _applicationTranslationRepository;
@@ -24,15 +24,18 @@ namespace Foundation.Template.Admin.Handlers
         )
         {
             _requestContextProvider = requestContextProvider;
-            _applicationTranslationRepository = applicationTranslationRepository;    
+            _applicationTranslationRepository = applicationTranslationRepository;
         }
 
         public async Task<IEnumerable<ApplicationTranslation>> HandleAsync(ApplicationTranslationsQuery request, Func<Task<IEnumerable<ApplicationTranslation>>> next, CancellationToken cancellationToken)
         {
             var context = _requestContextProvider.Context;
 
-            var filter  = new ApplicationTranslationFilter() {
-                ApplicationId = context.ApplicationId
+            var filter = new ApplicationTranslationsFilter()
+            {
+                ApplicationId = context.ApplicationId,
+                LanguageCode = request.LanguageCode,
+                TranslationCode = request.TranslationCode
             };
 
             var result = await _applicationTranslationRepository.GetMany(filter);

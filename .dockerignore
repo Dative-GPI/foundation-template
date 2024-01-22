@@ -2,7 +2,6 @@
 **/bin
 **/obj
 **/ci
-**/tests
 **/.*
 **/*.local
 **/*.md
