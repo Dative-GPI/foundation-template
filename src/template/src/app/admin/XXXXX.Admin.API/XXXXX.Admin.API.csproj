@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XXXXX.Admin.Kernel\XXXXX.Admin.Kernel.csproj" />
+    <ProjectReference Include="..\..\..\context\XXXXX.Context.Kernel\XXXXX.Context.Kernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Foundation.Template.Admin" Version="$(TEMPLATE_VERSION)" />
+    <PackageReference Include="Foundation.Template.CrossCutting" Version="$(TEMPLATE_VERSION)" />
+  </ItemGroup>
+
+</Project>

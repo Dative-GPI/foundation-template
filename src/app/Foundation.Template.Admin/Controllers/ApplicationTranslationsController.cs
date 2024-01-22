@@ -22,14 +22,14 @@ namespace Foundation.Template.Admin.Controllers
         }
 
         [HttpGet("application-translations")]
-        public async Task<IActionResult> GetMany([FromQuery] TranslationsFilterViewModel filter)
+        public async Task<IActionResult> GetMany([FromQuery] ApplicationTranslationViewModel filter)
         {
             var translations = await _applicationTranslationService.GetMany(filter);
             return Ok(translations);
         }
 
         [HttpPost("application-translations/{code}")]
-        public async Task<IActionResult> UpdateRange([FromRoute] string code, [FromBody] UpdateApplicationTranslationViewModel payload)
+        public async Task<IActionResult> Update([FromRoute] string code, [FromBody] UpdateApplicationTranslationViewModel payload)
         {
             var applicationTranslations = await _applicationTranslationService.Update(code, payload);
             return Ok(applicationTranslations);

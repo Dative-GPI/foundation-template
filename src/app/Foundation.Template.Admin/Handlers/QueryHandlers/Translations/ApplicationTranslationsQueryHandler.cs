@@ -35,6 +35,7 @@ namespace Foundation.Template.Admin.Handlers
             {
                 ApplicationId = context.ApplicationId,
                 LanguageCode = request.LanguageCode,
+                TranslationCode = request.TranslationCode
             };
 
             var result = await _applicationTranslationRepository.GetMany(filter);

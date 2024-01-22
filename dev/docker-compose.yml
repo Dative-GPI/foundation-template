@@ -1,19 +1,124 @@
 version: "3"
 
 services:
-  tests:
-    build: 
-      context: ..
-      dockerfile: dev/dockerfiles/tests-dotnet.dockerfile
-    networks:
-      - bones
+  traefik:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: traefik
   
-  tests-ui:
+  timescale:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: timescale
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@dative-gpi.com
+      PGADMIN_DEFAULT_PASSWORD: example
+    ports:
+      - 5400:80
+
+  proxy-core:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: proxy-core
     build: 
       context: ..
-      dockerfile: dev/dockerfiles/tests-ui.dockerfile
-    networks:
-      - bones
+      dockerfile: dev/dockerfiles/dotnet.dockerfile
+      args:
+        PROJECT: dev/helpers/Foundation.Template.Proxy
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      DOTNET_URLS: http://+:80
+
+  proxy-admin:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: proxy-admin
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/dotnet.dockerfile
+      args:
+        PROJECT: dev/helpers/Foundation.Template.Proxy
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      DOTNET_URLS: http://+:80
+
+  core:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: core
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/dotnet-fake-nuget.dockerfile
+      args:
+        PROJECT: src/template/src/app/core/XXXXX.Core.API
+        TEMPLATE_VERSION: 9.9.9
+  
+  admin:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: admin
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/dotnet-fake-nuget.dockerfile
+      args:
+        PROJECT: src/template/src/app/admin/XXXXX.Admin.API
+        TEMPLATE_VERSION: 9.9.9
+    
+  gateway:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: gateway
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/dotnet-fake-nuget.dockerfile
+      args:
+        PROJECT: src/template/src/app/gateway/XXXXX.Gateway.API
+        TEMPLATE_VERSION: 9.9.9
+  
+  core-ui:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: core-ui
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/vue-fake-npm.dockerfile
+    environment:
+      PROJECT: xxxxx-core-ui
+    volumes:
+      - ../src/app/Foundation.Template.Core-UI:/app/lib/Foundation.Template.Core-UI:delegated
+      - ../src/shared/Foundation.Template.Shared-UI:/app/lib/Foundation.Template.Shared-UI:delegated
+  
+  admin-ui:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: admin-ui
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/vue-fake-npm.dockerfile
+    environment:
+      PROJECT: xxxxx-admin-ui
+    volumes:
+      - ../src/app/Foundation.Template.Admin-UI:/app/lib/Foundation.Template.Admin-UI:delegated
+      - ../src/shared/Foundation.Template.Shared-UI:/app/lib/Foundation.Template.Shared-UI:delegated
+  
+  migrations:
+    extends:
+      file: ../src/template/dev/docker-compose.yml
+      service: migrations
+    build: 
+      context: ..
+      dockerfile: dev/dockerfiles/dotnet-fake-nuget.dockerfile
+      args:
+        PROJECT: src/template/src/context/XXXXX.Context.Migrations
+        TEMPLATE_VERSION: 9.9.9
+        POST_RESTORE: dotnet tool install dotnet-ef --version 7.0.0 --tool-path /usr/bin
+        PRE_BUILD: dotnet ef migrations add Init
 
 networks:
   bones:
+
+volumes:
+  data-postgres:

@@ -67,16 +67,18 @@ namespace Foundation.Template.Admin.Services
             var result = await _applicationTranslationRepository.GetMany(new ApplicationTranslationsFilter()
             {
                 ApplicationId = context.ApplicationId,
+                Codes = new List<string>() { code }
             });
 
             return _mapper.Map<IEnumerable<ApplicationTranslation>, IEnumerable<ApplicationTranslationViewModel>>(result);
         }
 
-        public async Task<IEnumerable<ApplicationTranslationViewModel>> GetMany(TranslationsFilterViewModel filter)
+        public async Task<IEnumerable<ApplicationTranslationViewModel>> GetMany(ApplicationTranslationViewModel filter)
         {
             var query = new ApplicationTranslationsQuery()
             {
-                LanguageCode = filter.LanguageCode
+                LanguageCode = filter.LanguageCode,
+                TranslationCode = filter.TranslationCode
             };
 
             var results = await _applicationTranslationsQueryHandler.HandleAsync(query);
