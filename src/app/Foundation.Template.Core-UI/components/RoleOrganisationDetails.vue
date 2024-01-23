@@ -2,14 +2,7 @@
   <FSCol :gap="24">
     <FSRow :gap="36">
       <FSCol style="max-width: 300px">
-        <FSTextField
-          label=""
-          prepend-inner-icon="mdi-magnify"
-          @update:modelValue="fetchPermissionOrganisations"
-          v-model="search"
-          width="fill"
-          clearable
-        ></FSTextField>
+        <FSTextField label="" prepend-inner-icon="mdi-magnify" v-model="search" width="fill" clearable></FSTextField>
       </FSCol>
       <FSCheckbox
         class="align-self-end"
@@ -25,7 +18,7 @@
         <FSSpan font="text-button"> XXXXX </FSSpan>
       </FSCol>
     </FSRow>
-    <FSRow v-for="permission in permissionOrganisations" :key="permission.id">
+    <FSRow v-for="permission in filteredPermissionOrganisations" :key="permission.id">
       <FSCol style="max-width: 30%">
         <FSRow>
           <FSSpan font="text-body align-self-center"> {{ permission.code }} </FSSpan>
@@ -48,7 +41,7 @@
   </FSCol>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import {
   usePermissions,
@@ -112,11 +105,21 @@ export default defineComponent({
       });
     };
 
+    const filteredPermissionOrganisations = computed(() => {
+      if (search.value == null || search.value === "") return permissionOrganisations.value;
+      return permissionOrganisations.value.filter((p) => {
+        return (
+          p.code.toLowerCase().includes(search.value.toLowerCase()) ||
+          p.label.toLowerCase().includes(search.value.toLowerCase())
+        );
+      });
+    });
+
     onMounted(init);
 
     const updatedAll = (ev: Event) => {
       if (enabledAll.value) {
-        permissionIds.value = permissionOrganisations.value.map((p) => p.id);
+        permissionIds.value = filteredPermissionOrganisations.value.map((p) => p.id);
       } else {
         permissionIds.value = [];
       }
@@ -150,6 +153,7 @@ export default defineComponent({
       updating,
       enabledAll,
       element,
+      filteredPermissionOrganisations,
       updatePermissionIds,
       updatePermission,
       hasPermission,
