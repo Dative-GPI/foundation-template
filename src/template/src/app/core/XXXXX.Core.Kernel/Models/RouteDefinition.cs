@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Foundation.Template.Core.Models;
 
 namespace XXXXX.Core.Kernel.Models
 {
@@ -16,7 +17,7 @@ namespace XXXXX.Core.Kernel.Models
         public string DrawerLabelDefault { get; set; }
         public string DrawerLabelCode { get; set; }
 
-        public string Path { get; set; }
+        public Func<RequestContext, string> Path { get; set; }
         public string Name { get; set; }
 
         public bool Exact { get; set; }

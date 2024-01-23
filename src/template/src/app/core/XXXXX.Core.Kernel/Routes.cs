@@ -9,7 +9,7 @@ namespace XXXXX.Core.Kernel
             new RouteDefinition()
             {
                 Authorizations = new string[] {},
-                Path = "/XXXXX/examples",
+                Path = (ctx) => "/XXXXX/examples",
                 Name = "apps.example",
                 DrawerCategoryLabelDefault = "XXXXX",
                 DrawerCategoryCode = "drawer.examples.category",
@@ -22,8 +22,21 @@ namespace XXXXX.Core.Kernel
             new RouteDefinition()
             {
                 Authorizations = new string[] {},
-                Path = "/XXXXX/examples/drawer",
+                Path = (ctx)=>"/XXXXX/examples/drawer",
                 Name = "apps.example.drawer",
+                DrawerCategoryLabelDefault = null,
+                DrawerCategoryCode = null,
+                DrawerIcon = null,
+                DrawerLabelDefault = null,
+                DrawerLabelCode = null,
+                Exact = false,
+                ShowOnDrawer = false
+            },
+            new RouteDefinition()
+            {
+                Authorizations = new string[] {},
+                Path = (ctx) => $"/organisations/{ctx.OrganisationId.Value}/role-organisations/{ctx.RoleId.Value}",
+                Name = "organisation-role-permissions",
                 DrawerCategoryLabelDefault = null,
                 DrawerCategoryCode = null,
                 DrawerIcon = null,

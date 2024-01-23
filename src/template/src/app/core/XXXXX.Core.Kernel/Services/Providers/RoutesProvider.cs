@@ -76,7 +76,7 @@ namespace XXXXX.Core.Kernel.Services
                         DrawerLabel = t.FirstOrDefault()?.Value ?? rc.Route.DrawerLabelDefault,
                         Exact = rc.Route.Exact,
                         Name = rc.Route.Name,
-                        Path = rc.Route.Path,
+                        Path = rc.Route.Path(context),
                         ShowOnDrawer = rc.Route.ShowOnDrawer
                     }
                 )

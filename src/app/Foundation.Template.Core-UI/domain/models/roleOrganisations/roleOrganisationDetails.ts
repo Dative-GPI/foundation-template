@@ -2,19 +2,19 @@ import { PermissionOrganisationInfos, PermissionOrganisationInfosDTO } from "../
 
 export class RoleOrganisationDetails {
     id: string;
-    permissions: PermissionOrganisationInfos[];
+    permissionIds: string[];
 
     constructor(payload: RoleOrganisationDetailsDTO) {
         this.id = payload.id;
-        this.permissions = payload.permissions.map(p => new PermissionOrganisationInfos(p));
+        this.permissionIds = payload.permissionIds;
     }
 }
 
 export interface RoleOrganisationDetailsDTO {
     id: string;
-    permissions: PermissionOrganisationInfosDTO[];
+    permissionIds: string[];
 }
 
 export interface UpdateRoleOrganisationDTO {
-    permissions: string[]; 
+    permissionIds: string[];
 }
