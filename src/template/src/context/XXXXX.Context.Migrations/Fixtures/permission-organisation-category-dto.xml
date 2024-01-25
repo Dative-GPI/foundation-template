@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPermissionOrganisationCategoryDTO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PermissionOrganisationCategoryDTO Id="0ee16f56-70b1-4e0a-868d-6c6b56126dc4" Code="xxxxx.connect" LabelDefault="XXXXX_CONNECT" Disabled="false" />
+  <PermissionOrganisationCategoryDTO Id="1ee36f56-70b1-4e0a-868d-6c6b56126dc4" Code="xxxxx.history" LabelDefault="XXXXX_HISTORY" Disabled="false" />
+</ArrayOfPermissionOrganisationCategoryDTO>

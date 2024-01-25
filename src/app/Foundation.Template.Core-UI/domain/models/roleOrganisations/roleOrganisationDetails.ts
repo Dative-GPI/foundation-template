@@ -1,5 +1,3 @@
-import { PermissionOrganisationInfos, PermissionOrganisationInfosDTO } from "../permissions";
-
 export class RoleOrganisationDetails {
     id: string;
     permissionIds: string[];

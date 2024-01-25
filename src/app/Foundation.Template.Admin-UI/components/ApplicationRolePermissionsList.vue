@@ -18,7 +18,7 @@
         <FSSpan font="text-button"> XXXXX </FSSpan>
       </FSCol>
     </FSRow>
-    <FSRow v-for="permission in filteredPermissionOrganisations" :key="permission.id">
+    <FSRow v-for="permission in filteredPermissionAdmins" :key="permission.id">
       <FSCol style="max-width: 30%">
         <FSRow>
           <FSSpan font="text-body align-self-center"> {{ permission.code }} </FSSpan>
@@ -43,15 +43,10 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import {
-  usePermissions,
-  usePermissionOrganisations,
-  useRoleOrganisation,
-  useUpdateRoleOrganisation,
-} from "../composables";
+import { usePermissions, usePermissionAdmins, useRoleAdmin, useUpdateRoleAdmin } from "../composables";
 import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
 export default defineComponent({
-  name: "RoleOrganisationDetails",
+  name: "ApplicationRolePermissionsList",
   props: {
     editMode: {
       type: Boolean,
@@ -66,9 +61,9 @@ export default defineComponent({
   setup(props) {
     const { setTitle, setCrumbs } = useExtensionCommunicationBridge();
     const { getAll, categories } = usePermissions();
-    const { getMany: getPermissionOrganisations, entities: permissionOrganisations } = usePermissionOrganisations();
-    const { get, entity: roleOrganisation } = useRoleOrganisation();
-    const { update, updating } = useUpdateRoleOrganisation();
+    const { getMany: getPermissionAdmins, entities: permissionAdmins } = usePermissionAdmins();
+    const { get, entity: roleAdmin } = useRoleAdmin();
+    const { update, updating } = useUpdateRoleAdmin();
     const route = useRoute();
 
     const element = ref<HTMLElement | null>(null);
@@ -90,24 +85,24 @@ export default defineComponent({
 
       await getAll().then(() => {});
 
-      fetchPermissionOrganisations();
+      fetchPermissionAdmins();
 
-      fetchRoleOrganisation();
+      fetchRoleAdmin();
     };
 
-    const fetchPermissionOrganisations = async () => {
-      getPermissionOrganisations({ search: search.value }).then(() => {});
+    const fetchPermissionAdmins = async () => {
+      getPermissionAdmins({ search: search.value }).then(() => {});
     };
 
-    const fetchRoleOrganisation = async () => {
+    const fetchRoleAdmin = async () => {
       get(route.params.roleId.toString()).then(() => {
-        permissionIds.value = roleOrganisation.value?.permissionIds;
+        permissionIds.value = roleAdmin.value?.permissionIds;
       });
     };
 
-    const filteredPermissionOrganisations = computed(() => {
-      if (search.value == null || search.value === "") return permissionOrganisations.value;
-      return permissionOrganisations.value.filter((p) => {
+    const filteredPermissionAdmins = computed(() => {
+      if (search.value == null || search.value === "") return permissionAdmins.value;
+      return permissionAdmins.value.filter((p) => {
         return (
           p.code.toLowerCase().includes(search.value.toLowerCase()) ||
           p.label.toLowerCase().includes(search.value.toLowerCase())
@@ -119,7 +114,7 @@ export default defineComponent({
 
     const updatedAll = (ev: Event) => {
       if (enabledAll.value) {
-        permissionIds.value = filteredPermissionOrganisations.value.map((p) => p.id);
+        permissionIds.value = filteredPermissionAdmins.value.map((p) => p.id);
       } else {
         permissionIds.value = [];
       }
@@ -127,9 +122,9 @@ export default defineComponent({
     };
 
     const hasPermission = (permissionId: string) => {
-      if (!roleOrganisation.value) return false;
-      if (!roleOrganisation.value.permissionIds) return false;
-      return roleOrganisation.value.permissionIds.includes(permissionId);
+      if (!roleAdmin.value) return false;
+      if (!roleAdmin.value.permissionIds) return false;
+      return roleAdmin.value.permissionIds.includes(permissionId);
     };
 
     const updatePermissionIds = (permissionId: string) => {
@@ -146,17 +141,17 @@ export default defineComponent({
     };
 
     return {
-      permissionOrganisations,
+      permissionAdmins,
       search,
       permissionIds,
       updating,
       enabledAll,
       element,
-      filteredPermissionOrganisations,
+      filteredPermissionAdmins,
       updatePermissionIds,
       updatePermission,
       hasPermission,
-      fetchPermissionOrganisations,
+      fetchPermissionAdmins,
       updatedAll,
     };
   },

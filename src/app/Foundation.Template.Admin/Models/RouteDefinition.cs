@@ -16,7 +16,9 @@ namespace Foundation.Template.Admin.Models
         public string DrawerLabelDefault { get; set; }
         public string DrawerLabelCode { get; set; }
 
-        public string Path { get; set; }
+        // public string Path { get; set; }
+
+        public Func<RequestContext, string> Path { get; set; }
         public string Name { get; set; }
 
         public bool Exact { get; set; }
