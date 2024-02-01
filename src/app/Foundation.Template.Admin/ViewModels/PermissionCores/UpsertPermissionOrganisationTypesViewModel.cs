@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Foundation.Template.Admin.ViewModels
 {
-    public class UpsertOrganisationTypePermissionsViewModel
+    public class UpsertPermissionOrganisationTypesViewModel
     {
         public Guid OrganisationTypeId { get; set; }
         public List<Guid> PermissionIds { get; set; }

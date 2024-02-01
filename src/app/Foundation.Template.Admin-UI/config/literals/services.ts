@@ -1,7 +1,7 @@
 export const CATEGORYSERVICE = "CategoryService";
 export const MARKETPLACESERVICE = "MarketplaceService";
 
-export const ORGANISATIONTYPEPERMISSIONSERVICE = "OrganisationTypePermissionService";
+export const PERMISSIONORGANISATIONTYPESERVICE = "PermissionOrganisationTypeService";
 export const PERMISSIONSERVICE = "PermissionService";
 export const ROLEORGANISATIONSERVICE = "RoleOrganisationService";
 

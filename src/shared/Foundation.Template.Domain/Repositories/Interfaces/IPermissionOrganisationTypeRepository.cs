@@ -8,10 +8,10 @@ using Foundation.Template.Domain.Repositories.Filters;
 
 namespace Foundation.Template.Domain.Repositories.Interfaces
 {
-    public interface IOrganisationTypePermissionRepository
+    public interface IPermissionOrganisationTypeRepository
     {
-        Task<IEnumerable<OrganisationTypePermissionOrganisationInfos>> GetMany(OrganisationTypePermissionsFilter filter);
-        Task CreateRange(IEnumerable<CreateOrganisationTypePermission> payload);
+        Task<IEnumerable<PermissionOrganisationTypeInfos>> GetMany(PermissionOrganisationTypesFilter filter);
+        Task CreateRange(IEnumerable<CreatePermissionOrganisationType> payload);
         Task RemoveRange(Guid[] permissionsIds);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Foundation.Template.Domain.Repositories.Filters
 {
-    public class OrganisationTypePermissionsFilter
+    public class PermissionOrganisationTypesFilter
     {
         public Guid? OrganisationTypeId { get; set;  }
         public IEnumerable<Guid> OrganisationTypeIds { get; set;  }

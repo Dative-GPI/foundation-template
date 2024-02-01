@@ -15,7 +15,7 @@ namespace Foundation.Template.Context.DI
 
             services.AddScoped<IPermissionOrganisationRepository, PermissionOrganisationRepository>();
             services.AddScoped<IPermissionOrganisationCategoryRepository, PermissionOrganisationCategoryRepository>();
-            services.AddScoped<IOrganisationTypePermissionRepository, OrganisationTypePermissionRepository>();
+            services.AddScoped<IPermissionOrganisationTypeRepository, PermissionOrganisationTypeRepository>();
 
             services.AddScoped<IPermissionAdminRepository, PermissionAdminRepository>();
             services.AddScoped<IPermissionAdminCategoryRepository, PermissionAdminCategoryRepository>();

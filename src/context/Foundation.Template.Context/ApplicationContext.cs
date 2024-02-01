@@ -18,7 +18,7 @@ namespace Foundation.Template.Context
         public DbSet<PermissionAdminDTO> PermissionAdmins { get; set; }
         public DbSet<PermissionOrganisationCategoryDTO> PermissionCategories { get; set; }
         public DbSet<PermissionAdminCategoryDTO> PermissionAdminCategories { get; set; }
-        public DbSet<OrganisationTypePermissionDTO> OrganisationTypePermissions { get; set; }
+        public DbSet<PermissionOrganisationTypeDTO> PermissionOrganisationTypes { get; set; }
         public DbSet<RoleOrganisationPermissionDTO> RoleOrganisationPermissions { get; set; }
         public DbSet<RoleAdminPermissionDTO> RoleAdminPermissions { get; set; }
         #endregion
@@ -85,7 +85,7 @@ namespace Foundation.Template.Context
                     .HasColumnType("jsonb");
             });
 
-            modelBuilder.Entity<OrganisationTypePermissionDTO>(m =>
+            modelBuilder.Entity<PermissionOrganisationTypeDTO>(m =>
             {
                 m.HasKey(otp => otp.Id);
                 m.HasOne(otp => otp.Permission)

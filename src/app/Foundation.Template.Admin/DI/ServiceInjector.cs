@@ -12,7 +12,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IRouteService, RouteService>();
             services.AddScoped<IActionService, ActionService>();
 
-            services.AddScoped<IOrganisationTypePermissionOrganisationService, OrganisationTypePermissionOrganisationService>();
+            services.AddScoped<IPermissionOrganisationTypeService, PermissionOrganisationTypeService>();
             services.AddScoped<IPermissionOrganisationService, PermissionOrganisationService>();
             services.AddScoped<IPermissionOrganisationCategoryService, PermissionOrganisationCategoryService>();
             services.AddScoped<IRoleOrganisationService, RoleOrganisationService>();

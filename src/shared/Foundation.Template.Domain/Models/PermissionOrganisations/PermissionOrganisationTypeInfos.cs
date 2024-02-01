@@ -2,7 +2,7 @@ using System;
 
 namespace Foundation.Template.Domain.Models
 {
-    public class OrganisationTypePermissionOrganisationInfos
+    public class PermissionOrganisationTypeInfos
     {
         public Guid Id { get; set; }
         public Guid PermissionId { get; set; }

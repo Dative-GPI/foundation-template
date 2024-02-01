@@ -16,17 +16,17 @@ namespace Foundation.Template.Core.Handlers
 {
     public class PermissionsQueryHandler : IMiddleware<PermissionOrganisationsQuery, IEnumerable<PermissionOrganisationInfos>>
     {
-        private readonly IOrganisationTypePermissionRepository _organisationTypePermissionRepository;
+        private readonly IPermissionOrganisationTypeRepository _permissionOrganisationTypeRepository;
         private readonly IPermissionOrganisationRepository _permissionRepository;
         private readonly IRequestContextProvider _requestContextProvider;
 
         public PermissionsQueryHandler(
-            IOrganisationTypePermissionRepository organisationTypePermissionRepository,
+            IPermissionOrganisationTypeRepository permissionOrganisationTypeRepository,
             IPermissionOrganisationRepository permissionRepository,
             IRequestContextProvider requestContextProvider
         )
         {
-            _organisationTypePermissionRepository = organisationTypePermissionRepository;
+            _permissionOrganisationTypeRepository = permissionOrganisationTypeRepository;
             _permissionRepository = permissionRepository;
             
             _requestContextProvider = requestContextProvider;
@@ -36,13 +36,13 @@ namespace Foundation.Template.Core.Handlers
         {
             var context = _requestContextProvider.Context;
 
-            var organisationTypePermissions = await _organisationTypePermissionRepository.GetMany(new OrganisationTypePermissionsFilter() {
+            var permissionOrganisationTypes = await _permissionOrganisationTypeRepository.GetMany(new PermissionOrganisationTypesFilter() {
                 OrganisationTypeId = context.OrganisationTypeId
             });
 
             var permissions = await _permissionRepository.GetMany(new PermissionsFilter()
             {
-                PermissionIds = organisationTypePermissions.Select(p => p.PermissionId).ToList()
+                PermissionIds = permissionOrganisationTypes.Select(p => p.PermissionId).ToList()
             });
 
             return permissions;
