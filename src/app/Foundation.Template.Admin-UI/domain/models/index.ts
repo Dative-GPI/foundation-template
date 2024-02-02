@@ -1,5 +1,5 @@
 export * from "./translations";
 export * from "./roleOrganisations";
-export * from "./roleAdmins";
+export * from "./roleApplications";
 export * from "./permissionOrganisations";
-export * from "./permissionAdmins";
+export * from "./permissionApplications";

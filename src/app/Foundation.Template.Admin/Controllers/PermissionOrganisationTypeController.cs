@@ -19,7 +19,7 @@ namespace Foundation.Template.Admin.Controllers
             _permissionOrganisationTypeService = permissionOrganisationTypeService;
         }
         
-        [Route("organisation-types-permissions")]
+        [Route("permission-organisation-types")]
         [HttpGet]
         public async Task<IActionResult> GetMany([FromQuery] PermissionOrganisationTypesFilterViewModel filter)
         {
@@ -27,7 +27,7 @@ namespace Foundation.Template.Admin.Controllers
             return Ok(result);
         }
 
-        [Route("organisation-types-permissions")]
+        [Route("permission-organisation-types")]
         [HttpPatch]
         public async Task<IActionResult> Upsert([FromBody] List<UpsertPermissionOrganisationTypesViewModel> payload)
         {

@@ -60,10 +60,10 @@ namespace Foundation.Template.Core.Tools
             if (userOrganisation == default || !userOrganisation.RoleId.HasValue)
                 return foundationPermissions;
 
-            var roleOrganisationPermissions = await GetRoleOrganisationPermissions(userOrganisation.RoleId.Value);
+            var rolePermissionOrganisations = await GetRolePermissionOrganisations(userOrganisation.RoleId.Value);
 
             return foundationPermissions.Concat(
-                roleOrganisationPermissions.Intersect(permissionOrganisationTypes).ToList()
+                rolePermissionOrganisations.Intersect(permissionOrganisationTypes).ToList()
             ).ToList();
             // use of intersect to make sure that the permissions of a role is a subset of
             // the permissions of an organisationType 
@@ -87,7 +87,7 @@ namespace Foundation.Template.Core.Tools
             return permissionOrganisationTypes.Select(otp => otp.PermissionCode).ToList();
         }
 
-        private async Task<IEnumerable<string>> GetRoleOrganisationPermissions(Guid roleId)
+        private async Task<IEnumerable<string>> GetRolePermissionOrganisations(Guid roleId)
         {
             var role = await _roleOrganisationRepository.Get(roleId);
 

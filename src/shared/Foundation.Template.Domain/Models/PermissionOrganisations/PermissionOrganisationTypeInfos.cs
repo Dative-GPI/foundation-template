@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Foundation.Template.Domain.Models
 {
@@ -8,5 +9,7 @@ namespace Foundation.Template.Domain.Models
         public Guid PermissionId { get; set; }
         public string PermissionCode { get; set; }
         public Guid OrganisationTypeId { get; set; }
+        public string PermissionLabel { get; set; }
+        public List<TranslationPermissionOrganisation> TranslationPermissions { get; set; }
     }
 }

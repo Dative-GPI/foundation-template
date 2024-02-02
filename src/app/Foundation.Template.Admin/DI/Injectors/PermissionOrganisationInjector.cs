@@ -17,7 +17,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IQueryHandler<PermissionOrganisationsQuery, IEnumerable<PermissionOrganisationInfos>>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<PermissionOrganisationsQuery, IEnumerable<PermissionOrganisationInfos>>()
-                    .With<PermissionAdminsMiddleware>()
+                    .With<PermissionApplicationsMiddleware>()
                     .Add<PermissionOrganisationsQueryHandler>()
                     .Build();
 

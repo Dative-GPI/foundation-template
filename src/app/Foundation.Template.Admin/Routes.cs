@@ -22,7 +22,7 @@ namespace Foundation.Template.Admin
             new RouteDefinition()
             {
                 Authorizations = new string[] {},
-                Path = (ctx) => "/v1/role-admins/:roleId",
+                Path = (ctx) => "/v1/role-applications/:roleId",
                 Name = "apps.foundation-template.drawer",
                 DrawerCategoryLabelDefault = null,
                 DrawerCategoryCode = null,

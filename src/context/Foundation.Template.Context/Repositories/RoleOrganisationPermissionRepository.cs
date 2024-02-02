@@ -19,11 +19,11 @@ namespace Foundation.Template.Context.Repositories
 {
     public class RoleOrganisationRepository : IRoleOrganisationRepository
     {
-        private DbSet<RoleOrganisationPermissionDTO> _dbSet;
+        private DbSet<RolePermissionOrganisationDTO> _dbSet;
 
         public RoleOrganisationRepository(BaseApplicationContext context)
         {
-            _dbSet = context.RoleOrganisationPermissions;
+            _dbSet = context.RolePermissionOrganisations;
         }
 
         public async Task<RoleOrganisationDetails> Get(Guid id)
@@ -51,7 +51,7 @@ namespace Foundation.Template.Context.Repositories
 
             _dbSet.RemoveRange(formerPermissions);
 
-            _dbSet.AddRange(payload.PermissionIds.Select(p => new RoleOrganisationPermissionDTO()
+            _dbSet.AddRange(payload.PermissionIds.Select(p => new RolePermissionOrganisationDTO()
             {
                 Id = Guid.NewGuid(),
                 RoleOrganisationId = payload.Id,

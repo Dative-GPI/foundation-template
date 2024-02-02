@@ -17,7 +17,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IQueryHandler<PermissionOrganisationTypesQuery, IEnumerable<PermissionOrganisationTypeInfos>>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<PermissionOrganisationTypesQuery, IEnumerable<PermissionOrganisationTypeInfos>>()
-                    .With<PermissionAdminsMiddleware>()
+                    .With<PermissionApplicationsMiddleware>()
                     .Add<PermissionOrganisationTypesQueryHandler>()
                     .Build();
 
@@ -29,7 +29,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<ICommandHandler<UpsertPermissionOrganisationTypesCommand>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<UpsertPermissionOrganisationTypesCommand>()
-                    .Add<PermissionAdminsMiddleware>()
+                    .Add<PermissionApplicationsMiddleware>()
                     .Add<UpsertPermissionOrganisationTypesCommandHandler>()
                     .Build();
 

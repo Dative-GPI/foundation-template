@@ -44,6 +44,12 @@ namespace Foundation.Template.Context.Repositories
                 Id = permissionOrganisationTypeDTO.Id,
                 PermissionId = permissionOrganisationTypeDTO.PermissionId,
                 PermissionCode = permissionOrganisationTypeDTO.Permission.Code,
+                PermissionLabel = permissionOrganisationTypeDTO.Permission.LabelDefault,
+                TranslationPermissions = permissionOrganisationTypeDTO.Permission.Translations?.Select(t => new TranslationPermissionOrganisation()
+                {
+                    LanguageCode = t.LanguageCode,
+                    Label = t.Label
+                }).ToList() ?? new List<TranslationPermissionOrganisation>(),
                 OrganisationTypeId = permissionOrganisationTypeDTO.OrganisationTypeId,
             }).ToList();
         }

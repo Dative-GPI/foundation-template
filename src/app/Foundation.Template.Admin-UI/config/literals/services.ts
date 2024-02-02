@@ -5,8 +5,8 @@ export const PERMISSIONORGANISATIONTYPESERVICE = "PermissionOrganisationTypeServ
 export const PERMISSIONSERVICE = "PermissionService";
 export const ROLEORGANISATIONSERVICE = "RoleOrganisationService";
 
-export const PERMISSIONADMINSERVICE = "PermissionAdminService";
-export const ROLEADMINSERVICE = "RoleAdminService"; 
+export const PERMISSIONAPPLICATIONSERVICE = "PermissionApplicationService";
+export const ROLEAAPPLICATIONSERVICE = "RoleApplicationService"; 
 
 export const APPLICATIONTRANSLATIONSERVICE = "ApplicationTranslationService";
 export const TRANSLATIONSERVICE = "TranslationService";

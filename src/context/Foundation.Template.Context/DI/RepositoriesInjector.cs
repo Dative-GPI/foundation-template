@@ -17,11 +17,11 @@ namespace Foundation.Template.Context.DI
             services.AddScoped<IPermissionOrganisationCategoryRepository, PermissionOrganisationCategoryRepository>();
             services.AddScoped<IPermissionOrganisationTypeRepository, PermissionOrganisationTypeRepository>();
 
-            services.AddScoped<IPermissionAdminRepository, PermissionAdminRepository>();
-            services.AddScoped<IPermissionAdminCategoryRepository, PermissionAdminCategoryRepository>();
+            services.AddScoped<IPermissionApplicationRepository, PermissionApplicationRepository>();
+            services.AddScoped<IPermissionApplicationCategoryRepository, PermissionApplicationCategoryRepository>();
 
             services.AddScoped<IRoleOrganisationRepository, RoleOrganisationRepository>();
-            services.AddScoped<IRoleAdminRepository, RoleAdminRepository>();
+            services.AddScoped<IRoleApplicationRepository, RoleApplicationRepository>();
 
             services.AddScoped<IApplicationTranslationRepository, ApplicationTranslationRepository>();
             services.AddScoped<ITranslationRepository, TranslationRepository>();

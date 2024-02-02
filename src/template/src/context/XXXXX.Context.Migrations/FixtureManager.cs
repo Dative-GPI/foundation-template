@@ -54,9 +54,9 @@ namespace XXXXX.Context.Migrations
                     return dto;
                 });
 
-            Add<PermissionAdminDTO, Fixture>(
+            Add<PermissionApplicationDTO, Fixture>(
                 PermissionHelper.GetPermissions(typeof(XXXXX.Admin.Kernel.Authorizations)),
-                fixture => new PermissionAdminDTO()
+                fixture => new PermissionApplicationDTO()
                 {
                     Id = Guid.NewGuid(),
                     Code = fixture.Code,
@@ -68,9 +68,9 @@ namespace XXXXX.Context.Migrations
                     return dto;
                 });
 
-            Add<PermissionAdminCategoryDTO, Fixture>(
+            Add<PermissionApplicationCategoryDTO, Fixture>(
                 PermissionHelper.GetCategories(typeof(XXXXX.Admin.Kernel.Authorizations)),
-                fixture => new PermissionAdminCategoryDTO()
+                fixture => new PermissionApplicationCategoryDTO()
                 {
                     Id = Guid.NewGuid(),
                     Code = fixture.Code,

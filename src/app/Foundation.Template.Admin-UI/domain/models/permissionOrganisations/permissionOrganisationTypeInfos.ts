@@ -18,3 +18,8 @@ export interface PermissionOrganisationTypeInfosDTO {
     permissionCode: string;
     permissionId: string;
 }
+
+export interface PermissionOrganisationTypeFilter {
+    search?: string
+}
+

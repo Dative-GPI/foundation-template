@@ -17,9 +17,9 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IPermissionOrganisationCategoryService, PermissionOrganisationCategoryService>();
             services.AddScoped<IRoleOrganisationService, RoleOrganisationService>();
 
-            services.AddScoped<IPermissionAdminService, PermissionAdminService>();
-            services.AddScoped<IPermissionAdminCategoryService, PermissionAdminCategoryService>();
-            services.AddScoped<IRoleAdminService, RoleAdminService>();
+            services.AddScoped<IPermissionApplicationService, PermissionApplicationService>();
+            services.AddScoped<IPermissionApplicationCategoryService, PermissionApplicationCategoryService>();
+            services.AddScoped<IRoleApplicationService, RoleApplicationService>();
 
             services.AddScoped<ITranslationService, TranslationService>();
             services.AddScoped<IApplicationTranslationService, ApplicationTranslationService>();

@@ -18,7 +18,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IQueryHandler<RoleOrganisationQuery, RoleOrganisationDetails>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<RoleOrganisationQuery, RoleOrganisationDetails>()
-                    .With<PermissionAdminsMiddleware>()
+                    .With<PermissionApplicationsMiddleware>()
                     .Add<RoleOrganisationQueryHandler>()
                     .Build();
 
@@ -30,7 +30,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<ICommandHandler<UpdateRoleOrganisationCommand, IEntity<Guid>>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<UpdateRoleOrganisationCommand, IEntity<Guid>>()
-                    .With<PermissionAdminsMiddleware>()
+                    .With<PermissionApplicationsMiddleware>()
                     .Add<UpdateRoleOrganisationCommandHandler>()
                     .Build();
 

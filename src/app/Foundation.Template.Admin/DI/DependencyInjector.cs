@@ -31,9 +31,9 @@ namespace Foundation.Template.Admin.DI
             services.AddPermissionOrganisationTypes();
             services.AddRoleOrganisation();
 
-            services.AddPermissionAdmins();
-            services.AddPermissionAdminCategories();
-            services.AddRoleAdmin();
+            services.AddPermissionApplications();
+            services.AddPermissionApplicationCategories();
+            services.AddRoleApplication();
 
             services.AddTranslations();
             services.AddApplicationTranslations();

@@ -18,7 +18,7 @@
         <FSSpan font="text-button"> XXXXX </FSSpan>
       </FSCol>
     </FSRow>
-    <FSRow v-for="permission in filteredPermissionAdmins" :key="permission.id">
+    <FSRow v-for="permission in filteredPermissionApplications" :key="permission.id">
       <FSCol style="max-width: 30%">
         <FSRow>
           <FSSpan font="text-body align-self-center"> {{ permission.code }} </FSSpan>
@@ -43,7 +43,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { usePermissions, usePermissionAdmins, useRoleAdmin, useUpdateRoleAdmin } from "../composables";
+import { usePermissions, usePermissionApplications, useRoleApplication, useUpdateRoleApplication } from "../composables";
 import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
 export default defineComponent({
   name: "ApplicationRolePermissionsList",
@@ -61,9 +61,9 @@ export default defineComponent({
   setup(props) {
     const { setTitle, setCrumbs } = useExtensionCommunicationBridge();
     const { getAll, categories } = usePermissions();
-    const { getMany: getPermissionAdmins, entities: permissionAdmins } = usePermissionAdmins();
-    const { get, entity: roleAdmin } = useRoleAdmin();
-    const { update, updating } = useUpdateRoleAdmin();
+    const { getMany: getPermissionApplications, entities: permissionApplications } = usePermissionApplications();
+    const { get, entity: roleApplication } = useRoleApplication();
+    const { update, updating } = useUpdateRoleApplication();
     const route = useRoute();
 
     const element = ref<HTMLElement | null>(null);
@@ -85,24 +85,24 @@ export default defineComponent({
 
       await getAll().then(() => {});
 
-      fetchPermissionAdmins();
+      fetchPermissionApplications();
 
-      fetchRoleAdmin();
+      fetchRoleApplication();
     };
 
-    const fetchPermissionAdmins = async () => {
-      getPermissionAdmins({ search: search.value }).then(() => {});
+    const fetchPermissionApplications = async () => {
+      getPermissionApplications({ search: search.value }).then(() => {});
     };
 
-    const fetchRoleAdmin = async () => {
+    const fetchRoleApplication = async () => {
       get(route.params.roleId.toString()).then(() => {
-        permissionIds.value = roleAdmin.value?.permissionIds;
+        permissionIds.value = roleApplication.value?.permissionIds;
       });
     };
 
-    const filteredPermissionAdmins = computed(() => {
-      if (search.value == null || search.value === "") return permissionAdmins.value;
-      return permissionAdmins.value.filter((p) => {
+    const filteredPermissionApplications = computed(() => {
+      if (search.value == null || search.value === "") return permissionApplications.value;
+      return permissionApplications.value.filter((p) => {
         return (
           p.code.toLowerCase().includes(search.value.toLowerCase()) ||
           p.label.toLowerCase().includes(search.value.toLowerCase())
@@ -114,7 +114,7 @@ export default defineComponent({
 
     const updatedAll = (ev: Event) => {
       if (enabledAll.value) {
-        permissionIds.value = filteredPermissionAdmins.value.map((p) => p.id);
+        permissionIds.value = filteredPermissionApplications.value.map((p) => p.id);
       } else {
         permissionIds.value = [];
       }
@@ -122,9 +122,9 @@ export default defineComponent({
     };
 
     const hasPermission = (permissionId: string) => {
-      if (!roleAdmin.value) return false;
-      if (!roleAdmin.value.permissionIds) return false;
-      return roleAdmin.value.permissionIds.includes(permissionId);
+      if (!roleApplication.value) return false;
+      if (!roleApplication.value.permissionIds) return false;
+      return roleApplication.value.permissionIds.includes(permissionId);
     };
 
     const updatePermissionIds = (permissionId: string) => {
@@ -141,17 +141,17 @@ export default defineComponent({
     };
 
     return {
-      permissionAdmins,
+      permissionApplications,
       search,
       permissionIds,
       updating,
       enabledAll,
       element,
-      filteredPermissionAdmins,
+      filteredPermissionApplications,
       updatePermissionIds,
       updatePermission,
       hasPermission,
-      fetchPermissionAdmins,
+      fetchPermissionApplications,
       updatedAll,
     };
   },

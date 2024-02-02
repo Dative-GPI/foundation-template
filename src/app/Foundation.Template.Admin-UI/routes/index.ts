@@ -10,9 +10,19 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('../views/Translations.vue'),
     },
     {
-        path: "/admin/v1/role-admins/:roleId",
-        name: "application-role-admin-permissions",
+        path: "/admin/v1/role-applications/:roleId",
+        name: "application-role-application-permissions",
         component: () => import('../views/ApplicationRolePermissions.vue'),
+    },
+    {
+        path: "/admin/v1/permissions-organisations",
+        name: "permission-organisations",
+        component: () => import('../views/PermissionOrganisations.vue'),
+    },
+    {
+        path: "/admin/v1/organisation-types/:organisationTypeId/permissions",
+        name: "organisation-type-permissions",
+        component: () => import('../views/PermissionOrganisationTypes.vue'),
     },
     ...drawersRoutes,
 ]
