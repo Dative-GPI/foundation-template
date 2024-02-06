@@ -17,16 +17,16 @@ using Bones.Domain;
 
 namespace Foundation.Template.Context.Repositories
 {
-    public class RoleOrganisationRepository : IRoleOrganisationRepository
+    public class RolePermissionOrganisationRepository : IRolePermissionOrganisationRepository
     {
         private DbSet<RolePermissionOrganisationDTO> _dbSet;
 
-        public RoleOrganisationRepository(BaseApplicationContext context)
+        public RolePermissionOrganisationRepository(BaseApplicationContext context)
         {
             _dbSet = context.RolePermissionOrganisations;
         }
 
-        public async Task<RoleOrganisationDetails> Get(Guid id)
+        public async Task<RolePermissionOrganisationDetails> Get(Guid id)
         {
             var permissions = await _dbSet
                 .Include(p => p.PermissionOrganisation)
@@ -34,7 +34,7 @@ namespace Foundation.Template.Context.Repositories
                 .AsNoTracking()
                 .ToListAsync();
 
-            return new RoleOrganisationDetails()
+            return new RolePermissionOrganisationDetails()
             {
                 Id = id,
                 Permissions = permissions.Select(p => new PermissionItem()
@@ -45,7 +45,7 @@ namespace Foundation.Template.Context.Repositories
             };
         }
 
-        public async Task<IEntity<Guid>> Update(UpdateRoleOrganisation payload)
+        public async Task<IEntity<Guid>> Update(UpdateRolePermissionOrganisation payload)
         {
             var formerPermissions = await _dbSet.Where(p => p.RoleOrganisationId == payload.Id).ToListAsync();
 

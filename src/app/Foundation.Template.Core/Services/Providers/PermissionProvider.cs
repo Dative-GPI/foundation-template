@@ -15,13 +15,13 @@ namespace Foundation.Template.Core.Tools
     public class PermissionProvider : IPermissionProvider
     {
         private readonly IFoundationClientFactory _foundationClientFactory;
-        private readonly IRoleOrganisationRepository _roleOrganisationRepository;
+        private readonly IRolePermissionOrganisationRepository _roleOrganisationRepository;
         private readonly IPermissionOrganisationTypeRepository _permissionOrganisationTypeRepository;
         private readonly IRequestContextProvider _requestContextProvider;
 
         public PermissionProvider(
             IFoundationClientFactory foundationClientFactory,
-            IRoleOrganisationRepository roleOrganisationRepository,
+            IRolePermissionOrganisationRepository roleOrganisationRepository,
             IPermissionOrganisationTypeRepository permissionOrganisationTypeRepository,
             IRequestContextProvider requestContextProvider
         )

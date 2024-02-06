@@ -13,7 +13,7 @@ namespace Foundation.Template.Core.DI
             services.AddScoped<IActionService, ActionService>();
             
             services.AddScoped<IPermissionOrganisationService, PermissionOrganisationService>();
-            services.AddScoped<IRoleOrganisationService, RoleOrganisationService>();
+            services.AddScoped<IRolePermissionOrganisationService, RolePermissionOrganisationService>();
 
             return services;
         }

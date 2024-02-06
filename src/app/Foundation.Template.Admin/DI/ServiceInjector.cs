@@ -15,7 +15,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IPermissionOrganisationTypeService, PermissionOrganisationTypeService>();
             services.AddScoped<IPermissionOrganisationService, PermissionOrganisationService>();
             services.AddScoped<IPermissionOrganisationCategoryService, PermissionOrganisationCategoryService>();
-            services.AddScoped<IRoleOrganisationService, RoleOrganisationService>();
+            services.AddScoped<IRolePermissionOrganisationService, RolePermissionOrganisationService>();
 
             services.AddScoped<IPermissionApplicationService, PermissionApplicationService>();
             services.AddScoped<IPermissionApplicationCategoryService, PermissionApplicationCategoryService>();

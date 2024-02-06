@@ -8,9 +8,9 @@ using Foundation.Template.Domain.Repositories.Filters;
 
 namespace Foundation.Template.Domain.Repositories.Interfaces
 {
-    public interface IRoleOrganisationRepository
+    public interface IRolePermissionOrganisationRepository
     {
-        Task<RoleOrganisationDetails> Get(Guid id);
-        Task<IEntity<Guid>> Update(UpdateRoleOrganisation payload);
+        Task<RolePermissionOrganisationDetails> Get(Guid id);
+        Task<IEntity<Guid>> Update(UpdateRolePermissionOrganisation payload);
     }
 }

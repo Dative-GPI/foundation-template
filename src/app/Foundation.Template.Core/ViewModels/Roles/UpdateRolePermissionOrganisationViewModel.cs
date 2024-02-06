@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Foundation.Template.Admin.ViewModels
+namespace Foundation.Template.Core.ViewModels
 {
-    public class UpdateRoleOrganisationViewModel
+    public class UpdateRolePermissionOrganisationViewModel
     {
         public List<Guid> PermissionIds { get; set; }
 

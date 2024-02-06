@@ -11,18 +11,18 @@ using Foundation.Template.Domain.Repositories.Interfaces;
 
 namespace Foundation.Template.Admin.Handlers
 {
-    public class UpdateRoleOrganisationCommandHandler : IMiddleware<UpdateRoleOrganisationCommand, IEntity<Guid>>
+    public class UpdateRolePermissionOrganisationCommandHandler : IMiddleware<UpdateRolePermissionOrganisationCommand, IEntity<Guid>>
     {
-        private IRoleOrganisationRepository _roleOrganisationRepository;
+        private IRolePermissionOrganisationRepository _roleOrganisationRepository;
 
-        public UpdateRoleOrganisationCommandHandler(IRoleOrganisationRepository roleOrganisationRepository)
+        public UpdateRolePermissionOrganisationCommandHandler(IRolePermissionOrganisationRepository roleOrganisationRepository)
         {
             _roleOrganisationRepository = roleOrganisationRepository;
         }
 
-        public async Task<IEntity<Guid>> HandleAsync(UpdateRoleOrganisationCommand request, Func<Task<IEntity<Guid>>> next, CancellationToken cancellationToken)
+        public async Task<IEntity<Guid>> HandleAsync(UpdateRolePermissionOrganisationCommand request, Func<Task<IEntity<Guid>>> next, CancellationToken cancellationToken)
         {
-            var entity = await _roleOrganisationRepository.Update(new UpdateRoleOrganisation()
+            var entity = await _roleOrganisationRepository.Update(new UpdateRolePermissionOrganisation()
             {
                 Id = request.RoleOrganisationId,
                 PermissionIds = request.PermissionIds

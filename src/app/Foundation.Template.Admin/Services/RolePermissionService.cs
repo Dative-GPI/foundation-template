@@ -16,51 +16,51 @@ using Foundation.Template.Admin.ViewModels;
 
 namespace Foundation.Template.Admin.Services
 {
-    public class RoleOrganisationService : IRoleOrganisationService
+    public class RolePermissionOrganisationService : IRolePermissionOrganisationService
     {
-        private IQueryHandler<RoleOrganisationQuery, RoleOrganisationDetails> _roleOrganisationQueryHandler;
-        private ICommandHandler<UpdateRoleOrganisationCommand, IEntity<Guid>> _updateRoleOrganisationCommandHandler;
-        private IRoleOrganisationRepository _roleOrganisationRepository;
+        private IQueryHandler<RolePermissionOrganisationQuery, RolePermissionOrganisationDetails> _roleOrganisationQueryHandler;
+        private ICommandHandler<UpdateRolePermissionOrganisationCommand, IEntity<Guid>> _updateRolePermissionOrganisationCommandHandler;
+        private IRolePermissionOrganisationRepository _roleOrganisationRepository;
         private IMapper _mapper;
 
-        public RoleOrganisationService(
-            IQueryHandler<RoleOrganisationQuery, RoleOrganisationDetails> roleOrganisationQueryHandler,
-            ICommandHandler<UpdateRoleOrganisationCommand, IEntity<Guid>> updateRoleOrganisationCommandHandler,
-            IRoleOrganisationRepository roleOrganisationRepository,
+        public RolePermissionOrganisationService(
+            IQueryHandler<RolePermissionOrganisationQuery, RolePermissionOrganisationDetails> roleOrganisationQueryHandler,
+            ICommandHandler<UpdateRolePermissionOrganisationCommand, IEntity<Guid>> updateRolePermissionOrganisationCommandHandler,
+            IRolePermissionOrganisationRepository roleOrganisationRepository,
             IMapper mapper
         )
         {
             _roleOrganisationQueryHandler = roleOrganisationQueryHandler;
-            _updateRoleOrganisationCommandHandler = updateRoleOrganisationCommandHandler;
+            _updateRolePermissionOrganisationCommandHandler = updateRolePermissionOrganisationCommandHandler;
             _roleOrganisationRepository = roleOrganisationRepository;
             _mapper = mapper;
         }
 
-        public async Task<RoleOrganisationDetailsViewModel> Get(Guid id)
+        public async Task<RolePermissionOrganisationDetailsViewModel> Get(Guid id)
         {
-            var query = new RoleOrganisationQuery()
+            var query = new RolePermissionOrganisationQuery()
             {
                 RoleOrganisationId = id
             };
 
             var result = await _roleOrganisationQueryHandler.HandleAsync(query);
 
-            return _mapper.Map<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>(result);
+            return _mapper.Map<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>(result);
         }
 
-        public async Task<RoleOrganisationDetailsViewModel> Update(Guid id, UpdateRoleOrganisationViewModel payload)
+        public async Task<RolePermissionOrganisationDetailsViewModel> Update(Guid id, UpdateRolePermissionOrganisationViewModel payload)
         {
-            var command = new UpdateRoleOrganisationCommand()
+            var command = new UpdateRolePermissionOrganisationCommand()
             {
                 RoleOrganisationId = id,
                 PermissionIds = payload.PermissionIds,
                 ExtensionData = payload.ExtensionData
             };
 
-            var entity = await _updateRoleOrganisationCommandHandler.HandleAsync(command);
+            var entity = await _updateRolePermissionOrganisationCommandHandler.HandleAsync(command);
             var result = await _roleOrganisationRepository.Get(entity.Id);
 
-            return _mapper.Map<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>(result);
+            return _mapper.Map<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>(result);
         }
     }
 }

@@ -18,24 +18,24 @@ using static Foundation.Template.Core.AutoMapper.Consts;
 
 namespace Foundation.Template.Core.Services
 {
-    public class RoleOrganisationService : IRoleOrganisationService
+    public class RolePermissionOrganisationService : IRolePermissionOrganisationService
     {
-        private readonly IQueryHandler<RoleOrganisationQuery, RoleOrganisationDetails> _roleOrganisationQueryHandler;
-        private readonly ICommandHandler<UpdateRoleOrganisationCommand, IEntity<Guid>> _updateRoleOrganisationCommandHandler;
-        private readonly IRoleOrganisationRepository _roleOrganisationRepository;
+        private readonly IQueryHandler<RolePermissionOrganisationQuery, RolePermissionOrganisationDetails> _roleOrganisationQueryHandler;
+        private readonly ICommandHandler<UpdateRolePermissionOrganisationCommand, IEntity<Guid>> _updateRolePermissionOrganisationCommandHandler;
+        private readonly IRolePermissionOrganisationRepository _roleOrganisationRepository;
         private readonly IRequestContextProvider _requestContextProvider;
         private readonly IMapper _mapper;
 
-        public RoleOrganisationService(
-            IQueryHandler<RoleOrganisationQuery, RoleOrganisationDetails> roleOrganisationQueryHandler,
-            ICommandHandler<UpdateRoleOrganisationCommand, IEntity<Guid>> updateRoleOrganisationCommandHandler,
+        public RolePermissionOrganisationService(
+            IQueryHandler<RolePermissionOrganisationQuery, RolePermissionOrganisationDetails> roleOrganisationQueryHandler,
+            ICommandHandler<UpdateRolePermissionOrganisationCommand, IEntity<Guid>> updateRolePermissionOrganisationCommandHandler,
             IRequestContextProvider requestContextProvider,
-            IRoleOrganisationRepository roleOrganisationRepository,
+            IRolePermissionOrganisationRepository roleOrganisationRepository,
             IMapper mapper
         )
         {
             _roleOrganisationQueryHandler = roleOrganisationQueryHandler;
-            _updateRoleOrganisationCommandHandler = updateRoleOrganisationCommandHandler;
+            _updateRolePermissionOrganisationCommandHandler = updateRolePermissionOrganisationCommandHandler;
 
             _roleOrganisationRepository = roleOrganisationRepository;
 
@@ -43,30 +43,30 @@ namespace Foundation.Template.Core.Services
             _mapper = mapper;
         }
 
-        public async Task<RoleOrganisationDetailsViewModel> Get(Guid roleId)
+        public async Task<RolePermissionOrganisationDetailsViewModel> Get(Guid roleId)
         {
-            var query = new RoleOrganisationQuery() {
+            var query = new RolePermissionOrganisationQuery() {
                 RoleOrganisationId = roleId
             };
 
             var result = await _roleOrganisationQueryHandler.HandleAsync(query);
 
             var context = _requestContextProvider.Context;
-            return _mapper.Map<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>(result, opt => opt.Items.Add(LANGUAGE, context.LanguageCode));
+            return _mapper.Map<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>(result, opt => opt.Items.Add(LANGUAGE, context.LanguageCode));
         }
 
-        public async Task<RoleOrganisationDetailsViewModel> Update(Guid roleId, UpdateRoleOrganisationViewModel payload)
+        public async Task<RolePermissionOrganisationDetailsViewModel> Update(Guid roleId, UpdateRolePermissionOrganisationViewModel payload)
         {
-            var command = new UpdateRoleOrganisationCommand() {
+            var command = new UpdateRolePermissionOrganisationCommand() {
                 RoleOrganisationId = roleId,
                 PermissionIds = payload.PermissionIds
             };
 
-            var entity = await _updateRoleOrganisationCommandHandler.HandleAsync(command);
+            var entity = await _updateRolePermissionOrganisationCommandHandler.HandleAsync(command);
             var result = await _roleOrganisationRepository.Get(entity.Id);
 
             var context = _requestContextProvider.Context;
-            return _mapper.Map<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>(result, opt => opt.Items.Add(LANGUAGE, context.LanguageCode));
+            return _mapper.Map<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>(result, opt => opt.Items.Add(LANGUAGE, context.LanguageCode));
         }
     }
 }

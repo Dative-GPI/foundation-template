@@ -12,17 +12,17 @@ using Foundation.Template.Domain.Repositories.Interfaces;
 
 namespace Foundation.Template.Admin.Handlers
 {
-    public class RoleOrganisationQueryHandler : IMiddleware<RoleOrganisationQuery, RoleOrganisationDetails>
+    public class RolePermissionOrganisationQueryHandler : IMiddleware<RolePermissionOrganisationQuery, RolePermissionOrganisationDetails>
     {
-        private IRoleOrganisationRepository _roleOrganisationRepository;
+        private IRolePermissionOrganisationRepository _roleOrganisationRepository;
 
-        public RoleOrganisationQueryHandler(
-            IRoleOrganisationRepository roleOrganisationRepository)
+        public RolePermissionOrganisationQueryHandler(
+            IRolePermissionOrganisationRepository roleOrganisationRepository)
         {
             _roleOrganisationRepository = roleOrganisationRepository;
         }
 
-        public async Task<RoleOrganisationDetails> HandleAsync(RoleOrganisationQuery request, Func<Task<RoleOrganisationDetails>> next, CancellationToken cancellationToken)
+        public async Task<RolePermissionOrganisationDetails> HandleAsync(RolePermissionOrganisationQuery request, Func<Task<RolePermissionOrganisationDetails>> next, CancellationToken cancellationToken)
         {
             var result = await _roleOrganisationRepository.Get(request.RoleOrganisationId);
             return result;

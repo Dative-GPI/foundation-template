@@ -27,7 +27,7 @@ namespace Foundation.Template.Core.DI
             services.AddMiddlewares();
 
             services.AddPermissions();
-            services.AddRoleOrganisations();
+            services.AddRolePermissionOrganisations();
 
             services.AddScoped<IPermissionProvider, PermissionProvider>();
 

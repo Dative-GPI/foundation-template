@@ -17,7 +17,7 @@ namespace Foundation.Template.Core.AutoMapper
 
             CreateMap<PermissionOrganisationInfos, PermissionOrganisationInfosViewModel>();
             CreateMap<PermissionOrganisationCategory, PermissionOrganisationCategoryViewModel>();
-            CreateMap<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>()
+            CreateMap<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>()
                 .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(p => p.Permissions.Select(p => p.Id).ToList()));
             CreateMap<ActionInfos, ActionInfosViewModel>();
         }

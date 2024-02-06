@@ -11,18 +11,18 @@ using Foundation.Template.Domain.Repositories.Interfaces;
 
 namespace Foundation.Template.Core.Handlers
 {
-    public class RoleOrganisationQueryHandler : IMiddleware<RoleOrganisationQuery, RoleOrganisationDetails>
+    public class RolePermissionOrganisationQueryHandler : IMiddleware<RolePermissionOrganisationQuery, RolePermissionOrganisationDetails>
     {
-        private readonly IRoleOrganisationRepository _roleOrganisationRepository;
+        private readonly IRolePermissionOrganisationRepository _roleOrganisationRepository;
 
-        public RoleOrganisationQueryHandler(
-            IRoleOrganisationRepository roleOrganisationRepository
+        public RolePermissionOrganisationQueryHandler(
+            IRolePermissionOrganisationRepository roleOrganisationRepository
         )
         {
             _roleOrganisationRepository = roleOrganisationRepository;
         }
 
-        public async Task<RoleOrganisationDetails> HandleAsync(RoleOrganisationQuery request, Func<Task<RoleOrganisationDetails>> next, CancellationToken cancellationToken)
+        public async Task<RolePermissionOrganisationDetails> HandleAsync(RolePermissionOrganisationQuery request, Func<Task<RolePermissionOrganisationDetails>> next, CancellationToken cancellationToken)
         {
             var role = await _roleOrganisationRepository.Get(request.RoleOrganisationId);
 

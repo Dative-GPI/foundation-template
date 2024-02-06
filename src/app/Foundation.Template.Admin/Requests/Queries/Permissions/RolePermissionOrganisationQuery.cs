@@ -8,7 +8,7 @@ using Foundation.Template.Domain.Models;
 
 namespace Foundation.Template.Admin
 {
-    public class RoleOrganisationQuery : ICoreRequest, IRequest<RoleOrganisationDetails>
+    public class RolePermissionOrganisationQuery : ICoreRequest, IRequest<RolePermissionOrganisationDetails>
     {
         public IEnumerable<string> Authorizations => new[] { "admin.organisation-type.role.infos" };
 

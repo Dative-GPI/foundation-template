@@ -8,7 +8,7 @@ using Foundation.Clients;
 
 namespace Foundation.Template.Core
 {
-    public class UpdateRoleOrganisationCommand : ICoreRequest, IRequest<IEntity<Guid>>
+    public class UpdateRolePermissionOrganisationCommand : ICoreRequest, IRequest<IEntity<Guid>>
     {
         public IEnumerable<string> Authorizations => new[] { "app.role.update" };
 

@@ -29,7 +29,7 @@ namespace Foundation.Template.Admin.DI
             services.AddPermissions();
             services.AddPermissionOrganisationCategories();
             services.AddPermissionOrganisationTypes();
-            services.AddRoleOrganisation();
+            services.AddRolePermissionOrganisation();
 
             services.AddPermissionApplications();
             services.AddPermissionApplicationCategories();

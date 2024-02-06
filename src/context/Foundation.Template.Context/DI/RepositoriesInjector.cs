@@ -20,7 +20,7 @@ namespace Foundation.Template.Context.DI
             services.AddScoped<IPermissionApplicationRepository, PermissionApplicationRepository>();
             services.AddScoped<IPermissionApplicationCategoryRepository, PermissionApplicationCategoryRepository>();
 
-            services.AddScoped<IRoleOrganisationRepository, RoleOrganisationRepository>();
+            services.AddScoped<IRolePermissionOrganisationRepository, RolePermissionOrganisationRepository>();
             services.AddScoped<IRoleApplicationRepository, RoleApplicationRepository>();
 
             services.AddScoped<IApplicationTranslationRepository, ApplicationTranslationRepository>();

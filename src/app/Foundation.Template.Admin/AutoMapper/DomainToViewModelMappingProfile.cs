@@ -29,7 +29,7 @@ namespace Foundation.Template.Admin.AutoMapper
             CreateMap<RoleApplicationDetails, RoleApplicationDetailsViewModel>()
                 .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(r => r.Permissions.Select(p => p.Id).ToList()));
 
-            CreateMap<RoleOrganisationDetails, RoleOrganisationDetailsViewModel>()
+            CreateMap<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>()
                 .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(r => r.Permissions.Select(p => p.Id).ToList()));
 
         }

@@ -9,7 +9,7 @@ using static Foundation.Template.Admin.Authorizations;
 
 namespace Foundation.Template.Admin
 {
-    public class UpdateRoleOrganisationCommand : ICoreRequest, IRequest<IEntity<Guid>>
+    public class UpdateRolePermissionOrganisationCommand : ICoreRequest, IRequest<IEntity<Guid>>
     {
         public IEnumerable<string> Authorizations => new[] { "admin.organisation-type.role.update" };
 

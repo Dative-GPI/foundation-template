@@ -10,11 +10,11 @@ using Foundation.Template.Core.ViewModels;
 namespace Foundation.Template.Core.Controllers
 {
     [Route("api/core/v1")]
-    public class RoleOrganisationsController : ControllerBase
+    public class RolePermissionOrganisationsController : ControllerBase
     {
-        private readonly IRoleOrganisationService _roleOrganisationService;
+        private readonly IRolePermissionOrganisationService _roleOrganisationService;
 
-        public RoleOrganisationsController(IRoleOrganisationService roleOrganisationService)
+        public RolePermissionOrganisationsController(IRolePermissionOrganisationService roleOrganisationService)
         {
             _roleOrganisationService = roleOrganisationService;
         }
@@ -29,7 +29,7 @@ namespace Foundation.Template.Core.Controllers
 
         [Route("organisations/{organisationId:Guid}/roles/{roleId:Guid}")]
         [HttpPost]
-        public async Task<IActionResult> Update([FromRoute] Guid organisationId, [FromRoute] Guid roleId, [FromBody] UpdateRoleOrganisationViewModel payload)
+        public async Task<IActionResult> Update([FromRoute] Guid organisationId, [FromRoute] Guid roleId, [FromBody] UpdateRolePermissionOrganisationViewModel payload)
         {
             await _roleOrganisationService.Update(roleId, payload);
             return Ok();
