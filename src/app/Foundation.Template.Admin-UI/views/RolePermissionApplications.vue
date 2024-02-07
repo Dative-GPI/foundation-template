@@ -1,5 +1,5 @@
 <template>
-  <role-organisation-details :edit-mode="editMode" :role-id="roleId" />
+  <role-permission-applications-list :edit-mode="editMode" :role-id="roleId" />
 </template>
 
 <script lang="ts">
@@ -7,11 +7,11 @@ import { computed, defineComponent } from "vue";
 
 import { useRoute } from "vue-router";
 
-import RoleOrganisationDetails from "../components/RoleOrganisationDetails.vue";
+import RolePermissionApplicationsList from "../components/RolePermissionApplicationsList.vue";
 
 export default defineComponent({
   components: {
-    RoleOrganisationDetails,
+    RolePermissionApplicationsList,
   },
   setup(props) {
     const route = useRoute();

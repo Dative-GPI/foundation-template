@@ -1,49 +1,52 @@
-import { ComposableFactory, ServiceFactory, onCollectionChanged } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory, onCollectionChanged, onEntityChanged } from "@dative-gpi/bones-ui";
 
-import { PERMISSION_ORGANISATION_TYPES_URL } from "../config";
-
-import { PermissionOrganisationTypeInfos, PermissionOrganisationTypeInfosDTO, UpsertPermissionOrganisation } from "../domain";
+import { RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsDTO, UpdateRolePermissionOrganisation } from "../domain";
 import { Ref, onUnmounted, readonly, ref } from "vue";
+import { ROLE_PERMISSION_ORGANISATION_URL } from "../config/urls/RolePermissionOrganisations";
 
-const PermissionServiceFactory = new ServiceFactory("permission-organisation-type", PermissionOrganisationTypeInfos)
+const RolePermissionServiceFactory = new ServiceFactory("role-permission-organisation-type", RolePermissionOrganisationDetails)
     .create(f => f.build(
-        f.addGetMany(PERMISSION_ORGANISATION_TYPES_URL, PermissionOrganisationTypeInfos),
+        f.addGet(ROLE_PERMISSION_ORGANISATION_URL, RolePermissionOrganisationDetails),
         f.addNotify(
             notifier => ({
-                upsert: async (payload: UpsertPermissionOrganisation[]) => {
-                    const response = await ServiceFactory.http.patch(PERMISSION_ORGANISATION_TYPES_URL, payload);
+                update: async (roleId: string, payload: UpdateRolePermissionOrganisation) => {
+                    const response = await ServiceFactory.http.post(ROLE_PERMISSION_ORGANISATION_URL(roleId), payload);
+                    const dto: RolePermissionOrganisationDetailsDTO = response.data;
+                    const result = new RolePermissionOrganisationDetails(dto);
+
+                    notifier.notify("update", result);
                 }
             })
         )
     ));
 
-export const usePermissionOrganisationTypes = ComposableFactory.getMany(PermissionServiceFactory);
+export const useRolePermissionOrganisations = ComposableFactory.get(RolePermissionServiceFactory);
 
-export const useUpsertPermissionOrganisationTypes = () => {
-    const service = PermissionServiceFactory();
+export const useUpdateRolePermissionOrganisations = () => {
+    const service = RolePermissionServiceFactory();
 
-    const upserting = ref(false);
-    const upserted = ref<PermissionOrganisationTypeInfos[]>([]) as Ref<PermissionOrganisationTypeInfos[]>;
+    const updating = ref(false);
+    const updated = ref<RolePermissionOrganisationDetails>() as Ref<RolePermissionOrganisationDetails>;
 
-    const upsert = async (payload: UpsertPermissionOrganisation[]) => {
-        upserting.value = true;
+    const update = async (roleId: string, payload: UpdateRolePermissionOrganisation) => {
+        updating.value = true;
         try {
-            upserted.value = await service.upsert(payload);
+            updated.value = await service.update(roleId, payload);
         }
         finally {
-            upserting.value = false;
+            updating.value = false;
         }
 
-        const subscriberId = service.subscribe("all", onCollectionChanged(upserted))
+        const subscriberId = service.subscribe("all", onEntityChanged(updated))
         onUnmounted(() => service.unsubscribe(subscriberId));
 
-        return readonly(upserted.value);
+        return readonly(updated.value);
     }
 
     return {
-        upserting: readonly(upserting),
-        upsert,
-        upserted: readonly(upserted)
+        upserting: readonly(updating),
+        update,
+        updated: readonly(updated)
     }
 }
 

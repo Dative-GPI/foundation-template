@@ -18,7 +18,7 @@ const PermissionServiceFactory = new ServiceFactory("permission-organisation", P
         )
     });
 
-export const usePermissions = () => {
+export const usePermissionOrganisations = () => {
     const fetching = ref(false);
     const permissions = ref<PermissionOrganisationInfos[]>([]);
     const categories = ref<PermissionOrganisationCategory[]>([]);

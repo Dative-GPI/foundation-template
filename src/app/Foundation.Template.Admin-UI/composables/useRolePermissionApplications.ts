@@ -11,5 +11,5 @@ const RoleApplicationServiceFactory = new ServiceFactory<RoleApplicationDetailsD
         f.addNotify()
     ));
 
-export const useUpdateRoleApplication = ComposableFactory.update(RoleApplicationServiceFactory);
-export const useRoleApplication = ComposableFactory.get(RoleApplicationServiceFactory);
+export const useRolePermissionApplications = ComposableFactory.get(RoleApplicationServiceFactory);
+export const useUpdateRolePermissionApplications = ComposableFactory.update(RoleApplicationServiceFactory);
