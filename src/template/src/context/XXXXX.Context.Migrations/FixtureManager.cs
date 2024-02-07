@@ -46,6 +46,7 @@ namespace XXXXX.Context.Migrations
                 {
                     Id = Guid.NewGuid(),
                     Code = fixture.Code,
+                    Prefix = fixture.Code + ".",
                     LabelDefault = fixture.Value
                 },
                 (fixture, dto) =>
@@ -74,6 +75,7 @@ namespace XXXXX.Context.Migrations
                 {
                     Id = Guid.NewGuid(),
                     Code = fixture.Code,
+                    Prefix = fixture.Code + ".",
                     LabelDefault = fixture.Value
                 },
                 (fixture, dto) =>
