@@ -1,5 +1,5 @@
 using System;
-
+using System.Runtime.Intrinsics.Arm;
 using Foundation.Template.Context.DTOs;
 using Foundation.Template.Fixtures;
 using Foundation.Template.Fixtures.Abstractions;
@@ -23,6 +23,20 @@ namespace XXXXX.Context.Migrations
                 (fixture, dto) =>
                 {
                     dto.ValueDefault = fixture.Value;
+                    return dto;
+                });
+
+            Add<TableDTO, Fixture>(
+                TableProvider.GetAllTables,
+                fixture => new TableDTO()
+                {
+                    Id = Guid.NewGuid(),
+                    Code = fixture.Code,
+                    EntityType = fixture.Value
+                },
+                (fixture, dto) =>
+                {
+                    dto.EntityType = fixture.Value;
                     return dto;
                 });
 
@@ -81,6 +95,24 @@ namespace XXXXX.Context.Migrations
                 (fixture, dto) =>
                 {
                     dto.LabelDefault = fixture.Value;
+                    return dto;
+                });
+
+            Add<EntityPropertyDTO, EntityProperty>(
+                EntityPropertyProvider.GetAllEntityProperties,
+                fixture => new EntityPropertyDTO()
+                {
+                    Id = Guid.NewGuid(),
+                    Code = fixture.Code,
+                    EntityType = fixture.EntityType,
+                    LabelDefault = fixture.LabelDefault,
+                    Value = fixture.Value
+                },
+                (prop, dto) =>
+                {
+                    dto.EntityType = prop.EntityType;
+                    dto.LabelDefault = prop.LabelDefault;
+                    dto.Value = prop.Value;
                     return dto;
                 });
         }

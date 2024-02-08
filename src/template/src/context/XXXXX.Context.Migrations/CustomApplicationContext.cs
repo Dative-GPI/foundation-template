@@ -33,6 +33,8 @@ namespace XXXXX.Context.Migrations
             _fixtureHelper.Feed<PermissionApplicationDTO>(modelBuilder);
             _fixtureHelper.Feed<PermissionApplicationCategoryDTO>(modelBuilder);
             _fixtureHelper.Feed<TranslationDTO>(modelBuilder);
+            _fixtureHelper.Feed<TableDTO>(modelBuilder);
+            _fixtureHelper.Feed<EntityPropertyDTO>(modelBuilder);
         }
     }
 }
