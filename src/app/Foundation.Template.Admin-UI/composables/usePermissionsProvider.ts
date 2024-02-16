@@ -17,15 +17,11 @@ const { entities: permissions, getMany, fetching } = useCurrentPermissions()
 const init = ref<Promise<any> | null>(null);
 
 export const usePermissionsProvider = () => {
-    const has = (code: string) => {
-        return !!permissions.value.includes(code);
-    }
-
-    const some = (permissionCodes: string[]) => {
+    const some = (...permissionCodes: string[]) => {
         return permissionCodes.some(p => permissions.value.includes(p));
     }
 
-    const every = (permissionCodes: string[]) => {
+    const every = (...permissionCodes: string[]) => {
         return permissionCodes.every(p => permissions.value.includes(p));
     }
 
@@ -36,7 +32,6 @@ export const usePermissionsProvider = () => {
     }
 
     return {
-        has,
         some,
         every,
         init: fetch,

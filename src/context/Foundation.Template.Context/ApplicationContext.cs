@@ -34,6 +34,8 @@ namespace Foundation.Template.Context
 
         #region Tables
         public DbSet<TableDTO> Tables { get; set; }
+        public DbSet<ColumnDTO> Columns { get; set; }
+        public DbSet<OrganisationTypeDispositionDTO> OrganisationTypeDispositions { get; set; }
         public DbSet<EntityPropertyDTO> EntityProperties { get; set; }
         #endregion
 

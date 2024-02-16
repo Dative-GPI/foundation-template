@@ -31,6 +31,16 @@ namespace Foundation.Template.Admin.AutoMapper
 
             CreateMap<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>()
                 .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(r => r.Permissions.Select(p => p.Id).ToList()));
+ 
+            #region Tables
+            CreateMap<ApplicationTableInfos, ApplicationTableInfosViewModel>();
+            CreateMap<ApplicationTableDetails, ApplicationTableDetailsViewModel>();
+            CreateMap<OrganisationTypeDisposition, OrganisationTypeDispositionViewModel>();
+            CreateMap<OrganisationTypeTableDetails, OrganisationTypeTableDetailsViewModel>();
+            CreateMap<OrganisationTypeTableInfos, OrganisationTypeTableInfosViewModel>();
+            CreateMap<Column, ColumnViewModel>();
+            CreateMap<TranslationColumn, TranslationColumnViewModel>();
+            #endregion
 
         }
     }

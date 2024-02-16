@@ -20,7 +20,7 @@ namespace Foundation.Template.Fixtures
 
         // static List<string> Namespaces = new List<string>() {
         //     "Foundation.Core.Kernel.ViewModels",
-        //     "Foundation.Admin.Kernel.ViewModels"
+        //     "Foundation.Template.Admin.ViewModels"
         // };
 
         public static List<EntityProperty> GetAll(List<Assembly> assemblies, List<string> namespaces)

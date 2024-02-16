@@ -1,17 +1,21 @@
-export class ApplicationTranslation {
+export class Translation {
   id: string;
   code: string;
   value: string;
 
-  constructor(params: ApplicationTranslationDTO) {
+  constructor(params: TranslationDTO) {
     this.id = params.id;
     this.code = params.code;
     this.value = params.value;
   }
 }
 
-export interface ApplicationTranslationDTO {
+export interface TranslationDTO {
   id: string;
   code: string;
   value: string;
+}
+
+export interface TranslationFilter {
+  languageCode?: string;
 }

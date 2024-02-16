@@ -81,7 +81,6 @@ export default defineComponent({
     const { update } = useUpdateRolePermissionApplications();
     const route = useRoute();
 
-    const { editMode, roleId } = toRefs(props);
     const element = ref<HTMLElement | null>(null);
 
     const search = ref("");
@@ -99,14 +98,14 @@ export default defineComponent({
         },
       ]);
 
-      await getAll().then(() => { });
+      await getAll();
 
-      fetchRoleApplication();
+      await fetchRoleApplication();
     };
 
     const fetchRoleApplication = async () => {
       fetching.value = true;
-      await getRolePermissionApplications(roleId.value).then(() => { });
+      await getRolePermissionApplications(props.roleId);
       permissionIds.value = rolePermissionApplications.value.permissionIds.map((p) => p);
       fetching.value = false;
     };
@@ -162,13 +161,13 @@ export default defineComponent({
       }
     };
 
-    function save() {
-      update(roleId.value, { permissionIds: permissionIds.value }).then(() => { });
+    async function save() {
+      await update(props.roleId, { permissionIds: permissionIds.value });
     };
 
 
     const synchronizePermissions = async () => {
-      if (!editMode.value) return;
+      if (!props.editMode) return;
       await save();
     };
 
@@ -176,8 +175,8 @@ export default defineComponent({
 
     watch(permissionIds, debouncedsynchronizePermissions);
 
-    watch(editMode, () => {
-      if (editMode.value == false) {
+    watch(() => props.editMode, () => {
+      if (props.editMode == false) {
         save();
       }
     });

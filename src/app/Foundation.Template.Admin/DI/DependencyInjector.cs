@@ -37,8 +37,11 @@ namespace Foundation.Template.Admin.DI
 
             services.AddTranslations();
             services.AddApplicationTranslations();
+            services.AddDispositions();
 
             services.AddScoped<IPermissionProvider, PermissionProvider>();
+            services.AddScoped<IApplicationTableProvider, ApplicationTableProvider>();
+            services.AddScoped<IOrganisationTypeTableProvider, OrganisationTypeTableProvider>();
 
             return services;
         }

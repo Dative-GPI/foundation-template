@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Foundation.Template.Context.Repositories;
 using Foundation.Template.Domain.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Foundation.Template.Context.DI
 {
@@ -26,6 +27,11 @@ namespace Foundation.Template.Context.DI
             services.AddScoped<IApplicationTranslationRepository, ApplicationTranslationRepository>();
             services.AddScoped<ITranslationRepository, TranslationRepository>();
 
+            services.AddScoped<IColumnRepository, ColumnRepository>();
+            services.AddScoped<IEntityPropertyRepository, EntityPropertyRepository>();
+            services.AddScoped<IOrganisationTypeDispositionRepository, OrganisationTypeDispositionRepository>();
+            services.AddScoped<ITableRepository, TableRepository>();
+                        
             return services;
         }
     }

@@ -1,30 +1,20 @@
 import { ref } from "vue";
-import { ServiceFactory } from "@dative-gpi/bones-ui";
-import { ComposableFactory } from "@dative-gpi/bones-ui";
+import { useTranslations } from "./useTranslations";
 
-import { APPLICATION_TRANSLATIONS_URL } from "../config";
-import { ApplicationTranslation } from "../models";
 
-const ApplicationTranslationServiceFactory = new ServiceFactory("application-translation", ApplicationTranslation)
-    .create(f => f.build(
-        f.addGetMany(APPLICATION_TRANSLATIONS_URL, ApplicationTranslation),
-        f.addNotify()
-    ));
-
-const useApplicationTranslations = ComposableFactory.getMany(ApplicationTranslationServiceFactory);
-
-const { entities: translations, getMany, fetching } = useApplicationTranslations()
+const { entities: translations, getMany, fetching } = useTranslations();
 
 const init = ref<Promise<any> | null>(null);
 
 export const useTranslationsProvider = () => {
-    const has = (code: string) => {
-        return !!translations.value.find(t => t.code === code);
-    }
-
-    const get = (code: string) => {
-        const t = translations.value.find(t => t.code === code);
-        return t ? t.value : null
+    const $tr = (code: string, defaultValue: string, ...parameters: string[]) => {
+        let translation = translations.value.find(t => t.code === code)?.value ?? defaultValue;
+        if (translation && parameters.length) {
+            for (let p of parameters) {
+                translation = translation.replace(`{${parameters.indexOf(p)}}`, p.toString());
+            }
+        }
+        return translation;
     }
 
     const fetch = () => {
@@ -34,9 +24,9 @@ export const useTranslationsProvider = () => {
     }
 
     return {
-        has,
-        get,
         init: fetch,
-        initializing: fetching
+        initializing: fetching,
+        $tr
     }
 }
+
