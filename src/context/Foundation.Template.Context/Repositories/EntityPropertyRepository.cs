@@ -29,8 +29,8 @@ namespace Foundation.Template.Context.Repositories
                 .AsNoTracking()
                 .SingleOrDefaultAsync(ep => ep.Id == id);
 
-            if(dto == null) return null;
-            
+            if (dto == null) return null;
+
             return new EntityProperty()
             {
                 Id = dto.Id,
@@ -47,7 +47,10 @@ namespace Foundation.Template.Context.Repositories
             var query = _dbSet
                 .AsQueryable();
 
-            query = query.Where(ep => ep.EntityType == filter.EntityType);
+            if (!String.IsNullOrWhiteSpace(filter.EntityType))
+            {
+                query = query.Where(ep => ep.EntityType == filter.EntityType);
+            }
 
             var dtos = await query.AsNoTracking().ToListAsync();
 
@@ -56,10 +59,11 @@ namespace Foundation.Template.Context.Repositories
                 Id = dto.Id,
                 Code = dto.Code,
                 LabelDefault = dto.LabelDefault,
+                CategoryLabelDefault = dto.CategoryLabelDefault,
                 EntityType = dto.EntityType,
                 Value = dto.Value,
                 Disabled = dto.Disabled
-            });
+            }).OrderBy(e => e.Code).ToList();
         }
     }
 }

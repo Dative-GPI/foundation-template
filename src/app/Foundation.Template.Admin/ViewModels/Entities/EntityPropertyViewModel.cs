@@ -1,8 +1,8 @@
 using System;
 
-namespace Foundation.Template.Domain.Models
+namespace Foundation.Template.Admin.ViewModels
 {
-    public class EntityProperty
+    public class EntityPropertyViewModel
     {
         public Guid Id { get; set; }
         public string Code { get; set; }

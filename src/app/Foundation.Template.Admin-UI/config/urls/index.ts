@@ -7,3 +7,4 @@ export * from "./permissionOrganisations";
 export * from "./tables";
 export * from "./translations";
 export * from "./roleApplications"
+export * from "./entities";

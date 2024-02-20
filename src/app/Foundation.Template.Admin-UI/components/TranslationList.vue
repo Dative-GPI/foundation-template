@@ -116,18 +116,15 @@ export default defineComponent({
     const headers = computed(() => {
       return [
         {
-          text: "Code",
           title: "Code",
           value: "code",
           sortable: true,
         },
         {
-          text: "Default translation",
           title: "Default translation",
           value: "value",
         },
         {
-          text: "Translations",
           title: "Translations",
           value: "languages",
         },
