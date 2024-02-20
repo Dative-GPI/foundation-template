@@ -1,6 +1,7 @@
 export * from "./image";
 export * from "./organisation";
-
-export * from "./permissions";
+export * from "./permissionApplications";
+export * from "./permissionOrganisationTypes";
+export * from "./permissionOrganisations";
 export * from "./translations";
-export * from "./roleOrganisations"
+export * from "./roleApplications"

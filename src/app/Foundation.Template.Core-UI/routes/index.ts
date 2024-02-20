@@ -3,9 +3,9 @@ import { RouteRecordRaw } from "vue-router";
 export const routes: RouteRecordRaw[] = [
     {
         path: "/organisations/:organisationId/role-organisations/:roleId",
-        name: "organisation-role-permissions",
+        name: "role-organisation",
         components: {
-            default: () => import("../views/RoleOrganisation.vue")
+            default: () => import("../views/RolePermissionOrganisations.vue")
         },
     },
 ]

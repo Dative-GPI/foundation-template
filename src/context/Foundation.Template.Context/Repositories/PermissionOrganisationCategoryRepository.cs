@@ -18,7 +18,7 @@ namespace Foundation.Template.Context.Repositories
 
         public PermissionOrganisationCategoryRepository(BaseApplicationContext context)
         {
-            _categorySet = context.PermissionCategories;
+            _categorySet = context.PermissionOrganisationCategories;
         }
 
         public async Task<IEnumerable<PermissionOrganisationCategory>> GetMany()

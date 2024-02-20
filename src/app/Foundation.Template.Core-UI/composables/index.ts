@@ -1,5 +1,5 @@
 export * from "./useOrganisationId"
-export * from "./usePermissions"
 export * from "./usePermissionsProvider"
-export * from "./useRoleOrganisation"
 export * from "./useCoreTemplate"
+export * from "./usePermissionOrganisations"
+export * from "./useRolePermissionOrganisation"

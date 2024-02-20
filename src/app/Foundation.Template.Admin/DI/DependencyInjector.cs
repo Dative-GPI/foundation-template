@@ -28,12 +28,12 @@ namespace Foundation.Template.Admin.DI
 
             services.AddPermissions();
             services.AddPermissionOrganisationCategories();
-            services.AddOrganisationTypePermissionOrganisations();
-            services.AddRoleOrganisation();
+            services.AddPermissionOrganisationTypes();
+            services.AddRolePermissionOrganisation();
 
-            services.AddPermissionAdmins();
-            services.AddPermissionAdminCategories();
-            services.AddRoleAdmin();
+            services.AddPermissionApplications();
+            services.AddPermissionApplicationCategories();
+            services.AddRoleApplication();
 
             services.AddTranslations();
             services.AddApplicationTranslations();

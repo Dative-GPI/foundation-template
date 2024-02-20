@@ -115,7 +115,8 @@ services:
         PROJECT: src/template/src/context/XXXXX.Context.Migrations
         TEMPLATE_VERSION: 9.9.9
         POST_RESTORE: dotnet tool install dotnet-ef --version 7.0.0 --tool-path /usr/bin
-        PRE_BUILD: dotnet ef migrations add Init
+        PRE_BUILD: dotnet run -- fixtures generate
+        PRE_BUILD2: dotnet ef migrations add Init
 
 networks:
   bones:

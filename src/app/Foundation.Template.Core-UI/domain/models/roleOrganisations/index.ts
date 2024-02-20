@@ -1,2 +1,2 @@
-export * from "./roleOrganisationDetails";
+export * from "./RolePermissionOrganisationDetails";
 

@@ -61,6 +61,7 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdb
 ARG PROJECT
 ARG POST_RESTORE
 ARG PRE_BUILD
+ARG PRE_BUILD2
 ARG TEMPLATE_VERSION
 ENV TEMPLATE_VERSION=$TEMPLATE_VERSION
 
@@ -79,6 +80,7 @@ RUN $POST_RESTORE
 COPY . /app
 
 RUN $PRE_BUILD
+RUN $PRE_BUILD2
 
 RUN dotnet build --no-restore
 

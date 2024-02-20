@@ -9,7 +9,25 @@ export const routes: RouteRecordRaw[] = [
         name: "application-translations",
         component: () => import('../views/Translations.vue'),
     },
+    {  // TO REMOVE AFTER CHANGEfor admin -> application
+        path: "/admin/v1/role-admins/:roleId",
+        name: "permissions-application-role-admin",
+        component: () => import('../views/RolePermissionApplications.vue'),
+    },
+    {
+        path: "/admin/v1/role-applications/:roleId",
+        name: "permissions-application-role-application",
+        component: () => import('../views/RolePermissionApplications.vue'),
+    },
+    {
+        path: "/admin/v1/organisation-types/:organisationTypeId/permissions",
+        name: "permissions-organisation-type",
+        component: () => import('../views/PermissionOrganisationTypes.vue'),
+    },
+    {
+        path: "/admin/v1/role-organisation-types/:roleId",
+        name: "role-permission-organisations",
+        component: () => import('../views/RolePermissionOrganisations.vue'),
+    },
     ...drawersRoutes,
 ]
-
-

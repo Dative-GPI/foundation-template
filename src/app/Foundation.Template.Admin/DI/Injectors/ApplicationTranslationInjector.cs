@@ -20,7 +20,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IQueryHandler<ApplicationTranslationsQuery, IEnumerable<ApplicationTranslation>>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<ApplicationTranslationsQuery, IEnumerable<ApplicationTranslation>>()
-                    .With<PermissionAdminsMiddleware>()
+                    .With<PermissionApplicationsMiddleware>()
                     .Add<ApplicationTranslationsQueryHandler>()
                     .Build();
 
@@ -32,7 +32,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<ICommandHandler<UpdateApplicationTranslationCommand>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<UpdateApplicationTranslationCommand>()
-                    .Add<PermissionAdminsMiddleware>()
+                    .Add<PermissionApplicationsMiddleware>()
                     .Add<UpdateApplicationTranslationsCommandHandler>()
                     .Build();
 
@@ -43,7 +43,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<ICommandHandler<DownloadApplicationTranslationsCommand>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<DownloadApplicationTranslationsCommand>()
-                    .Add<PermissionAdminsMiddleware>()
+                    .Add<PermissionApplicationsMiddleware>()
                     .Add<DownloadApplicationTranslationsCommandHandler>()
                     .Build();
 
@@ -54,7 +54,7 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<ICommandHandler<UploadApplicationTranslationsCommand>>(sp =>
             {
                 var pipeline = sp.GetPipelineFactory<UploadApplicationTranslationsCommand>()
-                    .Add<PermissionAdminsMiddleware>()
+                    .Add<PermissionApplicationsMiddleware>()
                     .Add<UploadApplicationTranslationsCommandHandler>()
                     .Build();
 

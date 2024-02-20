@@ -13,14 +13,17 @@ namespace Foundation.Template.Context
         public DbSet<ApplicationDTO> Applications { get; set; }
         #endregion
 
-        #region Permissions
-        public DbSet<PermissionOrganisationDTO> Permissions { get; set; }
-        public DbSet<PermissionAdminDTO> PermissionAdmins { get; set; }
-        public DbSet<PermissionOrganisationCategoryDTO> PermissionCategories { get; set; }
-        public DbSet<PermissionAdminCategoryDTO> PermissionAdminCategories { get; set; }
-        public DbSet<OrganisationTypePermissionDTO> OrganisationTypePermissions { get; set; }
-        public DbSet<RoleOrganisationPermissionDTO> RoleOrganisationPermissions { get; set; }
-        public DbSet<RoleAdminPermissionDTO> RoleAdminPermissions { get; set; }
+        #region PermissionOrganisations
+        public DbSet<PermissionOrganisationDTO> PermissionOrganisations { get; set; }
+        public DbSet<PermissionOrganisationTypeDTO> PermissionOrganisationTypes { get; set; }
+        public DbSet<PermissionOrganisationCategoryDTO> PermissionOrganisationCategories { get; set; }
+        public DbSet<RolePermissionOrganisationDTO> RolePermissionOrganisations { get; set; }
+        #endregion
+
+        #region PermissionApplications
+        public DbSet<PermissionApplicationDTO> PermissionApplications { get; set; }
+        public DbSet<PermissionApplicationCategoryDTO> PermissionApplicationCategories { get; set; }
+        public DbSet<RolePermissionApplicationDTO> RolePermissionApplications { get; set; }
         #endregion
 
 
@@ -64,7 +67,7 @@ namespace Foundation.Template.Context
                     .HasColumnType("jsonb");
             });
 
-            modelBuilder.Entity<PermissionAdminDTO>(m =>
+            modelBuilder.Entity<PermissionApplicationDTO>(m =>
             {
                 m.HasKey(p => p.Id);
                 m.Property(p => p.Translations)
@@ -78,14 +81,14 @@ namespace Foundation.Template.Context
                     .HasColumnType("jsonb");
             });
 
-            modelBuilder.Entity<PermissionAdminCategoryDTO>(m =>
+            modelBuilder.Entity<PermissionApplicationCategoryDTO>(m =>
             {
                 m.HasKey(p => p.Id);
                 m.Property(p => p.Translations)
                     .HasColumnType("jsonb");
             });
 
-            modelBuilder.Entity<OrganisationTypePermissionDTO>(m =>
+            modelBuilder.Entity<PermissionOrganisationTypeDTO>(m =>
             {
                 m.HasKey(otp => otp.Id);
                 m.HasOne(otp => otp.Permission)
@@ -93,7 +96,7 @@ namespace Foundation.Template.Context
                     .HasForeignKey(otp => otp.PermissionId);
             });
 
-            modelBuilder.Entity<RoleOrganisationPermissionDTO>(m =>
+            modelBuilder.Entity<RolePermissionOrganisationDTO>(m =>
             {
                 m.HasKey(rp => rp.Id);
                 m.HasOne(rp => rp.PermissionOrganisation)
@@ -101,12 +104,12 @@ namespace Foundation.Template.Context
                     .HasForeignKey(rp => rp.PermissionOrganisationId);
             });
 
-            modelBuilder.Entity<RoleAdminPermissionDTO>(m =>
+            modelBuilder.Entity<RolePermissionApplicationDTO>(m =>
             {
                 m.HasKey(rp => rp.Id);
-                m.HasOne(rp => rp.PermissionAdmin)
+                m.HasOne(rp => rp.PermissionApplication)
                     .WithMany()
-                    .HasForeignKey(rp => rp.PermissionAdminId);
+                    .HasForeignKey(rp => rp.PermissionApplicationId);
             });
             #endregion
 

@@ -19,7 +19,7 @@ namespace Foundation.Template.Context.Repositories
 
         public PermissionOrganisationRepository(BaseApplicationContext context)
         {
-            _dbSet = context.Permissions;
+            _dbSet = context.PermissionOrganisations;
         }
 
         public async Task<IEnumerable<PermissionOrganisationInfos>> GetMany(PermissionsFilter filter)

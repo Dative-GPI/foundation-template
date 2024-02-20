@@ -15,20 +15,20 @@ namespace Foundation.Template.Core.Tools
     public class PermissionProvider : IPermissionProvider
     {
         private readonly IFoundationClientFactory _foundationClientFactory;
-        private readonly IRoleOrganisationRepository _roleOrganisationRepository;
-        private readonly IOrganisationTypePermissionRepository _organisationTypePermissionRepository;
+        private readonly IRolePermissionOrganisationRepository _roleOrganisationRepository;
+        private readonly IPermissionOrganisationTypeRepository _permissionOrganisationTypeRepository;
         private readonly IRequestContextProvider _requestContextProvider;
 
         public PermissionProvider(
             IFoundationClientFactory foundationClientFactory,
-            IRoleOrganisationRepository roleOrganisationRepository,
-            IOrganisationTypePermissionRepository organisationTypePermissionRepository,
+            IRolePermissionOrganisationRepository roleOrganisationRepository,
+            IPermissionOrganisationTypeRepository permissionOrganisationTypeRepository,
             IRequestContextProvider requestContextProvider
         )
         {
             _foundationClientFactory = foundationClientFactory;
             _roleOrganisationRepository = roleOrganisationRepository;
-            _organisationTypePermissionRepository = organisationTypePermissionRepository;
+            _permissionOrganisationTypeRepository = permissionOrganisationTypeRepository;
             _requestContextProvider = requestContextProvider;
         }
 
@@ -51,19 +51,19 @@ namespace Foundation.Template.Core.Tools
             var foundationPermissions = await GetFoundationPermissions(client, organisationId);
 
             var organisation = await client.Gateway.Organisations.Get(organisationId);
-            var organisationTypePermissions = await GetOrganisationTypePermissions(organisation.OrganisationTypeId);
+            var permissionOrganisationTypes = await GetPermissionOrganisationTypes(organisation.OrganisationTypeId);
 
             if (organisation.AdminId == context.ActorId)
-                return foundationPermissions.Concat(organisationTypePermissions).ToList();
+                return foundationPermissions.Concat(permissionOrganisationTypes).ToList();
 
             var userOrganisation = await GetUserOrganisation(client, organisationId, context.ActorId);
             if (userOrganisation == default || !userOrganisation.RoleId.HasValue)
                 return foundationPermissions;
 
-            var roleOrganisationPermissions = await GetRoleOrganisationPermissions(userOrganisation.RoleId.Value);
+            var rolePermissionOrganisations = await GetRolePermissionOrganisations(userOrganisation.RoleId.Value);
 
             return foundationPermissions.Concat(
-                roleOrganisationPermissions.Intersect(organisationTypePermissions).ToList()
+                rolePermissionOrganisations.Intersect(permissionOrganisationTypes).ToList()
             ).ToList();
             // use of intersect to make sure that the permissions of a role is a subset of
             // the permissions of an organisationType 
@@ -75,19 +75,19 @@ namespace Foundation.Template.Core.Tools
             return permissions.Select(permission => permission.Code).ToList();
         }
 
-        private async Task<IEnumerable<string>> GetOrganisationTypePermissions(Guid organisationTypeId)
+        private async Task<IEnumerable<string>> GetPermissionOrganisationTypes(Guid organisationTypeId)
         {
-            var organisationTypePermissions = await _organisationTypePermissionRepository.GetMany(
-                new OrganisationTypePermissionsFilter()
+            var permissionOrganisationTypes = await _permissionOrganisationTypeRepository.GetMany(
+                new PermissionOrganisationTypesFilter()
                 {
                     OrganisationTypeId = organisationTypeId
                 }
             );
 
-            return organisationTypePermissions.Select(otp => otp.PermissionCode).ToList();
+            return permissionOrganisationTypes.Select(otp => otp.PermissionCode).ToList();
         }
 
-        private async Task<IEnumerable<string>> GetRoleOrganisationPermissions(Guid roleId)
+        private async Task<IEnumerable<string>> GetRolePermissionOrganisations(Guid roleId)
         {
             var role = await _roleOrganisationRepository.Get(roleId);
 

@@ -16,17 +16,17 @@ namespace Foundation.Template.Admin.Providers
     public class PermissionProvider : IPermissionProvider
     {
         private readonly IFoundationClientFactory _foundationClientFactory;
-        private readonly IRoleAdminRepository _roleAdminRepository;
+        private readonly IRoleApplicationRepository _roleApplicationRepository;
         private readonly IRequestContextProvider _requestContextProvider;
 
         public PermissionProvider(
             IFoundationClientFactory foundationClientFactory,
-            IRoleAdminRepository roleAdminRepository,
+            IRoleApplicationRepository roleApplicationRepository,
             IRequestContextProvider requestContextProvider
         )
         {
             _foundationClientFactory = foundationClientFactory;
-            _roleAdminRepository = roleAdminRepository;
+            _roleApplicationRepository = roleApplicationRepository;
             _requestContextProvider = requestContextProvider;
         }
 
@@ -59,7 +59,7 @@ namespace Foundation.Template.Admin.Providers
 
             if (userApplication.RoleAdminId.HasValue)
             {
-                var role = await _roleAdminRepository.Get(userApplication.RoleAdminId.Value);
+                var role = await _roleApplicationRepository.Get(userApplication.RoleAdminId.Value);
 
                 return role.Permissions.Select(p => p.Code);
             }

@@ -12,14 +12,14 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IRouteService, RouteService>();
             services.AddScoped<IActionService, ActionService>();
 
-            services.AddScoped<IOrganisationTypePermissionOrganisationService, OrganisationTypePermissionOrganisationService>();
+            services.AddScoped<IPermissionOrganisationTypeService, PermissionOrganisationTypeService>();
             services.AddScoped<IPermissionOrganisationService, PermissionOrganisationService>();
             services.AddScoped<IPermissionOrganisationCategoryService, PermissionOrganisationCategoryService>();
-            services.AddScoped<IRoleOrganisationService, RoleOrganisationService>();
+            services.AddScoped<IRolePermissionOrganisationService, RolePermissionOrganisationService>();
 
-            services.AddScoped<IPermissionAdminService, PermissionAdminService>();
-            services.AddScoped<IPermissionAdminCategoryService, PermissionAdminCategoryService>();
-            services.AddScoped<IRoleAdminService, RoleAdminService>();
+            services.AddScoped<IPermissionApplicationService, PermissionApplicationService>();
+            services.AddScoped<IPermissionApplicationCategoryService, PermissionApplicationCategoryService>();
+            services.AddScoped<IRoleApplicationService, RoleApplicationService>();
 
             services.AddScoped<ITranslationService, TranslationService>();
             services.AddScoped<IApplicationTranslationService, ApplicationTranslationService>();
