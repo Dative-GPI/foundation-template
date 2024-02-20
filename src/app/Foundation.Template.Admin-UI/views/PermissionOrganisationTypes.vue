@@ -7,7 +7,7 @@ import { computed, defineComponent } from "vue";
 
 import { useRoute } from "vue-router";
 
-import PermissionOrganisationTypesList from "../components/PermissionOrganisationTypesList.vue";
+import PermissionOrganisationTypesList from "../components/organisationTypes/PermissionOrganisationTypesList.vue";
 
 export default defineComponent({
   components: {

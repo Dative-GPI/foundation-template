@@ -56,19 +56,19 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { usePermissionOrganisations, usePermissionOrganisationTypes, useRolePermissionOrganisations, useUpdateRolePermissionOrganisations } from "../composables";
+import { usePermissionOrganisations, usePermissionOrganisationTypes, useUpsertPermissionOrganisationTypes } from "../../composables";
 import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
 import { watch } from "vue";
 import { toRefs } from "vue";
 import _ from "lodash";
 export default defineComponent({
-  name: "RolePermissionOrganisationsList",
+  name: "PermissionOrganisationTypeList",
   props: {
     editMode: {
       type: Boolean,
       default: true,
     },
-    roleId: {
+    organisationTypeId: {
       type: String,
       required: true,
       default: "",
@@ -76,13 +76,11 @@ export default defineComponent({
   },
   setup(props) {
     const { setTitle, setCrumbs } = useExtensionCommunicationBridge();
-    const { getAll, categories } = usePermissionOrganisations();
+    const { getAll: getPermissionOrganisations, permissionOrganisations, categories } = usePermissionOrganisations();
     const { getMany: getPermissionOrganisationTypes, entities: permissionOrganisationTypes } = usePermissionOrganisationTypes();
-    const { get: getRolePermissionOrganisations, entity: rolePermissionOrganisations } = useRolePermissionOrganisations();
-    const { update } = useUpdateRolePermissionOrganisations();
+    const { upserting, upsert, upserted } = useUpsertPermissionOrganisationTypes();
     const route = useRoute();
 
-    const { editMode, roleId } = toRefs(props);
     const element = ref<HTMLElement | null>(null);
 
     const search = ref("");
@@ -100,25 +98,24 @@ export default defineComponent({
         },
       ]);
 
-      await getAll().then(() => { });
-      await getPermissionOrganisationTypes().then(() => { });
+      await getPermissionOrganisations();
 
-      fetchRoleOrganisation();
+      fetchPermissionOrganisationTypes();
     };
 
-    const fetchRoleOrganisation = async () => {
+    const fetchPermissionOrganisationTypes = async () => {
       fetching.value = true;
-      await getRolePermissionOrganisations(roleId.value).then(() => { });
-      permissionIds.value = rolePermissionOrganisations.value.permissionIds.map((p) => p);
+      await getPermissionOrganisationTypes({ search: search.value, organisationTypeId: props.organisationTypeId });
+      permissionIds.value = permissionOrganisationTypes.value.map((p) => p.permissionId);
       fetching.value = false;
     };
 
-    const filteredPermissionOrganisationTypes = computed(() => {
-      if (search.value == null || search.value === "") return permissionOrganisationTypes.value;
-      return permissionOrganisationTypes.value.filter((p) => {
+    const filteredPermissionOrganisation = computed(() => {
+      if (search.value == null || search.value === "") return permissionOrganisations.value;
+      return permissionOrganisations.value.filter((p) => {
         return (
-          p.permissionCode.toLowerCase().includes(search.value.toLowerCase()) ||
-          p.permissionLabel.toLowerCase().includes(search.value.toLowerCase())
+          p.code.toLowerCase().includes(search.value.toLowerCase()) ||
+          p.label.toLowerCase().includes(search.value.toLowerCase())
         );
       });
     });
@@ -127,11 +124,11 @@ export default defineComponent({
       return categories.value.map((cat, index) => ({
         id: index.toString(),
         label: cat.label,
-        options: filteredPermissionOrganisationTypes.value
-          .filter((p) => p.permissionCode.startsWith(cat.prefix))
+        options: filteredPermissionOrganisation.value
+          .filter((p) => p.code.startsWith(cat.prefix))
           .map((p) => ({
-            id: p.permissionId,
-            label: p.permissionLabel,
+            id: p.id,
+            label: p.label,
           })),
       }));
     });
@@ -139,7 +136,7 @@ export default defineComponent({
 
     const updateAll = (enableAll: boolean) => {
       if (enableAll) {
-        permissionIds.value = filteredPermissionOrganisationTypes.value.map((p) => p.permissionId);
+        permissionIds.value = filteredPermissionOrganisation.value.map((p) => p.id);
       } else {
         permissionIds.value = [];
       }
@@ -164,22 +161,22 @@ export default defineComponent({
       }
     };
 
-    function save() {
-      update(roleId.value, { permissionIds: permissionIds.value }).then(() => { });
+    async function save() {
+      await upsert([{ organisationTypeId: props.organisationTypeId, permissionIds: permissionIds.value }]);
     };
 
-
+    
     const synchronizePermissions = async () => {
-      if (!editMode.value) return;
+      if (!props.editMode) return;
       await save();
     };
-
+    
     const debouncedsynchronizePermissions = _.debounce(synchronizePermissions, 500);
 
     watch(permissionIds, debouncedsynchronizePermissions);
 
-    watch(editMode, () => {
-      if (editMode.value == false) {
+    watch(() => props.editMode, () => {
+      if (props.editMode == false) {
         save();
       }
     });
@@ -192,8 +189,9 @@ export default defineComponent({
       fetching,
       permissionIds,
       element,
-      filteredPermissionOrganisationTypes,
+      filteredPermissionOrganisation,
       updatePermissionIds,
+      fetchPermissionOrganisationTypes,
       updateAll,
       updateCategory,
     };

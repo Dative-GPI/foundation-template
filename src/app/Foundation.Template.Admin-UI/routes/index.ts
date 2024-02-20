@@ -29,5 +29,25 @@ export const routes: RouteRecordRaw[] = [
         name: "role-permission-organisations",
         component: () => import('../views/RolePermissionOrganisations.vue'),
     },
+    {
+        path: "/admin/v1/organisation-types/:organisationTypeId/tables",
+        name: "organisation-type-tables",
+        component: () => import('../views/OrganisationTypeTables.vue'),
+    },
+    {
+        path: "/admin/xxxxx/organisation-types/:organisationTypeId/tables/:tableId",
+        name: "organisation-type-table",
+        component: () => import('../views/OrganisationTypeTable.vue'),
+    },
+    {
+        path: "/admin/v1/tables",
+        name: "tables",
+        component: () => import('../views/Tables.vue'),
+    },
+    {
+        path: "/admin/xxxxx/tables/:tableId",
+        name: "table",
+        component: () => import('../views/Table.vue'),
+    },
     ...drawersRoutes,
 ]

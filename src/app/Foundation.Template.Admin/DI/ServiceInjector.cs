@@ -20,7 +20,8 @@ namespace Foundation.Template.Admin.DI
             services.AddScoped<IPermissionApplicationService, PermissionApplicationService>();
             services.AddScoped<IPermissionApplicationCategoryService, PermissionApplicationCategoryService>();
             services.AddScoped<IRoleApplicationService, RoleApplicationService>();
-
+            services.AddScoped<ITableService, TableService>();
+            services.AddScoped<IOrganisationTypeTableService, OrganisationTypeTableService>();
             services.AddScoped<ITranslationService, TranslationService>();
             services.AddScoped<IApplicationTranslationService, ApplicationTranslationService>();
 

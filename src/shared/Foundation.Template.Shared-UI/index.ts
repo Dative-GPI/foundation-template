@@ -1,3 +1,3 @@
 export * from "./composables";
-export * from "./config"
-export * from "./models"
+export * from "./config";
+export * from "./domain";

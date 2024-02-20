@@ -1,3 +1,4 @@
+export * from "./dispositions";
 export * from "./translations";
 export * from "./roleOrganisations";
 export * from "./roleApplications";

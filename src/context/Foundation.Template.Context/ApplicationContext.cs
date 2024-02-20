@@ -32,6 +32,13 @@ namespace Foundation.Template.Context
         public DbSet<ApplicationTranslationDTO> ApplicationTranslations { get; set; }
         #endregion
 
+        #region Tables
+        public DbSet<TableDTO> Tables { get; set; }
+        public DbSet<ColumnDTO> Columns { get; set; }
+        public DbSet<OrganisationTypeDispositionDTO> OrganisationTypeDispositions { get; set; }
+        public DbSet<EntityPropertyDTO> EntityProperties { get; set; }
+        #endregion
+
 
         public BaseApplicationContext(DbContextOptions options) : base(options) { }
 

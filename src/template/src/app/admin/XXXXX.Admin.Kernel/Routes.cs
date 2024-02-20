@@ -9,7 +9,7 @@ namespace XXXXX.Admin.Kernel
             new RouteDefinition()
             {
                 Authorizations = new string[] {},
-                Path = "/admin/XXXXX/examples",
+                Path = "/admin",
                 Name = "apps.example",
                 DrawerCategoryLabelDefault = "XXXXX",
                 DrawerCategoryCode = "drawer.examples.category",
@@ -24,6 +24,32 @@ namespace XXXXX.Admin.Kernel
                 Authorizations = new string[] {},
                 Path = "/admin/XXXXX/examples/drawer",
                 Name = "apps.example.drawer",
+                DrawerCategoryLabelDefault = null,
+                DrawerCategoryCode = null,
+                DrawerIcon = null,
+                DrawerLabelDefault = null,
+                DrawerLabelCode = null,
+                Exact = false,
+                ShowOnDrawer = false
+            },
+            new RouteDefinition()
+            {
+                Authorizations = new string[] {},
+                Path = "/admin/xxxxx/tables/:tableId",
+                Name = "apps.xxxxx.table",
+                DrawerCategoryLabelDefault = null,
+                DrawerCategoryCode = null,
+                DrawerIcon = null,
+                DrawerLabelDefault = null,
+                DrawerLabelCode = null,
+                Exact = false,
+                ShowOnDrawer = false
+            },
+            new RouteDefinition()
+            {
+                Authorizations = new string[] {},
+                Path = "/admin/xxxxx/organisation-types/:organisationTypeId/tables/:tableId",
+                Name = "apps.xxxxx.organisation-type-table",
                 DrawerCategoryLabelDefault = null,
                 DrawerCategoryCode = null,
                 DrawerIcon = null,
