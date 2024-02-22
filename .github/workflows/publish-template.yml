@@ -35,4 +35,4 @@ jobs:
       - name: Publishing to NuGet 🚀
         run: |
           cd ${{ matrix.folder}}
-          dotnet nuget push $(basename "${{matrix.folder}}").${{ github.ref_name}}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+          dotnet nuget push Dative-gpi.Extension.Template.${{ github.ref_name}}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
