@@ -1,0 +1,38 @@
+name: Publish Template package to Nuget.org
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        folder:
+          - "src/template"
+
+    steps:
+      # Checking out repository
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+
+      # Replace the version of Foundation.Template  projects
+      - name: Replace version in csproj 🔧
+        run: |
+          cd ${{matrix.folder}}
+          find . -type f -not -path '*/\.*' -exec sed -i 's/$(TEMPLATE_VERSION)/${{ github.ref_name}}/g' {} +
+
+      # pack file to publish to NuGet
+      - name: Create a NuGet Package 🔧
+        run: |
+          cd ${{matrix.folder}}
+          dotnet pack --configuration Release -p:PackageVersion=${{ github.ref_name}} -o .
+
+      # Publishing with tag name as version
+      - name: Publishing to NuGet 🚀
+        run: |
+          cd ${{ matrix.folder}}
+          dotnet nuget push $(basename "${{matrix.folder}}").${{ github.ref_name}}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
