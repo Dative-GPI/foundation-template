@@ -12,7 +12,7 @@
           <FSRow align="center-center">
             <v-divider class="" length="40%" />
             <FSSpan font="text-h3 mx-auto">
-              {{ $tr("ui.admin.translations.workbook", "Workbook") }}
+              {{ $tr("ui.admin.translations.workbook", "Upload workbook") }}
             </FSSpan>
             <v-divider class="" length="40%" />
           </FSRow>

@@ -1,9 +1,9 @@
 <template>
   <Drawer
     class="pa-1"
-    :width="601"
+    :width="800"
     v-bind="$attrs"
-    :title="$tr('ui.admin.translations.import-drawer', 'Import translations')"
+    :title="$tr('ui.admin.entity-property.import-drawer', 'Import entity property translations')"
     v-model:value="drawer"
   >
     <FSCol :gap="12" class="pa-2">
@@ -19,8 +19,8 @@
           <FSSpan font="text-body text-wrap">
             {{
               $tr(
-                "ui.admin.translations.workbook-description",
-                "Please select a workbook from your device. The first column must include the translations codes"
+                "ui.admin.entity-property.workbook-description",
+                "Please select a workbook from your device. The first column must include the entity properties codes"
               )
             }}
           </FSSpan>
@@ -31,7 +31,7 @@
               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
               :readFile="false"
               @input="onUpload"
-              :label="$tr('ui.admin.translations.workbook', 'Workbook')"
+              :label="$tr('ui.admin.translations.workbook', 'Upload workbook')"
             >
             </ButtonFile>
             <FSRow v-if="workbook != null">
@@ -77,8 +77,10 @@
                 @click="() => columns.splice(i, 1)"
               />
               <span class="text-h6 mr-2">
-                {{ $tr("ui.admin.translations.column", "Column") }}
-                {{ indexToColumn(column.index) }}
+                {{ $tr("ui.admin.entity-property.label-column", "Label column") }}
+                {{ indexToColumn(column.index) }} /
+                {{ $tr("ui.admin.entity-property.category-column", "Category column") }}
+                {{ indexToColumn(column.index + 1) }}
               </span>
               <v-spacer />
               <FSButton

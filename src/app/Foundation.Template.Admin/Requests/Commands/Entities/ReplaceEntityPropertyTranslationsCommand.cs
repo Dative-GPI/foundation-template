@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Bones.Flow;
 using Bones.Repository.Interfaces;
@@ -10,7 +11,7 @@ namespace Foundation.Template.Admin
 {
     public class ReplaceEntityPropertyTranslationsCommand : ICoreRequest, IRequest<IEntity<Guid>>
     {
-        public IEnumerable<string> Authorizations => new[] { "admin.entity-property-translations.update" };
+        public IEnumerable<string> Authorizations => Enumerable.Empty<string>();/* new[] { "admin.entity-property-translations.update" }; */
         public Guid ApplicationId { get; set; }
         public Guid ActorId { get; set; }
 

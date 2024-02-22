@@ -22,7 +22,7 @@
           <FSCol width="fill" v-else>
             <FSCol v-for="l in languages" :key="l.code">
               <FSTextArea
-                rows="2"
+                :rows="2"
                 color="primary"
                 :modelValue="getLabel(l.code)"
                 @input="setLabelCategory(l.code, $event.target.value, null)"
@@ -31,7 +31,7 @@
                 style="width: 97%"
               />
               <FSTextArea
-                rows="2"
+                :rows="2"
                 color="primary"
                 :modelValue="getCategory(l.code)"
                 @input="setLabelCategory(l.code, null, $event.target.value)"
@@ -135,6 +135,8 @@ export default defineComponent({
     };
 
     const setLabelCategory = (languageCode: string, label: string, category: string) => {
+      console.log("labzl :", label);
+      console.log("category :", category);
       let index = newTranslations.value.findIndex(
         (t) => t.languageCode == languageCode && t.entityPropertyId == entityPropId
       );
@@ -145,14 +147,14 @@ export default defineComponent({
         index != -1 &&
         (newTranslations.value[index].label != label || newTranslations.value[index].categoryLabel != category)
       ) {
-        const lab = newTranslations.value[index].label;
-        const cat = newTranslations.value[index].categoryLabel;
+        const lab = label == null ? newTranslations.value[index].label : label;
+        const cat = category == null ? newTranslations.value[index].categoryLabel : category;
         newTranslations.value.splice(index, 1);
         pushTranslation(languageCode, lab, cat);
       } else {
         pushTranslation(languageCode, label, category);
       }
-      emit("input", newTranslations);
+      console.log(newTranslations.value);
     };
 
     const pushTranslation = (lang: string, lab: string, categoryLab: string) => {
