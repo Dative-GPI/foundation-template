@@ -2,14 +2,7 @@
   <FSCol :gap="16">
     <FSRow :gap="20">
       <FSCol width="fill" style="max-width: 300px !important">
-        <FSTextField
-          label=""
-          prepend-inner-icon="mdi-magnify"
-          @update:modelValue="getTranslations"
-          v-model="search"
-          width="fill"
-          clearable
-        ></FSTextField>
+        <FSTextField label="" prepend-inner-icon="mdi-magnify" v-model="search" width="fill" clearable></FSTextField>
       </FSCol>
 
       <FSButton

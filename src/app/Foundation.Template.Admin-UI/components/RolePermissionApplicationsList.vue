@@ -1,51 +1,36 @@
 <template>
-  <FSCol v-if="!fetching"
-    :gap="24">
+  <FSCol v-if="!fetching" :gap="24">
     <FSRow align="left-center">
-      <FSTextField label="Search"
-        v-model="search"
-        clearable></FSTextField>
-      <FSButton label="Select all"
-        color="primary"
-        v-if="editMode"
-        @click="updateAll(true)">
+      <FSCol style="max-width: 300px !important">
+        <FSTextField v-model="search" label="" prepend-inner-icon="mdi-magnify" clearable></FSTextField>
+      </FSCol>
+      <FSButton label="Enable all" color="primary" v-if="editMode" @click="updateAll(true)" class="align-self-end">
       </FSButton>
-      <FSButton label="Disable all"
-        color="primary"
-        v-if="editMode"
-        @click="updateAll(false)">
+      <FSButton label="Disable all" color="primary" v-if="editMode" @click="updateAll(false)" class="align-self-end">
       </FSButton>
     </FSRow>
-    <FSRow v-for="category in categoriesAndPermissions"
-      :key="category.id">
+    <FSRow v-for="category in categoriesAndPermissions" :key="category.id">
       <FSCol style="max-width: 30%">
         <FSRow font="text-title"> {{ category.label }} </FSRow>
         <FSRow>
-          <FSButton label="Select all"
-            color="primary"
-            v-if="editMode"
-            @click="updateCategory(true, category.id)">
+          <FSButton label="Enable all" color="primary" v-if="editMode" @click="updateCategory(true, category.id)">
           </FSButton>
-          <FSButton label="Disable all"
-            color="primary"
-            v-if="editMode"
-            @click="updateCategory(false, category.id)">
+          <FSButton label="Disable all" color="primary" v-if="editMode" @click="updateCategory(false, category.id)">
           </FSButton>
         </FSRow>
-        <FSRow v-for="permission in category.options"
-          :key="permission.id">
+        <FSRow v-for="permission in category.options" :key="permission.id">
           <FSSpan font="text-body align-self-center"> {{ permission.label }} </FSSpan>
           <v-spacer></v-spacer>
-          <FSSwitch v-if="editMode"
+          <FSSwitch
+            v-if="editMode"
             ref="element"
             :modelValue="permissionIds.includes(permission.id)"
             @update:modelValue="updatePermissionIds(permission.id)"
-            color="success" />
+            color="success"
+          />
           <template v-else>
-            <FSIcon v-if="permissionIds.includes(permission.id)"
-              color="success"> mdi-checkbox-marked-circle</FSIcon>
-            <FSIcon v-else
-              color="error"> mdi-close-circle</FSIcon>
+            <FSIcon v-if="permissionIds.includes(permission.id)" color="success"> mdi-checkbox-marked-circle</FSIcon>
+            <FSIcon v-else color="error"> mdi-close-circle</FSIcon>
           </template>
           <v-divider></v-divider>
         </FSRow>
@@ -56,7 +41,11 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { usePermissionApplications, useRolePermissionApplications, useUpdateRolePermissionApplications } from "../composables";
+import {
+  usePermissionApplications,
+  useRolePermissionApplications,
+  useUpdateRolePermissionApplications,
+} from "../composables";
 import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
 import { watch } from "vue";
 import { toRefs } from "vue";
@@ -133,7 +122,6 @@ export default defineComponent({
       }));
     });
 
-
     const updateAll = (enableAll: boolean) => {
       if (enableAll) {
         permissionIds.value = filteredPermissionApplication.value.map((p) => p.id);
@@ -163,8 +151,7 @@ export default defineComponent({
 
     async function save() {
       await update(props.roleId, { permissionIds: permissionIds.value });
-    };
-
+    }
 
     const synchronizePermissions = async () => {
       if (!props.editMode) return;
@@ -175,11 +162,14 @@ export default defineComponent({
 
     watch(permissionIds, debouncedsynchronizePermissions);
 
-    watch(() => props.editMode, () => {
-      if (props.editMode == false) {
-        save();
+    watch(
+      () => props.editMode,
+      () => {
+        if (props.editMode == false) {
+          save();
+        }
       }
-    });
+    );
 
     onMounted(init);
 
