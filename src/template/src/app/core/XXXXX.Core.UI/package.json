@@ -19,7 +19,7 @@
     "sass": "^1.69.5",
     "sass-loader": "^13.3.2",
     "vite": "^4.2.0",
-    "vite-plugin-vuetify": "^1.0.0",
+    "vite-plugin-vuetify": "^1.0.2",
     "vue-tsc": "^1.2.0"
   }
 }

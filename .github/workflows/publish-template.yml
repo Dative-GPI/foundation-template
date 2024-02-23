@@ -25,6 +25,12 @@ jobs:
           cd ${{matrix.folder}}
           find . -type f -not -path '*/\.*' -exec sed -i 's/$(TEMPLATE_VERSION)/${{ github.ref_name}}/g' {} +
 
+      # Replace the version of Foundation.Template ui  npm package
+      - name: Replace version in package.json 🔧
+        run: |
+          cd ${{matrix.folder}}
+          sed -i 's/1.0.0/${{ github.ref_name}}/g' src/app/admin/XXXXX.Admin.UI/package.json src/app/core/XXXXX.Core.UI/package.json
+
       # pack file to publish to NuGet
       - name: Create a NuGet Package 🔧
         run: |
