@@ -19,6 +19,8 @@ export class EntityPropertyTranslationInfos {
 }
 
 export interface EntityPropertyTranslationDTO {
+    id: string;
+
     entityPropertyId: string;
 
     label: string;

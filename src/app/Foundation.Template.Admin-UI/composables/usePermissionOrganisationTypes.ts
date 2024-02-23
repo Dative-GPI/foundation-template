@@ -12,6 +12,14 @@ const PermissionServiceFactory = new ServiceFactory("permission-organisation-typ
             notifier => ({
                 upsert: async (payload: UpsertPermissionOrganisation[]) => {
                     const response = await ServiceFactory.http.patch(PERMISSION_ORGANISATION_TYPES_URL, payload);
+                    const dtos: PermissionOrganisationTypeInfosDTO[] = response.data;
+                    const results = dtos.map(d => new PermissionOrganisationTypeInfos(d));
+
+                    for (const result of results) {
+                        notifier.notify("update", result);
+                    }
+
+                    return results;
                 }
             })
         )

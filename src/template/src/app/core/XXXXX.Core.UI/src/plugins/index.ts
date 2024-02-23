@@ -17,11 +17,11 @@ import { useTranslationsProvider } from '@dative-gpi/foundation-template-shared-
 import type { App } from 'vue'
 
 const permissionOptions: PermissionOptions = {
-  permissionProvider: usePermissionsProvider()
+  permissionsProvider: usePermissionsProvider()
 }
 
 const translationOptions: TranslationOptions = {
-  translationProvider: useTranslationsProvider()
+  translationsProvider: useTranslationsProvider()
 }
 
 export function registerPlugins(app: App) {

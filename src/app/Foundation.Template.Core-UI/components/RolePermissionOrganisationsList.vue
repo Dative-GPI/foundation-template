@@ -1,5 +1,5 @@
 <template>
-  <FSCol v-if="!fetching" :gap="24">
+  <FSCol v-if="!getting" :gap="24">
     <FSRow align="left-center">
       <FSCol style="max-width: 300px !important">
         <FSTextField v-model="search" label="" prepend-inner-icon="mdi-magnify" clearable></FSTextField>
@@ -66,8 +66,11 @@ export default defineComponent({
   setup(props) {
     const { setTitle, setCrumbs } = useExtensionCommunicationBridge();
     const { getAll, permissions, categories } = usePermissionOrganisations();
-    const { get: getRolePermissionOrganisations, entity: rolePermissionOrganisations } =
-      useRolePermissionOrganisation();
+    const {
+      get: getRolePermissionOrganisations,
+      entity: rolePermissionOrganisations,
+      getting,
+    } = useRolePermissionOrganisation();
     const { update } = useUpdateRolePermissionOrganisation();
     const route = useRoute();
 
@@ -75,7 +78,6 @@ export default defineComponent({
     const element = ref<HTMLElement | null>(null);
 
     const search = ref("");
-    const fetching = ref(true);
 
     const permissionIds = ref<string[]>([]);
 
@@ -95,10 +97,10 @@ export default defineComponent({
     };
 
     const fetchRoleOrganisation = async () => {
-      fetching.value = true;
       await getRolePermissionOrganisations(roleId.value).then(() => {});
-      permissionIds.value = rolePermissionOrganisations.value.permissionIds.map((p) => p);
-      fetching.value = false;
+      permissionIds.value = rolePermissionOrganisations.value
+        ? rolePermissionOrganisations.value.permissionIds.map((p) => p)
+        : [];
     };
 
     const filteredPermissionOrganisations = computed(() => {
@@ -175,7 +177,7 @@ export default defineComponent({
     return {
       categoriesAndPermissions,
       search,
-      fetching,
+      getting,
       permissionIds,
       element,
       updatePermissionIds,

@@ -21,11 +21,11 @@ export const usePermissionsProvider = () => {
         return !!permissions.value.includes(code);
     }
 
-    const some = (permissionCodes: string[]) => {
+    const some = (...permissionCodes: string[]) => {
         return permissionCodes.some(p => permissions.value.includes(p));
     }
 
-    const every = (permissionCodes: string[]) => {
+    const every = (...permissionCodes: string[]) => {
         return permissionCodes.every(p => permissions.value.includes(p));
     }
 

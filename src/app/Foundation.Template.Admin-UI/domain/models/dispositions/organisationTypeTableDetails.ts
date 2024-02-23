@@ -4,7 +4,7 @@ export class OrganisationTypeTableDetails {
     tableId: string;
     organisationTypeId: string;
     dispositions: OrganisationTypeDisposition[];
-    get id(){
+    get id() {
         return `${this.organisationTypeId}-${this.tableId}`
     }
 

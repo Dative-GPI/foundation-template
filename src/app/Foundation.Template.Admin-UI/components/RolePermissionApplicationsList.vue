@@ -95,7 +95,7 @@ export default defineComponent({
     const fetchRoleApplication = async () => {
       fetching.value = true;
       await getRolePermissionApplications(props.roleId);
-      permissionIds.value = rolePermissionApplications.value.permissionIds.map((p) => p);
+      permissionIds.value = rolePermissionApplications.value!.permissionIds.map((p) => p);
       fetching.value = false;
     };
 

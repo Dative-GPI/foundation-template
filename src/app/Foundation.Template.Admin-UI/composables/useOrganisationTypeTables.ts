@@ -37,7 +37,7 @@ export const useOrganisationTypeTable = () => {
     const fetching = ref(false);
     const fetched = ref(false);
 
-    const get = async (organisationTypeId: string,tableId: string) => {
+    const get = async (organisationTypeId: string, tableId: string) => {
         fetching.value = true;
         try {
             entity.value = await service.get(organisationTypeId, tableId);

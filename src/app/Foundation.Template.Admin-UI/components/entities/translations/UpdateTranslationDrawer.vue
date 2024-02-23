@@ -134,7 +134,7 @@ export default defineComponent({
       extension.closeDrawer(location.pathname, success);
     };
 
-    const setLabelCategory = (languageCode: string, label: string, category: string) => {
+    const setLabelCategory = (languageCode: string, label: string | null, category: string | null) => {
       console.log("labzl :", label);
       console.log("category :", category);
       let index = newTranslations.value.findIndex(
@@ -150,22 +150,19 @@ export default defineComponent({
         const lab = label == null ? newTranslations.value[index].label : label;
         const cat = category == null ? newTranslations.value[index].categoryLabel : category;
         newTranslations.value.splice(index, 1);
-        pushTranslation(languageCode, lab, cat);
+        pushTranslation(languageCode, lab!, cat!);
       } else {
-        pushTranslation(languageCode, label, category);
+        pushTranslation(languageCode, label!, category!);
       }
-      console.log(newTranslations.value);
     };
 
     const pushTranslation = (lang: string, lab: string, categoryLab: string) => {
-      newTranslations.value.push(
-        new EntityPropertyTranslationInfos({
-          languageCode: lang,
-          label: lab,
-          categoryLabel: categoryLab,
-          entityPropertyId: entityPropId,
-        })
-      );
+      newTranslations.value.push({
+        languageCode: lang,
+        label: lab,
+        categoryLabel: categoryLab,
+        entityPropertyId: entityPropId,
+      } as EntityPropertyTranslationInfos);
     };
 
     const updateTranslations = () => {

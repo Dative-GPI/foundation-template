@@ -6,7 +6,7 @@ import { ROLE_PERMISSION_ORGANISATION_URL } from "../config/urls/RolePermissionO
 
 const RolePermissionServiceFactory = new ServiceFactory("role-permission-organisation-type", RolePermissionOrganisationDetails)
     .create(f => f.build(
-        f.addGet(ROLE_PERMISSION_ORGANISATION_URL, RolePermissionOrganisationDetails),
+        f.addGet(ROLE_PERMISSION_ORGANISATION_URL),
         f.addNotify(
             notifier => ({
                 update: async (roleId: string, payload: UpdateRolePermissionOrganisation) => {
@@ -15,6 +15,7 @@ const RolePermissionServiceFactory = new ServiceFactory("role-permission-organis
                     const result = new RolePermissionOrganisationDetails(dto);
 
                     notifier.notify("update", result);
+                    return result;
                 }
             })
         )

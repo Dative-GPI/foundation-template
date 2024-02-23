@@ -1,13 +1,15 @@
 <template>
   <FSCol :gap="16">
     <FSRow :gap="20">
-      <v-data-table :item-class="() => 'cursor-pointer'"
+      <v-data-table
+        :item-class="() => 'cursor-pointer'"
         @click:row="selectTable"
         :items="tables"
         :loading="fetching"
         :search="search"
         item-value="id"
-        :headers="headers">
+        :headers="headers"
+      >
       </v-data-table>
     </FSRow>
   </FSCol>
@@ -50,22 +52,20 @@ export default defineComponent({
           text: "Name",
           title: "name",
           value: "label",
-        }
+        },
       ];
     });
-
-
 
     const init = async () => {
       await getMany();
     };
 
-    const selectTable = (click, row) => {
+    const selectTable = (click: Event, row: any) => {
       router.push({
         name: "organisation-type-table",
         params: { tableId: row.item.id },
       });
-    }
+    };
 
     onMounted(init);
 
@@ -74,7 +74,7 @@ export default defineComponent({
       tables,
       fetching,
       search,
-      selectTable
+      selectTable,
     };
   },
 });

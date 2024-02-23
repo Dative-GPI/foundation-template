@@ -1,36 +1,29 @@
 <template>
-  <FSCol :gap="16"
-    v-if="table != null">
-    <v-data-table :item-class="() => 'cursor-pointer'"
-      :items="columns"
-      item-value="id"
-      :headers="headers">
+  <FSCol :gap="16" v-if="table != null">
+    <v-data-table :item-class="() => 'cursor-pointer'" :items="columns" item-value="id" :headers="headers">
       <template #item.dispoDisabled="{ item }">
-        <FSSwitch ref="element"
+        <FSSwitch
+          ref="element"
           :modelValue="!isDisabled(item.id)"
           @update:modelValue="setDisabled(item.id, !$event)"
           :editable="editMode"
-          color="success" />
+          color="success"
+        />
       </template>
       <template #item.dispoHidden="{ item }">
-        <FSSwitch ref="element"
+        <FSSwitch
+          ref="element"
           :modelValue="isDisabled(item.id) ? false : isHidden(item.id)"
           @update:modelValue="setHidden(item.id, $event)"
           :disabled="isDisabled(item.id)"
           :editable="editMode"
-          color="success" />
+          color="success"
+        />
       </template>
       <template #item.actions="{ item }">
-        <FSButton v-if="editMode"
-          @click="up(item)"
-          variant="icon"
-          icon="mdi-arrow-up" />
-        <FSButton v-if="editMode"
-          @click="down(item)"
-          variant="icon"
-          icon="mdi-arrow-down" />
+        <FSButton v-if="editMode" @click="up(item)" variant="icon" icon="mdi-arrow-up" />
+        <FSButton v-if="editMode" @click="down(item)" variant="icon" icon="mdi-arrow-down" />
       </template>
-
     </v-data-table>
   </FSCol>
 </template>
@@ -42,12 +35,11 @@ import _ from "lodash";
 
 import { useExtensionCommunicationBridge, useTranslationsProvider } from "@dative-gpi/foundation-template-shared-ui";
 import { useOrganisationTypeTable, useTable, useUpdateOrganisationTypeTable } from "../../composables";
-import { Column, UpdateOrganisationTypeDispositionDTO } from "../../domain";
+import { Column, UpdateOrganisationTypeDispositionDTO, UpdateOrganisationTypeTableDTO } from "../../domain";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  components: {
-  },
+  components: {},
   props: {
     editMode: {
       type: Boolean,
@@ -67,7 +59,7 @@ export default defineComponent({
     const { currentRoute } = useRouter();
     const { $tr } = useTranslationsProvider();
     const { get, entity: table, getting } = useTable();
-    const { get: getOrganisationTypeTable, entity: organisationTypeTable, } = useOrganisationTypeTable();
+    const { get: getOrganisationTypeTable, entity: organisationTypeTable } = useOrganisationTypeTable();
     const { update } = useUpdateOrganisationTypeTable();
 
     const search = ref<string | undefined>();
@@ -83,10 +75,7 @@ export default defineComponent({
           value: "label",
         },
         {
-          text: $tr(
-            "ui.organisation-type.disposition.data-access",
-            "Data access"
-          ),
+          text: $tr("ui.organisation-type.disposition.data-access", "Data access"),
           code: "ui.columns.data-access",
           title: "Data access",
           value: "dispoDisabled",
@@ -99,12 +88,12 @@ export default defineComponent({
         },
         ...(props.editMode
           ? [
-            {
-              text: $tr("ui.common.actions", "Actions"),
-              value: "actions",
-              title: "actions",
-            },
-          ]
+              {
+                text: $tr("ui.common.actions", "Actions"),
+                value: "actions",
+                title: "actions",
+              },
+            ]
           : []),
       ];
     });
@@ -120,12 +109,12 @@ export default defineComponent({
       ]);
 
       await get(props.tableId);
-      await getOrganisationTypeTable(props.organisationTypeId, props.tableId)
+      await getOrganisationTypeTable(props.organisationTypeId, props.tableId);
       reset();
     };
 
     const isHidden = (columnId: string) => {
-      return (dispositions.value.find((d) => d.columnId == columnId)?.hidden ?? false)
+      return dispositions.value.find((d) => d.columnId == columnId)?.hidden ?? false;
     };
 
     const setHidden = (columnId: string, hidden: boolean) => {
@@ -138,7 +127,7 @@ export default defineComponent({
     };
 
     const isDisabled = (columnId: string) => {
-      return (dispositions.value.find((d) => d.columnId == columnId)?.disabled ?? false)
+      return dispositions.value.find((d) => d.columnId == columnId)?.disabled ?? false;
     };
 
     const setDisabled = (columnId: string, disabled: boolean) => {
@@ -170,15 +159,18 @@ export default defineComponent({
     };
 
     const sortTable = () => {
-      columns.value = columns.value.map((t, index) => ({ position: index, ...t })).sort((a, b) => {
-        if (isDisabled(a.id) == isDisabled(b.id)) {
-          return a.position - b.position
-        }
-        return + isDisabled(a.id) - +isDisabled(b.id)
-      }).map(t => {
-        let { position, ...others } = t;
-        return others;
-      });
+      columns.value = columns.value
+        .map((t, index) => ({ position: index, ...t }))
+        .sort((a, b) => {
+          if (isDisabled(a.id) == isDisabled(b.id)) {
+            return a.position - b.position;
+          }
+          return +isDisabled(a.id) - +isDisabled(b.id);
+        })
+        .map((t) => {
+          let { position, ...others } = t;
+          return others;
+        });
     };
 
     const reset = () => {
@@ -186,8 +178,8 @@ export default defineComponent({
         return;
       }
 
-      columns.value = table.value.columns ? table.value.columns.filter((c) => !c.disabled) : [];
-      dispositions.value = organisationTypeTable.value.dispositions ? organisationTypeTable.value.dispositions : [];
+      columns.value = table.value!.columns ? table.value!.columns.filter((c) => !c.disabled) : [];
+      dispositions.value = organisationTypeTable.value?.dispositions ? organisationTypeTable.value?.dispositions : [];
       sortTable();
     };
 
@@ -196,25 +188,29 @@ export default defineComponent({
         return;
       }
 
-      const payload = columns.value.map((column, index) => {
-        const disposition = dispositions.value.find((d) => d.columnId == column.id);
-        if (disposition)
-          return {
-            columnId: disposition.columnId,
-            disabled: disposition.disabled,
-            hidden: disposition.hidden,
-            index: index,
-          }
-      }).filter((d) => !!d);
+      const payload = columns.value
+        .map((column, index) => {
+          const disposition = dispositions.value.find((d) => d.columnId == column.id);
+          if (disposition)
+            return {
+              columnId: disposition.columnId,
+              disabled: disposition.disabled,
+              hidden: disposition.hidden,
+              index: index,
+            } as UpdateOrganisationTypeDispositionDTO;
+        })
+        .filter((d) => !!d);
 
-      await update(props.organisationTypeId, props.tableId, { dispositions: payload });
+      await update(props.organisationTypeId, props.tableId, {
+        dispositions: payload,
+      } as UpdateOrganisationTypeTableDTO);
     };
 
     const onItemsDebounced = () => {
       if (props.editMode == true) {
         save();
       }
-    }
+    };
 
     onMounted(init);
 
@@ -222,16 +218,21 @@ export default defineComponent({
 
     watch(columns, debouncedUpdateTable, { deep: true });
 
-    watch(() => props.editMode, () => {
-      if (props.editMode == false) {
-        save();
+    watch(
+      () => props.editMode,
+      () => {
+        if (props.editMode == false) {
+          save();
+        }
       }
-    });
+    );
 
-    watch(() => table, () => {
-      reset();
-    });
-
+    watch(
+      () => table,
+      () => {
+        reset();
+      }
+    );
 
     return {
       headers,
