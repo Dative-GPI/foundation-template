@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="**\*;.env" Exclude="**\bin\**;**\obj\**;template.csproj" />
+    <Content Include="**\*" Exclude="**\bin\**;**\obj\**;template.csproj" />
     <Compile Remove="**\*" />
   </ItemGroup>
 
