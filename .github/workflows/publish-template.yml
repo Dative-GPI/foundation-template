@@ -31,6 +31,12 @@ jobs:
           cd ${{matrix.folder}}
           sed -i 's/1.0.0/${{ github.ref_name}}/g' src/app/admin/XXXXX.Admin.UI/package.json src/app/core/XXXXX.Core.UI/package.json
 
+      # Replace the version of Foundation-template-proxy image
+      - name: Replace version in docker-compose.yml 🔧
+        run: |
+          cd ${{matrix.folder}}
+          sed -i 's/0.0.75/${{ github.ref_name}}/g' dev/docker-compose.yml
+
       # pack file to publish to NuGet
       - name: Create a NuGet Package 🔧
         run: |

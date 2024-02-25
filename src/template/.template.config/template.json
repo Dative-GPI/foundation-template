@@ -12,12 +12,5 @@
   },
   "sourceName": "XXXXX",
   "preferNameDirectory": true,
-  "defaultName": "XXXXX",
-  "source": [
-  {
-    "modifiers": {
-      "exclude": [ "template.csproj" ]
-    }
-  }
-]
+  "defaultName": "XXXXX"
 }
