@@ -4,9 +4,7 @@
     "src/shared/Foundation.Template.Shared-UI",
     "src/app/Foundation.Template.Admin-UI",
     "src/app/Foundation.Template.Core-UI",
-    "tests/app/Foundation.Template.Core-UI.Tests",
-    "src/template/src/app/admin/XXXXX.Admin.UI",
-    "src/template/src/app/core/XXXXX.Core.UI"
+    "tests/app/Foundation.Template.Core-UI.Tests"
   ],
   "dependencies": {},
   "devDependencies": {
