@@ -5,13 +5,13 @@ using Bones.Flow;
 
 using Foundation.Template.Domain.Models;
 
-using static Foundation.Template.Admin.Authorizations;
+using static Foundation.Clients.AdminAuthorizations;
 
 namespace Foundation.Template.Admin
 {
     public class EntityPropertiesQuery : ICoreRequest, IRequest<IEnumerable<EntityProperty>>
     {
-        public IEnumerable<string> Authorizations => Enumerable.Empty<string>(); /* new[] {  "admin.entity-property.infos" }; */
+        public IEnumerable<string> Authorizations => new[] { ADMIN_ENTITYPROPERTY_INFOS };
 
         public string Prefix { get; set; }
     }

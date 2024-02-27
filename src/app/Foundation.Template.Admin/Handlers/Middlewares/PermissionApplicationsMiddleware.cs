@@ -23,14 +23,14 @@ namespace Foundation.Template.Admin.Handlers
 
         public async Task HandleAsync(ICoreRequest request, Func<Task> next, CancellationToken cancellationToken)
         {
-            var context = _requestContextProvider.Context;
+            /* var context = _requestContextProvider.Context;
 
             var hasPermission = await _permissionProvider.HasPermissions(
                 request.Authorizations.ToArray()
             );
 
             if (!hasPermission)
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException(); */
 
             await next();
         }

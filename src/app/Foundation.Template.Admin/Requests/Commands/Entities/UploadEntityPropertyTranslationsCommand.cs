@@ -3,13 +3,13 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-using static Foundation.Template.Admin.Authorizations;
+using static Foundation.Clients.AdminAuthorizations;
 
 namespace Foundation.Template.Admin
 {
     public class UploadEntityPropertyTranslationsCommand : ICoreRequest
     {
-        public IEnumerable<string> Authorizations => Enumerable.Empty<string>();/* new[] { "admin.application-translation.update" }; */
+        public IEnumerable<string> Authorizations => new[] { ADMIN_APPLICATIONTRANSLATION_UPDATE };
         public Guid ApplicationId { get; set; }
         public Guid ActorId { get; set; }
 

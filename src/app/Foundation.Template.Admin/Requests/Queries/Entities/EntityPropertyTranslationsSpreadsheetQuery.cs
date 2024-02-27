@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Bones.Flow;
 
-using static Foundation.Template.Admin.Authorizations;
+using static Foundation.Clients.AdminAuthorizations;
 
 namespace Foundation.Template.Admin
 {
     public class EntityPropertyTranslationsSpreadsheetQuery : ICoreRequest, IRequest<byte[]>
     {
-        public IEnumerable<string> Authorizations => Enumerable.Empty<string>(); /* new[] { "admin.entity-property.infos", "admin.entity-property-translations.infos" }; */
+        public IEnumerable<string> Authorizations => new[] { ADMIN_ENTITYPROPERTY_INFOS, ADMIN_ENTITYPROPERTYTRANSLATIONS_INFOS };
         public Guid ApplicationId { get; set; }
         public Guid ActorId { get; set; }
     }

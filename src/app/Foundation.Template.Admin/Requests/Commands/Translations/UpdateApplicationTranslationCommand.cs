@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using Bones.Flow;
 using Foundation.Clients;
 
-using static Foundation.Template.Admin.Authorizations;
+using static Foundation.Clients.AdminAuthorizations;
 
 namespace Foundation.Template.Admin.Requests
 {
     public class UpdateApplicationTranslationCommand : ICoreRequest, IRequest
     {
-        public IEnumerable<string> Authorizations => new[] { "admin.application-translation.update" };
+        public IEnumerable<string> Authorizations => new[] { ADMIN_APPLICATIONTRANSLATION_UPDATE };
 
         public string Code { get; set; }
         public IEnumerable<UpdateApplicationTranslationLanguageCommand> Translations { get; set; }
