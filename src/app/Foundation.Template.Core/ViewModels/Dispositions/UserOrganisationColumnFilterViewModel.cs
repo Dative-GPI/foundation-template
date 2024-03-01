@@ -1,16 +1,15 @@
 using System;
+using System.Collections.Generic;
 
-using Bones.Repository.Interfaces;
-
-namespace Foundation.Template.Context.DTOs
+namespace Foundation.Template.Core.ViewModels
 {
-    public class UserOrganisationDispositionDTO : IEntity<Guid>
+    public class UserOrganisationColumnFilterViewModel
     {
         public Guid Id { get; set; }
         public Guid ColumnId { get; set; }
-        public ColumnDTO Column { get; set; }
+        public Guid UserOrganisationTableId { get; set; }
         public Guid UserOrganisationId { get; set; }
-        // public UserOrganisationDTO UserOrganisation { get; set; }
+        public Guid TableId { get; set; }
         public bool Hidden { get; set; }
         public int Index { get; set; }
         public bool Disabled { get; set; }

@@ -14,11 +14,14 @@ namespace Foundation.Template.Context.DTOs
 
         public string LabelDefault { get; set; }
         public string CategoryLabelDefault { get; set; }
-        
+
         // PropertyName
         public string Code { get; set; }
         public string Value { get; set; }
-        
+
+        //Parent Class Property
+        public string ParentCode { get; set; }
+
         // Class FullName
         public string EntityType { get; set; }
         public bool Disabled { get; set; }

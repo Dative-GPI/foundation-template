@@ -1,6 +1,4 @@
-<template>
-  <FSSpan font="text-h2">{{ $tr("ui.extension.title", "Title") }}</FSSpan>
-</template>
+<template></template>
 
 <script lang="ts">
 import { defineComponent } from "vue";

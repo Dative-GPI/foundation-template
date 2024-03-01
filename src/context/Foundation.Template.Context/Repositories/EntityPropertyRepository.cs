@@ -37,6 +37,7 @@ namespace Foundation.Template.Context.Repositories
                 Code = dto.Code,
                 LabelDefault = dto.LabelDefault,
                 EntityType = dto.EntityType,
+                ParentCode = dto.ParentCode,
                 Value = dto.Value,
                 Disabled = dto.Disabled
             };
@@ -62,6 +63,7 @@ namespace Foundation.Template.Context.Repositories
                 CategoryLabelDefault = dto.CategoryLabelDefault,
                 EntityType = dto.EntityType,
                 Value = dto.Value,
+                ParentCode = dto.ParentCode,
                 Disabled = dto.Disabled
             }).OrderBy(e => e.Code).ToList();
         }

@@ -6,6 +6,8 @@ using Foundation.Template.Fixtures;
 using System.Linq;
 using System.Reflection;
 
+using Foundation.Clients.Fixtures.Services;
+
 namespace XXXXX.Context.Migrations
 {
     public static class EntityPropertyProvider
@@ -24,7 +26,10 @@ namespace XXXXX.Context.Migrations
         {
             var entityProperties = EntityPropertyHelper.GetAll(Assemblies, Namespaces);
 
-            var result = entityProperties.DistinctBy(t => t.Code).ToList();
+            var fixtureService = new FixtureService();
+            var entityPropertiesCode = fixtureService.GetEntityProperties().Select(t => t.Code).ToList();
+
+            var result = entityProperties.DistinctBy(t => t.Code).Where(e => !entityPropertiesCode.Contains(e.Code)).ToList();
 
             return Task.FromResult(result);
         }

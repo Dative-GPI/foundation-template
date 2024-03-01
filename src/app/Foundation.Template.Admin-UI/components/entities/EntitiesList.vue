@@ -1,60 +1,53 @@
 <template>
   <FSCol :gap="16">
     <FSRow :gap="20">
-      <FSCol width="fill" style="max-width: 300px !important">
-        <FSTextField
-          label=""
+      <FSCol width="fill"
+        style="max-width: 300px !important">
+        <FSTextField label=""
           prepend-inner-icon="mdi-magnify"
           @update:modelValue="getEntityProperties"
           v-model="search"
           width="fill"
-          clearable
-        ></FSTextField>
+          clearable></FSTextField>
       </FSCol>
 
-      <FSButton
-        color="primary"
+      <FSButton color="primary"
         variant="full"
         @click="openImport"
         prepend-icon="mdi-upload"
         :label="$tr('ui.common.import', 'Import')"
-        class="align-self-end"
-      />
-      <FSButton
-        :loading="downloading"
+        class="align-self-end" />
+      <FSButton :loading="downloading"
         prepend-icon="mdi-download"
         color="light"
         variant="full"
         @click="downloadEntityPropertyTranslation"
         :label="$tr('ui.common.export', 'Export')"
-        class="align-self-end"
-      />
-      <FSButton
-        v-if="selected.length == 1"
+        class="align-self-end" />
+      <FSButton v-if="selected.length == 1"
         color="primary"
         prepend-icon="mdi-pencil"
         @click="edit(selected[0])"
         :label="$tr('ui.common.update', 'Update')"
-        class="align-self-end"
-      />
+        class="align-self-end" />
     </FSRow>
 
     <FSRow>
-      <v-data-table
-        show-select
+      <v-data-table show-select
         v-model="selected"
         :items="entityProperties"
         :loading="fetching"
         :search="search"
         item-value="id"
-        :headers="headers"
-      >
+        :headers="headers">
         <template v-slot:item.entityType="{ item }">
           <FSSpan>{{ extractEntityType(item.entityType) }}</FSSpan>
         </template>
         <template v-slot:item.languages="{ item }">
           <v-chip-group>
-            <v-chip v-for="(lang, index) in getLanguages(item)" :key="index" :text="lang"> </v-chip>
+            <v-chip v-for="(lang, index) in getLanguages(item)"
+              :key="index"
+              :text="lang"> </v-chip>
           </v-chip-group>
         </template>
       </v-data-table>
@@ -122,6 +115,10 @@ export default defineComponent({
         {
           title: $tr("ui.admin.entity-properties.category-default", "Default category"),
           value: "categoryLabelDefault",
+        },
+        {
+          title: $tr("ui.admin.entity-properties.parent-code", "Parent code"),
+          value: "parentCode",
         },
         {
           title: $tr("ui.admin.entity-properties.entity", "Entity"),

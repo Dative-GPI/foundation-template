@@ -1,6 +1,5 @@
 <template>
   <ExampleComponent />
-  <ExampleDrawer />
 </template>
 
 <script lang="ts">

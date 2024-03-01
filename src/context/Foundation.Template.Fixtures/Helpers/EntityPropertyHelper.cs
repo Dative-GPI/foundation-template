@@ -29,14 +29,30 @@ namespace Foundation.Template.Fixtures
                 .Where(t => namespaces.Any(n => t.Namespace?.StartsWith(n) ?? false))
                 .Where(t => t.Name.EndsWith(ENTITY_PATTERN))
                 .SelectMany(t =>
-                    t.GetProperties().Select(p => new EntityProperty()
+                    t.BaseType.GetProperties().Select(p => new EntityProperty()
                     {
                         Code = $"{t.FullName}.{p.Name}",
                         Value = p.Name.ToCamelCase(),
                         EntityType = t.FullName,
-                        LabelDefault = p.Name
+                        LabelDefault = p.Name,
+                        ParentCode = ConvertFoundationModelToViewModel($"{t.BaseType.FullName}.{p.Name}")
+                    }).Concat(t.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly).Select(p => new EntityProperty()
+                    {
+                        Code = $"{t.FullName}.{p.Name}",
+                        Value = p.Name.ToCamelCase(),
+                        EntityType = t.FullName,
+                        LabelDefault = p.Name,
                     })
-                ).ToList();
+                )).ToList();
+
+            return result;
+        }
+
+        private static string ConvertFoundationModelToViewModel(string foundationModel)
+        {
+            var result = foundationModel.Replace("FoundationModel", "ViewModel");
+            result = result.Replace("Clients.Core", "Core.Kernel");
+            result = result.Replace("Clients.Admin", "Admin.Kernel");
 
             return result;
         }
