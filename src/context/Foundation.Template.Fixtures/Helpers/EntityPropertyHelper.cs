@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using Foundation.Template.Context.Abstractions;
+using Foundation.Clients.Fixtures.Services;
 
 namespace Foundation.Template.Fixtures
 {
@@ -35,7 +36,7 @@ namespace Foundation.Template.Fixtures
                         Value = p.Name.ToCamelCase(),
                         EntityType = t.FullName,
                         LabelDefault = p.Name,
-                        ParentCode = ConvertFoundationModelToViewModel($"{t.BaseType.FullName}.{p.Name}")
+                        ParentId = GetEntityPropertyParentId($"{t.BaseType.FullName}.{p.Name}")
                     }).Concat(t.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly).Select(p => new EntityProperty()
                     {
                         Code = $"{t.FullName}.{p.Name}",
@@ -48,13 +49,13 @@ namespace Foundation.Template.Fixtures
             return result;
         }
 
-        private static string ConvertFoundationModelToViewModel(string foundationModel)
+        private static Guid? GetEntityPropertyParentId(string entityPropertyCode)
         {
-            var result = foundationModel.Replace("FoundationModel", "ViewModel");
-            result = result.Replace("Clients.Core", "Core.Kernel");
-            result = result.Replace("Clients.Admin", "Admin.Kernel");
+            var fixtureService = new FixtureService();
+            var entityPropertiesCode = fixtureService.GetEntityProperties();
 
-            return result;
+            var Id = entityPropertiesCode.SingleOrDefault(e => e.Code.ToLower() == entityPropertyCode.ToLower())?.Id;
+            return Id;
         }
     }
 }

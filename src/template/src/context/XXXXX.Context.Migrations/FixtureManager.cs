@@ -107,7 +107,7 @@ namespace XXXXX.Context.Migrations
                     EntityType = fixture.EntityType,
                     LabelDefault = fixture.LabelDefault,
                     Value = fixture.Value,
-                    ParentCode = fixture.ParentCode
+                    ParentId = fixture.ParentId
                 },
                 (prop, dto) =>
                 {

@@ -25,26 +25,5 @@ namespace Foundation.Template.Core.API.Controllers
             var result = await _tableService.Get(tableId);
             return Ok(result);
         }
-
-        [HttpPost("tables/{tableId:Guid}")]
-        public async Task<OkResult> Update([FromRoute] Guid tableId, [FromBody] UpdateTableViewModel payload)
-        {
-            await _tableService.Update(tableId, payload);
-            return Ok();
-        }
-
-        [HttpPatch("tables/{tableId:Guid}/properties")]
-        public async Task<ActionResult<ApplicationTableDetailsViewModel>> Patch([FromRoute] Guid tableId)
-        {
-            var result = await _tableService.Patch(tableId);
-            return Ok(result);
-        }
-
-        [HttpGet("tables")]
-        public async Task<ActionResult<IEnumerable<ApplicationTableInfosViewModel>>> GetMany([FromQuery] TableFiltersViewModel filter)
-        {
-            var result = await _tableService.GetMany(filter);
-            return Ok(result);
-        }
     }
 }

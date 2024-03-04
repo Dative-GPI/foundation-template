@@ -26,10 +26,7 @@ namespace XXXXX.Context.Migrations
         {
             var entityProperties = EntityPropertyHelper.GetAll(Assemblies, Namespaces);
 
-            var fixtureService = new FixtureService();
-            var entityPropertiesCode = fixtureService.GetEntityProperties().Select(t => t.Code).ToList();
-
-            var result = entityProperties.DistinctBy(t => t.Code).Where(e => !entityPropertiesCode.Contains(e.Code)).ToList();
+            var result = entityProperties.DistinctBy(t => t.Code).ToList();
 
             return Task.FromResult(result);
         }

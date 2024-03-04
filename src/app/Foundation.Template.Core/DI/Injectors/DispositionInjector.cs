@@ -21,16 +21,6 @@ namespace Foundation.Template.Core.DI
 
         private static IServiceCollection AddTables(this IServiceCollection services)
         {
-            services.AddScoped<TablesQueryHandler>();
-            services.AddScoped<IQueryHandler<TablesQuery, IEnumerable<ApplicationTableInfos>>>(sp =>
-            {
-                var pipeline = sp.GetPipelineFactory<TablesQuery, IEnumerable<ApplicationTableInfos>>()
-                    // .With<PermissionsMiddleware>()
-                    .Add<TablesQueryHandler>()
-                    .Build();
-
-                return pipeline;
-            });
 
             services.AddScoped<TableQueryHandler>();
             services.AddScoped<IQueryHandler<TableQuery, ApplicationTableDetails>>(sp =>
@@ -43,27 +33,6 @@ namespace Foundation.Template.Core.DI
                 return pipeline;
             });
 
-            services.AddScoped<PatchTableCommandHandler>();
-            services.AddScoped<ICommandHandler<PatchTableCommand>>(sp =>
-            {
-                var pipeline = sp.GetPipelineFactory<PatchTableCommand>()
-                    // .Add<PermissionsMiddleware>()
-                    .Add<PatchTableCommandHandler>()
-                    .Build();
-
-                return pipeline;
-            });
-
-            services.AddScoped<UpdateTableCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateTableCommand>>(sp =>
-            {
-                var pipeline = sp.GetPipelineFactory<UpdateTableCommand>()
-                    // .Add<PermissionsMiddleware>()
-                    .Add<UpdateTableCommandHandler>()
-                    .Build();
-
-                return pipeline;
-            });
 
             return services;
         }
@@ -100,16 +69,6 @@ namespace Foundation.Template.Core.DI
                 return pipeline;
             });
 
-            services.AddScoped<UpdateColumnOrganisationTypesCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateOrganisationTypeTableCommand>>(sp =>
-            {
-                var pipeline = sp.GetPipelineFactory<UpdateOrganisationTypeTableCommand>()
-                    // .Add<PermissionsMiddleware>()
-                    .Add<UpdateColumnOrganisationTypesCommandHandler>()
-                    .Build();
-
-                return pipeline;
-            });
 
             return services;
         }

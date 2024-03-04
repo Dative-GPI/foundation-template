@@ -12,6 +12,8 @@ namespace Foundation.Template.Context.DTOs
     {
         public Guid Id { get; set; }
 
+        public Guid? ParentId { get; set; }
+
         public string LabelDefault { get; set; }
         public string CategoryLabelDefault { get; set; }
 
@@ -19,8 +21,6 @@ namespace Foundation.Template.Context.DTOs
         public string Code { get; set; }
         public string Value { get; set; }
 
-        //Parent Class Property
-        public string ParentCode { get; set; }
 
         // Class FullName
         public string EntityType { get; set; }

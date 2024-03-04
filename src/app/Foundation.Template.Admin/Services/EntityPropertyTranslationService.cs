@@ -52,10 +52,8 @@ namespace Foundation.Template.Admin.Services
             var context = _requestContextProvider.Context;
             var query = new EntityPropertyTranslationsQuery()
             {
-                ActorId = context.ActorId,
-                ApplicationId = context.ApplicationId,
-
                 EntityPropertyId = filter.EntityPropertyId,
+                EntityPropertyIds = filter.EntityPropertyIds,
             };
 
             var result = await _entityPropertyTranslationsQueryHandler.HandleAsync(query);
