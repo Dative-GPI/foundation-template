@@ -12,7 +12,7 @@ namespace Foundation.Template.Context.DTOs
     {
         public Guid Id { get; set; }
 
-        public Guid? ParentId { get; set; }
+        public string ParentId { get; set; }
 
         public string LabelDefault { get; set; }
         public string CategoryLabelDefault { get; set; }

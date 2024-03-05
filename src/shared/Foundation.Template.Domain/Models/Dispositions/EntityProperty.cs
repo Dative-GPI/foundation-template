@@ -9,7 +9,7 @@ namespace Foundation.Template.Domain.Models
         public string LabelDefault { get; set; }
         public string CategoryLabelDefault { get; set; }
         public string Value { get; set; }
-        public Guid? ParentId { get; set; }
+        public string ParentId { get; set; }
         public string EntityType { get; set; }
         public bool Disabled { get; set; }
     }

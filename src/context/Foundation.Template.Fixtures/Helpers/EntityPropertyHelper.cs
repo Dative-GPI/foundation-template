@@ -49,13 +49,13 @@ namespace Foundation.Template.Fixtures
             return result;
         }
 
-        private static Guid? GetEntityPropertyParentId(string entityPropertyCode)
+        private static string GetEntityPropertyParentId(string entityPropertyCode)
         {
             var fixtureService = new FixtureService();
             var entityPropertiesCode = fixtureService.GetEntityProperties();
 
             var Id = entityPropertiesCode.SingleOrDefault(e => e.Code.ToLower() == entityPropertyCode.ToLower())?.Id;
-            return Id;
+            return Id.ToString();
         }
     }
 }

@@ -10,6 +10,6 @@ namespace Foundation.Template.Fixtures
         public string EntityType { get; set; }
         public string LabelDefault { get; set; }
 
-        public Guid? ParentId { get; set; }
+        public string ParentId { get; set; }
     }
 }
