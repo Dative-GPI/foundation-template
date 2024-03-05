@@ -10,6 +10,10 @@ namespace Foundation.Template.Domain.Repositories.Commands
         public Guid UserOrganisationTableId { get; set; }
         public bool Hidden { get; set; }
         public int Index { get; set; }
+
+        public bool Sortable { get; set; }
+        public bool Filterable { get; set; }
+
         public required bool Disabled { get; set; }
     }
 }

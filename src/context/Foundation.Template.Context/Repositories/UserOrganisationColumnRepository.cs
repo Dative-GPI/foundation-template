@@ -34,6 +34,8 @@ namespace Foundation.Template.Context.Repositories
                 UserOrganisationTableId = payload.UserOrganisationTableId,
                 Hidden = payload.Hidden,
                 Index = payload.Index,
+                Sortable = payload.Sortable,
+                Filterable = payload.Filterable,
                 Disabled = payload.Disabled
             };
 
@@ -52,6 +54,8 @@ namespace Foundation.Template.Context.Repositories
                     UserOrganisationTableId = p.UserOrganisationTableId,
                     Hidden = p.Hidden,
                     Index = p.Index,
+                    Sortable = p.Sortable,
+                    Filterable = p.Filterable,
                     Disabled = p.Disabled,
                 })
             );
@@ -59,7 +63,7 @@ namespace Foundation.Template.Context.Repositories
             return Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<UserOrganisationColumn>> GetMany(UserOrganisationColumnFilter filter)
+        public async Task<IEnumerable<UserOrganisationColumn>> GetMany(UserOrganisationColumnsFilter filter)
         {
             IQueryable<UserOrganisationColumnDTO> set = _dbSet.Include(c => c.Column).Include(c => c.Column.EntityProperty).Include(t => t.UserOrganisationTable);
 
@@ -101,6 +105,8 @@ namespace Foundation.Template.Context.Repositories
                 UserOrganisationTableId = r.UserOrganisationTableId,
                 Hidden = r.Hidden,
                 Index = r.Index,
+                Sortable = r.Sortable,
+                Filterable = r.Filterable,
                 Disabled = r.Disabled,
             });
         }

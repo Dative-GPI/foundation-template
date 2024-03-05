@@ -21,9 +21,9 @@ namespace Foundation.Template.Core.AutoMapper
                 .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(p => p.Permissions.Select(p => p.Id).ToList()));
             CreateMap<ActionInfos, ActionInfosViewModel>();
 
-            CreateMap<UserOrganisationColumn, UserOrganisationColumnInfosViewModel>();
-            CreateMap<UserOrganisationTable, UserOrganisationTableDetailsViewModel>();
-            CreateMap<UserOrganisationTable, UserOrganisationTableInfosViewModel>();
+            CreateMap<UserOrganisationColumn, UserOrganisationColumnViewModel>();
+            CreateMap<UserOrganisationTable, UserOrganisationTableViewModel>();
+            CreateMap<UserOrganisationDisposition, UserOrganisationDispositionViewModel>();
 
 
         }

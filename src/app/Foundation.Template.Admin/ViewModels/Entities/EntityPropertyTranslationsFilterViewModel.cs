@@ -8,6 +8,6 @@ namespace Foundation.Template.Admin.ViewModels
     {
         public Guid? EntityPropertyId { get; set; }
 
-        public IEnumerable<Guid> EntityPropertyIds { get; set; }
+        public List<Guid> EntityPropertyIds { get; set; }
     }
 }

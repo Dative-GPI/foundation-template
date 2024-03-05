@@ -9,7 +9,7 @@ namespace Foundation.Template.Domain.Repositories.Interfaces
 {
     public interface IUserOrganisationColumnRepository
     {
-        Task<IEnumerable<UserOrganisationColumn>> GetMany(UserOrganisationColumnFilter filter);
+        Task<IEnumerable<UserOrganisationColumn>> GetMany(UserOrganisationColumnsFilter filter);
         Task Create(CreateUserOrganisationColumn payload);
         Task CreateMany(IEnumerable<CreateUserOrganisationColumn> payload);
         Task Remove(Guid userOrganisationColumnId);

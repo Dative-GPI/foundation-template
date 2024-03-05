@@ -12,7 +12,7 @@ namespace Foundation.Template.Domain.Repositories.Interfaces
     {
         Task<IEntity<Guid>> Update(UpdateUserOrganisationTable filter);
         Task<UserOrganisationTable> Get(Guid id);
-        Task<IEnumerable<UserOrganisationTable>> GetMany(UserOrganisationTableFilter filter);
+        Task<IEnumerable<UserOrganisationTable>> GetMany(UserOrganisationTablesFilter filter);
         Task<IEntity<Guid>> Create(CreateUserOrganisationTable payload);
         Task Remove(Guid userOrganisationColumnId);
     }

@@ -43,7 +43,7 @@ namespace Foundation.Template.Context.Repositories
             };
         }
 
-        public async Task<IEnumerable<UserOrganisationTable>> GetMany(UserOrganisationTableFilter filter)
+        public async Task<IEnumerable<UserOrganisationTable>> GetMany(UserOrganisationTablesFilter filter)
         {
             IQueryable<UserOrganisationTableDTO> set = _dbSet;
 
