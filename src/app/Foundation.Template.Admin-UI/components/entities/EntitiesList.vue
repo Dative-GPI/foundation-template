@@ -35,7 +35,7 @@
     <FSRow>
       <v-data-table show-select
         v-model="selected"
-        :items="entityProperties"
+        :items="filterEntities"
         :loading="fetching"
         :search="search"
         item-value="id"
@@ -43,6 +43,7 @@
         <template v-slot:item.entityType="{ item }">
           <FSSpan>{{ extractEntityType(item.entityType) }}</FSSpan>
         </template>
+
         <template v-slot:item.languages="{ item }">
           <v-chip-group>
             <v-chip v-for="(lang, index) in getLanguages(item)"
@@ -117,10 +118,6 @@ export default defineComponent({
           value: "categoryLabelDefault",
         },
         {
-          title: $tr("ui.admin.entity-properties.parent-code", "Parent code"),
-          value: "parentCode",
-        },
-        {
           title: $tr("ui.admin.entity-properties.entity", "Entity"),
           value: "entityType",
           sortable: true,
@@ -143,6 +140,14 @@ export default defineComponent({
     const fetching = computed(() => {
       return fetchingLanguages.value || fetchingEntityProperties.value || fetchingEntityPropertyTranslations.value;
     });
+
+    const filterEntities = computed(() => {
+      return _.filter(entityProperties.value, (t) => {
+        return (
+          !t.parentId
+        );
+      });
+    })
 
     const getLanguages = (item: EntityPropertyInfos) => {
       const ls = _(entityPropertyTranslations.value)
@@ -208,6 +213,7 @@ export default defineComponent({
       entityProperties,
       fetching,
       downloading,
+      filterEntities,
       search,
       selected,
       headers,
