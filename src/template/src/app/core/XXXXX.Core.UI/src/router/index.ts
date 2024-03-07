@@ -5,7 +5,7 @@ import { routes as templateRoutes } from "@dative-gpi/foundation-template-core-u
 
 const routes = [
   {
-    path: '/XXXXX/examples',
+    path: '/organisations/:organisationId/XXXXX/examples',
     name: 'example',
     component: () => import('@/views/Home.vue'),
   },

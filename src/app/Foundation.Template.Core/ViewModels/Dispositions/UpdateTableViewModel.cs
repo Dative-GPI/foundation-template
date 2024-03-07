@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Foundation.Template.Core.ViewModels
 {
-    public class UpdateUserOrganisationDispositionViewModel
+    public class UpdateTableViewModel
     {
         public string TableCode { get; set; }
         public string Mode { get; set; }

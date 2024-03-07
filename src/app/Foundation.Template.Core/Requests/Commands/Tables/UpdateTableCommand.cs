@@ -9,7 +9,7 @@ using static Foundation.Clients.CoreAuthorizations;
 
 namespace Foundation.Template.Core
 {
-    public class UpdateUserOrganisationDispositionCommand : IRequest, ICoreRequest
+    public class UpdateTableCommand : IRequest, ICoreRequest
     {
         public IEnumerable<string> Authorizations => Enumerable.Empty<string>();
 

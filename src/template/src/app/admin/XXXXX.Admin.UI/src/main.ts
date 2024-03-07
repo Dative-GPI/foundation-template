@@ -13,7 +13,7 @@ import { createApp } from 'vue'
 // Plugins
 import { registerPlugins } from '@/plugins'
 
-import '@/index.scss'
+//import '@/index.scss'
 
 const app = createApp(App)
 

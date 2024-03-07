@@ -15,7 +15,7 @@ using Foundation.Template.Domain.Enums;
 
 namespace Foundation.Template.Core.Handlers
 {
-    public class UserOrganisationDispositionsQueryHandler : IMiddleware<UserOrganisationDispositionsQuery, UserOrganisationDisposition>
+    public class TablesQueryHandler : IMiddleware<TablesQuery, UserTable>
     {
         private RequestContext _context;
         private ITableRepository _tableRepository;
@@ -25,7 +25,7 @@ namespace Foundation.Template.Core.Handlers
         private IUserOrganisationTableRepository _userOrganisationTableRepository;
         private IUserOrganisationColumnRepository _userOrganisationColumnRepository;
 
-        public UserOrganisationDispositionsQueryHandler
+        public TablesQueryHandler
         (
             IRequestContextProvider requestContextProvider,
             ITableRepository tableRepository,
@@ -47,7 +47,7 @@ namespace Foundation.Template.Core.Handlers
             _userOrganisationColumnRepository = userOrganisationColumnRepository;
         }
 
-        public async Task<UserOrganisationDisposition> HandleAsync(UserOrganisationDispositionsQuery request, Func<Task<UserOrganisationDisposition>> next, CancellationToken cancellationToken)
+        public async Task<UserTable> HandleAsync(TablesQuery request, Func<Task<UserTable>> next, CancellationToken cancellationToken)
         {
             Table table = await _tableRepository.Find(request.TableCode);
 
@@ -166,7 +166,7 @@ namespace Foundation.Template.Core.Handlers
                 })
                 .ToList();
 
-            return new UserOrganisationDisposition()
+            return new UserTable()
             {
                 Table = userOrganisationTable,
                 Columns = columnFinals

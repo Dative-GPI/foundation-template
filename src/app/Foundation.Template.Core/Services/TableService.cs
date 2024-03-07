@@ -14,45 +14,45 @@ using Foundation.Template.Domain.Repositories.Interfaces;
 
 namespace Foundation.Template.Core.Services
 {
-    public class UserOrganisationDispositionService : IUserOrganisationDispositionService
+    public class TableService : ITableService
     {
-        private IQueryHandler<UserOrganisationDispositionsQuery, UserOrganisationDisposition> _userOrganisationDispositionQueryHandler;
-        private ICommandHandler<UpdateUserOrganisationDispositionCommand> _updateUserOrganisationDispositionCommandHandler;
+        private IQueryHandler<TablesQuery, UserTable> _TableQueryHandler;
+        private ICommandHandler<UpdateTableCommand> _updateTableCommandHandler;
         private IUserOrganisationTableRepository _userOrganisationTableRepository;
         private IUserOrganisationColumnRepository _userOrganisationColumnRepository;
         private IMapper _mapper;
 
-        public UserOrganisationDispositionService
+        public TableService
         (
-            IQueryHandler<UserOrganisationDispositionsQuery, UserOrganisationDisposition> userOrganisationDispositionQueryHandler,
-            ICommandHandler<UpdateUserOrganisationDispositionCommand> updateUserOrganisationDispositionCommandHandler,
+            IQueryHandler<TablesQuery, UserTable> TableQueryHandler,
+            ICommandHandler<UpdateTableCommand> updateTableCommandHandler,
             IUserOrganisationTableRepository userOrganisationTableRepository,
             IUserOrganisationColumnRepository userOrganisationColumnRepository,
             IMapper mapper
         )
         {
-            _userOrganisationDispositionQueryHandler = userOrganisationDispositionQueryHandler;
-            _updateUserOrganisationDispositionCommandHandler = updateUserOrganisationDispositionCommandHandler;
+            _TableQueryHandler = TableQueryHandler;
+            _updateTableCommandHandler = updateTableCommandHandler;
             _userOrganisationTableRepository = userOrganisationTableRepository;
             _userOrganisationColumnRepository = userOrganisationColumnRepository;
             _mapper = mapper;
         }
 
-        public async Task<UserOrganisationDispositionViewModel> GetMany(string tableCode)
+        public async Task<TableViewModel> GetMany(string tableCode)
         {
-            var query = new UserOrganisationDispositionsQuery()
+            var query = new TablesQuery()
             {
                 TableCode = tableCode
             };
 
-            var result = await _userOrganisationDispositionQueryHandler.HandleAsync(query);
+            var result = await _TableQueryHandler.HandleAsync(query);
 
-            return _mapper.Map<UserOrganisationDisposition, UserOrganisationDispositionViewModel>(result);
+            return _mapper.Map<UserTable, TableViewModel>(result);
         }
 
-        public async Task Update(string tableCode, UpdateUserOrganisationDispositionViewModel payload)
+        public async Task Update(string tableCode, UpdateTableViewModel payload)
         {
-            var command = new UpdateUserOrganisationDispositionCommand()
+            var command = new UpdateTableCommand()
             {
                 TableCode = tableCode,
                 Mode = payload.Mode,
@@ -69,7 +69,7 @@ namespace Foundation.Template.Core.Services
                 })
             };
 
-            await _updateUserOrganisationDispositionCommandHandler.HandleAsync(command);
+            await _updateTableCommandHandler.HandleAsync(command);
         }
     }
 }

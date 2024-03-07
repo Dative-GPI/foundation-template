@@ -15,14 +15,14 @@ using Foundation.Template.Domain.Repositories.Commands;
 
 namespace Foundation.Template.Core.Handlers
 {
-    public class UpdateUserOrganisationDispositionCommandHandler : IMiddleware<UpdateUserOrganisationDispositionCommand>
+    public class UpdateTableCommandHandler : IMiddleware<UpdateTableCommand>
     {
         private RequestContext _context;
         private ITableRepository _tableRepository;
         private IUserOrganisationTableRepository _userOrganisationTableRepository;
         private IUserOrganisationColumnRepository _userOrganisationColumnRepository;
 
-        public UpdateUserOrganisationDispositionCommandHandler
+        public UpdateTableCommandHandler
         (
             IRequestContextProvider requestContextProvider,
             ITableRepository tableRepository,
@@ -36,7 +36,7 @@ namespace Foundation.Template.Core.Handlers
             _userOrganisationColumnRepository = userOrganisationColumnRepository;
         }
 
-        public async Task HandleAsync(UpdateUserOrganisationDispositionCommand request, Func<Task> next, CancellationToken cancellationToken)
+        public async Task HandleAsync(UpdateTableCommand request, Func<Task> next, CancellationToken cancellationToken)
         {
             var table = await _tableRepository.Find(request.TableCode);
 

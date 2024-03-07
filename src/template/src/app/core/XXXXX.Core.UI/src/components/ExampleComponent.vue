@@ -4,26 +4,29 @@
     <FSSpan font="text-body">{{ $tr("ui.extension.body", "Body") }}</FSSpan>
     <FSSpan font="text-button">{{ $tr("ui.commmon.label", "Label") }}</FSSpan>
     <FSSpan font="text-h1">Table Test</FSSpan>
-    <v-data-table
-      :headers="headers"
+    <FSDataTable :headers="headers"
       :items="items"
-      :items-per-page="5"
-      class="elevation-1"
-    ></v-data-table>
+      tableCode="ui.tables.test"
+      mode="table"></FSDataTable>
   </FSCol>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue";
 import { useTranslationsProvider } from "@dative-gpi/foundation-template-shared-ui";
-import { useTable } from "@dative-gpi/foundation-template-core-ui";
+import { useUpdateRolePermissionOrganisation, useGetTable } from "@dative-gpi/foundation-template-core-ui";
+
+
+
 
 export default defineComponent({
   name: "ExampleComponent",
   setup(props) {
     const { $tr } = useTranslationsProvider();
 
-    const { get, getting } = useTable();
+    const { getting, get, getted } = useGetTable();
+    const { updating, update } = useUpdateRolePermissionOrganisation();
+
 
     const tableCode = "ui.tables.test";
     const items = ref<any>([

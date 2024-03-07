@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@dative-gpi/foundation-template-admin-ui": "^1.0.0",
-    "@dative-gpi/foundation-template-shared-ui": "^1.0.0"
+    "@dative-gpi/foundation-template-shared-ui": "^1.0.0",
+    "vuetify": "^3.5.6",
+    "webfontloader": "^1.0.0"
   },
   "devDependencies": {
     "@babel/types": "^7.21.4",
@@ -16,11 +18,12 @@
     "@types/node": "^18.15.0",
     "@types/webfontloader": "^1.6.35",
     "@vitejs/plugin-vue": "^4.0.0",
-    "typescript": "^5.0.0",
+    "@types/lodash": "^4.14.197",
+    "color": "^4.2.3",
+    "vite": "^4.2.0",  
+    "vite-plugin-vuetify": "^1.0.0",
+    "vue-tsc": "^1.2.0",
     "sass": "^1.69.5",
-    "sass-loader": "^13.3.2",
-    "vite": "^4.2.0",
-    "vite-plugin-vuetify": "^1.0.2",
-    "vue-tsc": "^1.2.0"
+    "sass-loader": "^13.3.2"
   }
 }

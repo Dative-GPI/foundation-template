@@ -29,7 +29,7 @@ namespace Foundation.Template.Core.DI
 
             services.AddPermissions();
             services.AddRolePermissionOrganisations();
-            services.AddUserOrganisationDispositions();
+            services.AddTables();
 
             services.AddScoped<IPermissionProvider, PermissionProvider>();
             services.AddScoped<IApplicationTableProvider, ApplicationTableProvider>();

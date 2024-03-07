@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Foundation.Template.Domain.Models
 {
-    public class UserOrganisationDisposition
+    public class UserTable
     {
 
         public UserOrganisationTable Table { get; set; }

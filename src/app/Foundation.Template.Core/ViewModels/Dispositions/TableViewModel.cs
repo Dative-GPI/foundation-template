@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Foundation.Template.Core.ViewModels
 {
-    public class UserOrganisationDispositionViewModel
+    public class TableViewModel
     {
         public UserOrganisationTableViewModel Table { get; set; }
 

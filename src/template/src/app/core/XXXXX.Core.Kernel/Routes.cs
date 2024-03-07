@@ -9,7 +9,7 @@ namespace XXXXX.Core.Kernel
             new RouteDefinition()
             {
                 Authorizations = new string[] {},
-                Path = (ctx) => "/XXXXX/examples",
+                Path = (ctx) => $"/organisations/{ctx.OrganisationId.Value}/XXXXX/examples",
                 Name = "apps.example",
                 DrawerCategoryLabelDefault = "XXXXX",
                 DrawerCategoryCode = "drawer.examples.category",
