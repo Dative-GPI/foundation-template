@@ -46,9 +46,10 @@
 
         <template v-slot:item.languages="{ item }">
           <v-chip-group>
-            <v-chip v-for="(lang, index) in getLanguages(item)"
+            <FSChip v-for="(lang, index) in getLanguages(item)"
               :key="index"
-              :text="lang"> </v-chip>
+              color="primary"
+              :label="lang"> </FSChip>
           </v-chip-group>
         </template>
       </v-data-table>

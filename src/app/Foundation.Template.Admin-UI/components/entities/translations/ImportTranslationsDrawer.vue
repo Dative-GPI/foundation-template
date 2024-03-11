@@ -1,117 +1,98 @@
 <template>
-  <Drawer
-    class="pa-1"
+  <Drawer class="pa-1"
     :width="800"
     v-bind="$attrs"
     :title="$tr('ui.admin.entity-property.import-drawer', 'Import entity property translations')"
-    v-model:value="drawer"
-  >
-    <FSCol :gap="12" class="pa-2">
-      <v-form v-model="valid" ref="form" lazy-validation>
+    v-model:value="drawer">
+    <FSCol :gap="12"
+      class="pa-2"
+      width="fill">
+      <v-form v-model="valid"
+        ref="form"
+        lazy-validation>
         <FSCol :gap="12">
-          <FSRow align="center-center">
-            <v-divider class="" length="40%" />
-            <FSSpan font="text-h3 mx-auto">
-              {{ $tr("ui.admin.translations.workbook", "Workbook") }}
-            </FSSpan>
-            <v-divider class="" length="40%" />
-          </FSRow>
+          <FSDivider :label="$tr('ui.admin.translations.workbook', 'Workbook')" />
           <FSSpan font="text-body text-wrap">
             {{
-              $tr(
-                "ui.admin.entity-property.workbook-description",
-                "Please select a workbook from your device. The first column must include the entity properties codes"
-              )
-            }}
+      $tr(
+        "ui.admin.entity-property.workbook-description",
+        "Please select a workbook from your device. The first column must include the entity properties codes"
+      )
+    }}
           </FSSpan>
           <FSRow class="align-center">
-            <ButtonFile
-              class="mr-2"
+            <FSFileButton class="mr-2"
               prepend-icon="mdi-upload"
               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
               :readFile="false"
-              @input="onUpload"
-              :label="$tr('ui.admin.translations.workbook', 'Upload workbook')"
-            >
-            </ButtonFile>
+              color="primary"
+              @update:modelValue="onUpload"
+              :label="$tr('ui.admin.translations.workbook', 'Upload workbook')" />
             <FSRow v-if="workbook != null">
               <FSSpan font="text-h3 mr-2">
                 {{ workbook.name }}
               </FSSpan>
-              <FSButton
-                class="mr-2"
+              <FSButton class="mr-2"
                 variant="icon"
                 color="error"
                 icon="mdi-minus-circle-outline"
-                @click="workbook = null"
-              />
+                @click="workbook = null" />
             </FSRow>
           </FSRow>
-          <FSRow align="center-center">
-            <v-divider length="40%" />
-            <FSSpan font="text-h3 mx-auto">
-              {{ $tr("ui.admin.translations.languages", "Languages") }}
-            </FSSpan>
-            <v-divider length="40%" />
-          </FSRow>
+          <FSDivider :label="$tr('ui.admin.translations.languages', 'Languages')" />
           <FSRow class="align-center mb-5">
             <FSSpan font="text-body text-wrap">
               {{
-                $tr("ui.admin.translations.add-a-column", "Click the plus button for each column containing a language")
-              }}
+      $tr("ui.admin.translations.add-a-column", "Click the plus button for each column containing a language")
+    }}
             </FSSpan>
             <v-spacer />
-            <FSButton
-              variant="icon"
+            <FSButton variant="icon"
               icon="mdi-plus-circle-outline"
-              @click="() => columns.push({ index: nextIndex(), languageCode: '' })"
-            />
+              @click="() => columns.push({ index: nextIndex(), languageCode: '' })" />
           </FSRow>
           <FSCol v-if="columns.length > 0">
-            <FSRow v-for="(column, i) in columns" align="center-center">
-              <FSButton
-                class="mr-2"
-                variant="icon"
+            <FSRow v-for="(column, i) in columns"
+              align="bottom-center">
+              <FSButton variant="icon"
                 color="error"
                 icon="mdi-minus-circle-outline"
-                @click="() => columns.splice(i, 1)"
-              />
-              <span class="text-h6 mr-2">
+                @click="() => columns.splice(i, 1)" />
+              <FSText font="text-h3">
                 {{ $tr("ui.admin.entity-property.label-column", "Label column") }}
                 {{ indexToColumn(column.index) }} /
                 {{ $tr("ui.admin.entity-property.category-column", "Category column") }}
                 {{ indexToColumn(column.index + 1) }}
-              </span>
-              <v-spacer />
-              <FSButton
-                class="mr-2"
-                variant="icon"
+              </FSText>
+              <FSButton variant="icon"
                 icon="mdi-menu-left-outline"
                 :disabled="column.index < 2"
-                @click="() => column.index--"
-              />
-              <FSButton class="mr-2" variant="icon" icon="mdi-menu-right-outline" @click="() => column.index++" />
-              <LanguageSelector
-                :rules="[(v : string) => !!v || $tr('ui.common.required', 'Required')]"
+                @click="() => column.index--" />
+              <FSButton variant="icon"
+                icon="mdi-menu-right-outline"
+                @click="() => column.index++" />
+              <LanguageSelector :rules="[(v: string) => !!v || $tr('ui.common.required', 'Required')]"
                 style="width: 280px"
-                @update:model-value="setLanguageCode(i, $event)"
-              />
+                @update:model-value="setLanguageCode(i, $event)" />
             </FSRow>
           </FSCol>
         </FSCol>
       </v-form>
-
-      <FSRow>
-        <FSButtonCancel @click="closeDrawer" class="mr-2" :label="$tr('ui.common.cancel', 'Cancel')"> </FSButtonCancel>
-        <FSButtonSave
-          prepend-icon="mdi-upload"
-          :loading="uploading"
-          variant="standard"
-          @click="upload"
-          :label="$tr('ui.common.import', 'Import')"
-        />
-      </FSRow>
     </FSCol>
+
+    <template #actions>
+      <v-spacer />
+      <FSButton @click="closeDrawer"
+        class="mr-2"
+        :label="$tr('ui.common.cancel', 'Cancel')"
+        prepend-icon="mdi-cancel"> </FSButton>
+      <FSButton prepend-icon="mdi-upload"
+        :loading="uploading"
+        variant="standard"
+        color="primary"
+        @click="upload"
+        :label="$tr('ui.common.import', 'Import')" />
+    </template>
   </Drawer>
 </template>
 
@@ -120,7 +101,6 @@ import { SpreadsheetColumnDefinition } from "../../../domain";
 import { defineComponent, ref } from "vue";
 
 import Drawer from "../..//shared/Drawer.vue";
-import ButtonFile from "../../shared/ButtonFile.vue";
 import LanguageSelector from "../../LanguageSelector.vue";
 
 import { useUploadEntityPropertyTranslation } from "../../../composables";
@@ -130,7 +110,6 @@ import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template
 export default defineComponent({
   name: "ImportTranslationsDrawer",
   components: {
-    ButtonFile,
     LanguageSelector,
     Drawer,
   },

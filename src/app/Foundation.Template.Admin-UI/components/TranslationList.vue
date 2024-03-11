@@ -1,52 +1,50 @@
 <template>
   <FSCol :gap="16">
     <FSRow :gap="20">
-      <FSCol width="fill" style="max-width: 300px !important">
-        <FSTextField label="" prepend-inner-icon="mdi-magnify" v-model="search" width="fill" clearable></FSTextField>
+      <FSCol width="fill"
+        style="max-width: 300px !important">
+        <FSSearchField prepend-inner-icon="mdi-magnify"
+          v-model="search"
+          width="fill"
+          clearable></FSSearchField>
       </FSCol>
 
-      <FSButton
-        v-if="editMode"
+      <FSButton v-if="editMode"
         color="primary"
         variant="full"
         @click="openImport"
         prepend-icon="mdi-upload"
         :label="$tr('ui.common.import', 'Import')"
-        class="align-self-end"
-      />
-      <FSButton
-        v-if="editMode"
+        class="align-self-end" />
+      <FSButton v-if="editMode"
         :loading="downloading"
         prepend-icon="mdi-download"
         color="light"
         variant="full"
         @click="downloadTranslation"
         :label="$tr('ui.common.export', 'Export')"
-        class="align-self-end"
-      />
-      <FSButton
-        v-if="selected.length == 1 && editMode"
+        class="align-self-end" />
+      <FSButton v-if="selected.length == 1 && editMode"
         color="primary"
         prepend-icon="mdi-pencil"
         @click="edit(selected[0])"
         :label="$tr('ui.common.update', 'Update')"
-        class="align-self-end"
-      />
+        class="align-self-end" />
     </FSRow>
 
     <FSRow>
-      <v-data-table
-        show-select
+      <v-data-table show-select
         v-model="selected"
         :items="translations"
         :loading="fetching"
         :search="search"
         item-value="id"
-        :headers="headers"
-      >
+        :headers="headers">
         <template v-slot:item.languages="{ item }">
           <v-chip-group>
-            <v-chip v-for="(lang, index) in getLanguages(item)" :key="index" :text="lang"> </v-chip>
+            <FSChip v-for="(lang, index) in getLanguages(item)"
+              :key="index"
+              style="margin-left: 5px;"> {{ lang }}</FSChip>
           </v-chip-group>
         </template>
       </v-data-table>
@@ -57,7 +55,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, watch } from "vue";
 
-import _ from "lodash";
+import _, { random } from "lodash";
 
 import { IMPORT_TRANSLATIONS_DRAWER_URL, UPDATE_TRANSLATION_DRAWER_URL } from "../config";
 

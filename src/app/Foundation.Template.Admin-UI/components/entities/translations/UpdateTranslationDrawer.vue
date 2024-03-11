@@ -1,15 +1,15 @@
 <template>
-  <Drawer
-    :width="601"
+  <Drawer :width="601"
     :title="$tr('ui.admin.translations.update-translation-drawer', 'Update entity property')"
-    v-model:value="drawer"
-  >
-    <v-skeleton-loader type="article" v-if="!entityProperty || !entityProtertyTranslations" />
+    v-model:value="drawer">
+    <v-skeleton-loader type="article"
+      v-if="!entityProperty || !entityProtertyTranslations" />
 
     <template v-else>
       <FSCol :gap="12">
         <FSRow>
-          <FSCol :items="items" class="mt-5">
+          <FSCol :items="items"
+            class="mt-5">
             <FSSpan font="text-button"> Default label: {{ entityProperty.labelDefault }} </FSSpan><br />
             <FSSpan font="text-button"> Default category : {{ entityProperty.categoryLabelDefault }} </FSSpan>
           </FSCol>
@@ -19,26 +19,24 @@
           <FSCol v-if="fetchingLanguages">
             <v-skeleton-loader type="paragraph" />
           </FSCol>
-          <FSCol width="fill" v-else>
-            <FSCol v-for="l in languages" :key="l.code">
-              <FSTextArea
-                :rows="2"
+          <FSCol width="fill"
+            v-else>
+            <FSCol v-for="l in languages"
+              :key="l.code">
+              <FSTextArea :rows="2"
                 color="primary"
                 :modelValue="getLabel(l.code)"
                 @input="setLabelCategory(l.code, $event.target.value, null)"
                 :key="l.code + '-' + l.code"
                 :label="l.label"
-                style="width: 97%"
-              />
-              <FSTextArea
-                :rows="2"
+                style="width: 97%" />
+              <FSTextArea :rows="2"
                 color="primary"
                 :modelValue="getCategory(l.code)"
                 @input="setLabelCategory(l.code, null, $event.target.value)"
                 :key="l.code"
                 :label="l.label"
-                style="width: 97%"
-              />
+                style="width: 97%" />
             </FSCol>
           </FSCol>
         </FSRow>
@@ -47,13 +45,16 @@
 
     <template #actions>
       <v-spacer />
-      <FSButtonCancel @click="close(true)" :loading="updating" label="Cancel"> </FSButtonCancel>
-      <FSButtonSave
-        class="ml-3 justify-content-end"
+      <FSButton @click="close(true)"
+        prepend-icon="mdi-cancel"
+        :loading="updating"
+        label="Cancel"> </FSButton>
+      <FSButton class="ml-3 justify-content-end"
         @click="updateTranslations"
         :loading="updating"
-        label="Save"
-      ></FSButtonSave>
+        color="primary"
+        prepend-icon="mdi-content-save-outline"
+        label="Save"></FSButton>
     </template>
   </Drawer>
 </template>
@@ -74,11 +75,6 @@ import {
 } from "../../../composables";
 
 import {
-  Translation,
-  ApplicationTranslation,
-  UpdateApplicationTranslationLanguage,
-  EntityPropertyInfos,
-  UpdateEntityPropertyTranslation,
   EntityPropertyTranslationInfos,
 } from "../../../domain";
 
