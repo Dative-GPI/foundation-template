@@ -16,36 +16,30 @@ namespace Foundation.Template.Core.Services
 {
     public class TableService : ITableService
     {
-        private IQueryHandler<TablesQuery, UserTable> _TableQueryHandler;
+        private IQueryHandler<TableQuery, UserTable> _tableQueryHandler;
         private ICommandHandler<UpdateTableCommand> _updateTableCommandHandler;
-        private IUserOrganisationTableRepository _userOrganisationTableRepository;
-        private IUserOrganisationColumnRepository _userOrganisationColumnRepository;
         private IMapper _mapper;
 
         public TableService
         (
-            IQueryHandler<TablesQuery, UserTable> TableQueryHandler,
+            IQueryHandler<TableQuery, UserTable> tableQueryHandler,
             ICommandHandler<UpdateTableCommand> updateTableCommandHandler,
-            IUserOrganisationTableRepository userOrganisationTableRepository,
-            IUserOrganisationColumnRepository userOrganisationColumnRepository,
             IMapper mapper
         )
         {
-            _TableQueryHandler = TableQueryHandler;
+            _tableQueryHandler = tableQueryHandler;
             _updateTableCommandHandler = updateTableCommandHandler;
-            _userOrganisationTableRepository = userOrganisationTableRepository;
-            _userOrganisationColumnRepository = userOrganisationColumnRepository;
             _mapper = mapper;
         }
 
         public async Task<TableViewModel> GetMany(string tableCode)
         {
-            var query = new TablesQuery()
+            var query = new TableQuery()
             {
                 TableCode = tableCode
             };
 
-            var result = await _TableQueryHandler.HandleAsync(query);
+            var result = await _tableQueryHandler.HandleAsync(query);
 
             return _mapper.Map<UserTable, TableViewModel>(result);
         }

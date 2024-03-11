@@ -8,7 +8,7 @@ using static Foundation.Clients.CoreAuthorizations;
 
 namespace Foundation.Template.Core
 {
-    public class TablesQuery : IRequest<UserTable>, ICoreRequest
+    public class TableQuery : IRequest<UserTable>, ICoreRequest
     {
         public IEnumerable<string> Authorizations => Enumerable.Empty<string>();
         public string TableCode { get; set; }

@@ -12,12 +12,12 @@ namespace Foundation.Template.Core.DI
     {
         public static IServiceCollection AddTables(this IServiceCollection services)
         {
-            services.AddScoped<TablesQueryHandler>();
-            services.AddScoped<IQueryHandler<TablesQuery, UserTable>>(sp =>
+            services.AddScoped<TableQueryHandler>();
+            services.AddScoped<IQueryHandler<TableQuery, UserTable>>(sp =>
             {
-                var pipeline = sp.GetPipelineFactory<TablesQuery, UserTable>()
+                var pipeline = sp.GetPipelineFactory<TableQuery, UserTable>()
                     // .With<PermissionsMiddleware>()
-                    .Add<TablesQueryHandler>()
+                    .Add<TableQueryHandler>()
                     .Build();
 
                 return pipeline;

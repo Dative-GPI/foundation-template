@@ -22,7 +22,7 @@ const TableServiceFactory = new ServiceFactory("user-organisation-disposition", 
     ));
 
 
-export const useGetTable = () => {
+export const useTable = () => {
     const service = TableServiceFactory();
 
     const getting = ref(false);

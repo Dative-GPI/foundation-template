@@ -12,23 +12,23 @@ namespace Foundation.Template.Core.API.Controllers
     [Route("api/core/v1")]
     public class TablesController : ControllerBase
     {
-        private readonly ITableService _TableService;
-        public TablesController(ITableService TableService)
+        private readonly ITableService _tableService;
+        public TablesController(ITableService tableService)
         {
-            _TableService = TableService;
+            _tableService = tableService;
         }
 
         [HttpGet("tables/{tableCode}/dispositions")]
         public async Task<ActionResult<TableViewModel>> GetMany([FromRoute] string tableCode)
         {
-            var result = await _TableService.GetMany(tableCode);
+            var result = await _tableService.GetMany(tableCode);
             return Ok(result);
         }
 
         [HttpPost("tables/{tableCode}/dispositions")]
         public async Task<OkResult> Update([FromRoute] string tableCode, [FromBody] UpdateTableViewModel payload)
         {
-            await _TableService.Update(tableCode, payload);
+            await _tableService.Update(tableCode, payload);
             return Ok();
         }
     }

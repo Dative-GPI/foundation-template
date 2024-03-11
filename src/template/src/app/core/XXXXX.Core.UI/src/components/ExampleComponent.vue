@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue";
 import { useTranslationsProvider } from "@dative-gpi/foundation-template-shared-ui";
-import { useUpdateRolePermissionOrganisation, useGetTable } from "@dative-gpi/foundation-template-core-ui";
+import { useUpdateRolePermissionOrganisation, useTable } from "@dative-gpi/foundation-template-core-ui";
 
 
 
@@ -24,7 +24,7 @@ export default defineComponent({
   setup(props) {
     const { $tr } = useTranslationsProvider();
 
-    const { getting, get, getted } = useGetTable();
+    const { getting, get, getted } = useTable();
     const { updating, update } = useUpdateRolePermissionOrganisation();
 
 
