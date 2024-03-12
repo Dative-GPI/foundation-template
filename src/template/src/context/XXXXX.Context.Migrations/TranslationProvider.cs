@@ -5,6 +5,8 @@ using Foundation.Template.Context.Abstractions;
 using Foundation.Template.Fixtures;
 using System.Linq;
 
+using Foundation.Clients.Fixtures.Services;
+
 namespace XXXXX.Context.Migrations
 {
     public static class TranslationProvider
@@ -18,6 +20,7 @@ namespace XXXXX.Context.Migrations
         public static async Task<List<Fixture>> GetAllTranslations()
         {
             var translations = new List<Fixture>();
+            var fixtureService = new FixtureService();
 
             foreach (var project in PROJECTS)
             {
@@ -25,7 +28,9 @@ namespace XXXXX.Context.Migrations
                 translations.AddRange(translation);
             }
 
-            return translations.DistinctBy(t => t.Code).ToList();
+            var translationsCode = fixtureService.GetTranslations().Select(t => t.Code).ToList();
+
+            return translations.DistinctBy(t => t.Code).Where(t => !translationsCode.Contains(t.Code)).ToList();
         }
     }
 }

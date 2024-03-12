@@ -7,6 +7,7 @@ using Foundation.Template.CrossCutting.DI;
 
 using Foundation.Template.Core.Abstractions;
 using Foundation.Template.Core.Tools;
+using Foundation.Template.Core.Providers;
 
 namespace Foundation.Template.Core.DI
 {
@@ -19,7 +20,7 @@ namespace Foundation.Template.Core.DI
             services.AddCrossCutting(configuration);
 
             services.AddScoped<RequestContextProvider>();
-            services.AddScoped<IRequestContextProvider>(sp 
+            services.AddScoped<IRequestContextProvider>(sp
                 => sp.GetRequiredService<RequestContextProvider>());
 
             services.AddFlow();
@@ -28,8 +29,11 @@ namespace Foundation.Template.Core.DI
 
             services.AddPermissions();
             services.AddRolePermissionOrganisations();
+            services.AddTables();
 
             services.AddScoped<IPermissionProvider, PermissionProvider>();
+            services.AddScoped<IApplicationTableProvider, ApplicationTableProvider>();
+            services.AddScoped<IOrganisationTypeTableProvider, OrganisationTypeTableProvider>();
 
             return services;
         }

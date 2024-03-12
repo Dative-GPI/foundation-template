@@ -6,6 +6,6 @@ namespace XXXXX.Admin.Kernel
         public const string ADMIN_XXXXX_UPDATE = "admin.XXXXX.update";
         public const string ADMIN_XXXXX_REMOVE = "admin.XXXXX.remove";
         public const string ADMIN_XXXXX_INFOS = "admin.XXXXX.infos";
-        public const string ADMIN_XXXXX_DEAILS = "admin.XXXXX.details";
+        public const string ADMIN_XXXXX_DETAILS = "admin.XXXXX.details";
     }
 }

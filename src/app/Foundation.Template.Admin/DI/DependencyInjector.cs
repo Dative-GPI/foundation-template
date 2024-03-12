@@ -19,7 +19,7 @@ namespace Foundation.Template.Admin.DI
             services.AddCrossCutting(configuration);
 
             services.AddScoped<RequestContextProvider>();
-            services.AddScoped<IRequestContextProvider>(sp 
+            services.AddScoped<IRequestContextProvider>(sp
                 => sp.GetRequiredService<RequestContextProvider>());
 
             services.AddFlow();
@@ -38,6 +38,7 @@ namespace Foundation.Template.Admin.DI
             services.AddTranslations();
             services.AddApplicationTranslations();
             services.AddDispositions();
+            services.AddEntities();
 
             services.AddScoped<IPermissionProvider, PermissionProvider>();
             services.AddScoped<IApplicationTableProvider, ApplicationTableProvider>();

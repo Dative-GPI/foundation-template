@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-using Foundation.Clients;
-
-using static Foundation.Template.Admin.Authorizations;
+using static Foundation.Clients.AdminAuthorizations;
 
 namespace Foundation.Template.Admin
 {
     public class UpsertPermissionOrganisationTypesCommand : ICoreRequest
     {
-        public IEnumerable<string> Authorizations => new[] { "admin.permissionorganisationtype.update" };
+        public IEnumerable<string> Authorizations => new[] { ADMIN_PERMISSIONORGANISATIONTYPE_UPDATE };
         public List<UpsertPermissionOrganisationTypes> PermissionOrganisationTypes { get; set; }
     }
 

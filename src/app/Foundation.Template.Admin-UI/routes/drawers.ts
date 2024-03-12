@@ -23,7 +23,29 @@ const drawersRoutes: RouteRecordRaw[] = [
             exact: false,
             drawer: true
         }
-    }
+    },
+    {
+        path: `/admin/entitypropertytranslation/import-drawer`,
+        name: "import-entity-property-translations-drawer",
+        components: {
+            default: () => import("../components/entities/translations/ImportTranslationsDrawer.vue"),
+        },
+        meta: {
+            exact: false,
+            drawer: true
+        }
+    },
+    {
+        path: "/admin/entitypropertytranslation/:entitypropertytranslationid/drawer",
+        name: "update-entity-property-translation-drawer",
+        components: {
+            default: () => import("../components/entities/translations/UpdateTranslationDrawer.vue"),
+        },
+        meta: {
+            exact: false,
+            drawer: true
+        }
+    },
 ]
 
 export default drawersRoutes;

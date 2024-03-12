@@ -11,7 +11,9 @@ namespace Foundation.Template.Core.DI
         {
             services.AddScoped<IRouteService, RouteService>();
             services.AddScoped<IActionService, ActionService>();
-            
+
+            services.AddScoped<ITableService, TableService>();
+
             services.AddScoped<IPermissionOrganisationService, PermissionOrganisationService>();
             services.AddScoped<IRolePermissionOrganisationService, RolePermissionOrganisationService>();
 

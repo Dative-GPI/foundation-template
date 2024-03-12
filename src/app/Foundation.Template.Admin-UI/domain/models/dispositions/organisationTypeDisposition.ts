@@ -24,7 +24,7 @@ export interface OrganisationTypeDispositionDTO {
 
 export interface UpdateOrganisationTypeDispositionDTO {
     columnId: string;
-    index: number;
-    hidden: boolean;
     disabled: boolean;
+    hidden: boolean;
+    index: number;
 }

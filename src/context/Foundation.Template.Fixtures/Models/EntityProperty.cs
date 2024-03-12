@@ -1,3 +1,4 @@
+using System;
 using Foundation.Template.Context.Abstractions;
 
 namespace Foundation.Template.Fixtures
@@ -8,5 +9,7 @@ namespace Foundation.Template.Fixtures
         public string Value { get; set; }
         public string EntityType { get; set; }
         public string LabelDefault { get; set; }
+
+        public string ParentId { get; set; }
     }
 }

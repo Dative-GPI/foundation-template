@@ -49,5 +49,10 @@ export const routes: RouteRecordRaw[] = [
         name: "table",
         component: () => import('../views/Table.vue'),
     },
+    {
+        path: "/admin/v1/entities",
+        name: "entities",
+        component: () => import('../views/Entities.vue'),
+    },
     ...drawersRoutes,
 ]

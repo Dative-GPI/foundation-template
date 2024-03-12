@@ -25,6 +25,7 @@ export interface UpdateApplicationTranslation {
 
 
 export interface UpdateApplicationTranslationLanguage {
+    translationCode: string;
     languageCode: string;
     value: string;
 }

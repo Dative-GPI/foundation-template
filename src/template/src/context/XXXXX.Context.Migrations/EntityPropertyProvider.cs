@@ -6,6 +6,8 @@ using Foundation.Template.Fixtures;
 using System.Linq;
 using System.Reflection;
 
+using Foundation.Clients.Fixtures.Services;
+
 namespace XXXXX.Context.Migrations
 {
     public static class EntityPropertyProvider

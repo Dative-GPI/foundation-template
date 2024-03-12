@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using Bones.Flow;
 
+using static Foundation.Clients.AdminAuthorizations;
 
 
 namespace Foundation.Template.Admin.Requests
 {
     public class DownloadApplicationTranslationsCommand : ICoreRequest, IRequest
     {
-        public IEnumerable<string> Authorizations => new[] { "admin.application-translation.infos" };
+        public IEnumerable<string> Authorizations => new[] { ADMIN_APPLICATIONTRANSLATION_INFOS };
 
         public required Guid ApplicationId { get; set; }
 

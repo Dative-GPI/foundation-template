@@ -12,25 +12,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dative-gpi/bones-ui": "^0.0.59",
     "@dative-gpi/foundation-template-shared-ui": "1.0.0",
-    "@dative-gpi/foundation-admin-components": "0.0.8",
-    "@dative-gpi/foundation-shared-components": "0.0.8",
-    "@dative-gpi/foundation-shared-domain": "0.0.8",
-    "@dative-gpi/foundation-shared-loader": "0.0.8",
-    "@dative-gpi/foundation-shared-services": "0.0.8",
+    "@dative-gpi/foundation-core-components": "0.0.21",
+    "@dative-gpi/foundation-admin-components": "0.0.21",
+    "@dative-gpi/foundation-shared-components": "0.0.21",
+    "@dative-gpi/foundation-shared-loader": "0.0.21",
     "@types/lodash": "^4.14.197",
     "axios": "^0.21.1",
-    "@mdi/font": "7.0.96",
-    "@novnc/novnc": "^1.4.0",
-    "bootstrap": "^5.3.2",
-    "color": "4.2.3",
-    "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
     "roboto-fontface": "*",
-    "vue": "^3.3.9",
-    "vue-router": "^4.0.0",
-    "vuetify": "^3.4.4",
-    "webfontloader": "^1.0.0"
+    "vue": "^3.2.0",
+    "typescript": "^5.0.0",
+    "vue-router": "^4.0.0"
   }
 }

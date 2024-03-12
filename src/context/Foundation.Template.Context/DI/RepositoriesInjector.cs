@@ -29,9 +29,12 @@ namespace Foundation.Template.Context.DI
 
             services.AddScoped<IColumnRepository, ColumnRepository>();
             services.AddScoped<IEntityPropertyRepository, EntityPropertyRepository>();
+            services.AddScoped<IEntityPropertyTranslationRepository, EntityPropertyTranslationRepository>();
             services.AddScoped<IOrganisationTypeDispositionRepository, OrganisationTypeDispositionRepository>();
             services.AddScoped<ITableRepository, TableRepository>();
-                        
+            services.AddScoped<IUserOrganisationTableRepository, UserOrganisationTableRepository>();
+            services.AddScoped<IUserOrganisationColumnRepository, UserOrganisationColumnRepository>();
+
             return services;
         }
     }

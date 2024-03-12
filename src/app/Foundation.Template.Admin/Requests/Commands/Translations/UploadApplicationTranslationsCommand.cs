@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using Bones.Flow;
 
+using static Foundation.Clients.AdminAuthorizations;
 
 namespace Foundation.Template.Admin.Requests
 {
     public class UploadApplicationTranslationsCommand : ICoreRequest, IRequest
     {
-        public IEnumerable<string> Authorizations => new[] { "admin.application-translation.update" };
+        public IEnumerable<string> Authorizations => new[] { ADMIN_APPLICATIONTRANSLATION_UPDATE };
 
         public required IEnumerable<ApplicationTranslationColumnIndex> LanguagesCodes { get; set; }
         public required Guid ApplicationId { get; set; }

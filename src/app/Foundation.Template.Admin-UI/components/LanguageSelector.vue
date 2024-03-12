@@ -1,23 +1,19 @@
 <template>
-  <v-select
-    v-bind="$attrs"
-    dense
-    variant="outlined"
-    class="d-select"
-    item-value="code"
-    item-title="label"
+  <FSSelectField :items="languages"
+    :editable="editable"
     :label="trueLabel"
-    :readonly="!editable"
     :clearable="editable"
-    :items="languages"
+    item-value="code"
+    :required="true"
+    item-title="label"
+    v-model="selectValue"
     :item-props="languageProps"
-    style="max-width: 300px; padding-top: 16px"
-  >
-  </v-select>
+    style="max-width: 300px; padding-top: 16px">
+  </FSSelectField>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted } from "vue";
+import { defineComponent, computed, onMounted, ref } from "vue";
 
 import { useApplicationLanguages } from "../composables";
 import { Language } from "../domain";
@@ -38,6 +34,8 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const { getMany, entities: languages } = useApplicationLanguages();
+
+    const selectValue = ref<string | null>(null);
 
     const trueLabel = computed(() => {
       return props.label ?? "Language";
@@ -62,6 +60,7 @@ export default defineComponent({
       languages,
       trueLabel,
       languageProps,
+      selectValue
     };
   },
 });

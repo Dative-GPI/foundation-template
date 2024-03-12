@@ -32,6 +32,6 @@ COPY . /app
 
 RUN $PRE_BUILD
 
-RUN dotnet build --no-restore
+RUN dotnet build
 
 ENTRYPOINT dotnet run --no-build --no-restore

@@ -8,8 +8,10 @@
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 
+import "@dative-gpi/foundation-core-components/styles/main.scss";
+
 import { DefaultTheme } from "@dative-gpi/foundation-shared-components/themes";
-import { FSButtonsAliases, FSButtonsProps } from "@dative-gpi/foundation-shared-components/models/FSButtons";
+import { Flags } from "@dative-gpi/foundation-shared-components/icons/sets";
 
 // Composables
 import { createVuetify } from 'vuetify'
@@ -22,10 +24,10 @@ export default createVuetify({
       DefaultTheme
     }
   },
-  aliases: {
-    ...FSButtonsAliases,
-  },
-  defaults: {
-    ...FSButtonsProps
+  icons: {
+    defaultSet: "mdi",
+    aliases: {
+      ...Flags
+    }
   }
 })

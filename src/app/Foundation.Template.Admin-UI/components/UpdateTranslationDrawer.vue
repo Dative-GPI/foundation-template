@@ -1,15 +1,15 @@
 <template>
-  <Drawer
-    :width="601"
+  <Drawer :width="601"
     :title="$tr('ui.admin.translations.update-translation-drawer', 'Update translation')"
-    v-model:value="drawer"
-  >
-    <v-skeleton-loader type="article" v-if="!translation || !applicationTranslations" />
+    v-model:value="drawer">
+    <v-skeleton-loader type="article"
+      v-if="!translation || !applicationTranslations" />
 
     <template v-else>
       <FSCol :gap="12">
         <FSRow>
-          <FSCol :items="items" class="mt-5">
+          <FSCol :items="items"
+            class="mt-5">
             <FSSpan font="text-button"> {{ translation.code }} : {{ translation.value }} </FSSpan>
           </FSCol>
         </FSRow>
@@ -18,37 +18,33 @@
           <FSCol v-if="fetchingLanguages">
             <v-skeleton-loader type="paragraph" />
           </FSCol>
-          <FSCol width="fill" v-else>
-            <FSTextArea
-              rows="2"
-              v-for="l in languages"
-              color="primary"
+          <FSCol width="fill"
+            v-else>
+            <FSTextArea v-for="l in languages"
               :modelValue="getValue(l.code)"
-              @input="setValue(l.code, $event.target.value)"
+              @update:modelValue="setValue(l.code, $event)"
               :key="translation.code + '-' + l.code"
               :label="l.label"
-              style="width: 97%"
-            />
+              style="width: 97%" />
           </FSCol>
         </FSRow>
       </FSCol>
 
-      <!-- <LanguageTranslationInputs
-        class="mt-6"
-        v-model:value="applicationTranslations"
-        :code="translation.code"
-      /> -->
     </template>
 
     <template #actions>
       <v-spacer />
-      <FSButtonCancel @click="close(true)" :loading="upserting" label="Cancel"> </FSButtonCancel>
-      <FSButtonSave
-        class="ml-3 justify-content-end"
-        @click="updateTranslations"
+      <FSButton @click="close(true)"
         :loading="upserting"
-        label="Save"
-      ></FSButtonSave>
+        label="Cancel"
+        prepend-icon="mdi-cancel"
+        color="light"> </FSButton>
+      <FSButton class="ml-3 justify-content-end"
+        @click="updateTranslations"
+        color="primary"
+        :loading="upserting"
+        prepend-icon="mdi-content-save-outline"
+        label="Save"></FSButton>
     </template>
   </Drawer>
 </template>
@@ -80,7 +76,7 @@ export default defineComponent({
 
     const newTranslations = ref<UpdateApplicationTranslationLanguage[]>([]);
 
-    const { upserted, upsert, upserting } = useUpsertApplicationTranslation();
+    const { upsert, upserting } = useUpsertApplicationTranslation();
 
     const {
       getMany: getManyApplicationTranslations,
@@ -112,17 +108,18 @@ export default defineComponent({
     };
 
     const setValue = (languageCode: string, ev: string) => {
-      let index = newTranslations.value.findIndex((t) => t.languageCode == languageCode);
-
-      if (!ev || ev.length == 0) {
-        if (index != -1) newTranslations.value.splice(index, 1);
-      } else if (index != -1 && newTranslations.value[index].value != ev) {
-        newTranslations.value.splice(index, 1);
-        pushTranslation(languageCode, ev);
+      const applicationTranslation = newTranslations.value.find((x) => x.languageCode === languageCode && x.translationCode == translation.value.code);
+      if (applicationTranslation) {
+        if (!ev || ev.length == 0) {
+          newTranslations.value = newTranslations.value.filter((x) => x.languageCode !== languageCode && x.translationCode == translation.value.code);
+        } else {
+          applicationTranslation.value = ev;
+        }
       } else {
-        pushTranslation(languageCode, ev);
+        if (ev && ev.length > 0) {
+          pushTranslation(languageCode, ev);
+        }
       }
-      emit("input", newTranslations);
     };
 
     const pushTranslation = (languageCode: string, ev: string) => {
@@ -142,12 +139,7 @@ export default defineComponent({
     };
 
     const getValue = (languageCode: string): string | null | undefined => {
-      const transl = applicationTranslations.value.find(
-        (x) => x.languageCode === languageCode && x.translationCode == translation.value.code
-      );
-
-      if (transl) return transl.value;
-      else return "";
+      return newTranslations.value.find((x) => x.languageCode === languageCode && x.translationCode == translation.value.code)?.value;
     };
 
     const fetch = async () => {

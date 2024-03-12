@@ -20,6 +20,12 @@ namespace Foundation.Template.Core.AutoMapper
             CreateMap<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>()
                 .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(p => p.Permissions.Select(p => p.Id).ToList()));
             CreateMap<ActionInfos, ActionInfosViewModel>();
+
+            CreateMap<UserOrganisationColumn, UserOrganisationColumnViewModel>();
+            CreateMap<UserOrganisationTable, UserOrganisationTableViewModel>();
+            CreateMap<Table, TableViewModel>();
+
+
         }
     }
 }

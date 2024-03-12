@@ -22,6 +22,19 @@ namespace Foundation.Template.Admin
             new RouteDefinition()
             {
                 Authorizations = new string[] {},
+                Path = (ctx) => "/v1/entities",
+                Name = "apps.foundation-template.drawer",
+                DrawerCategoryLabelDefault = null,
+                DrawerCategoryCode = null,
+                DrawerIcon = null,
+                DrawerLabelDefault = null,
+                DrawerLabelCode = null,
+                Exact = false,
+                ShowOnDrawer = false
+            },
+            new RouteDefinition()
+            {
+                Authorizations = new string[] {},
                 Path = (ctx) => "/v1/role-applications/:roleId",
                 Name = "apps.foundation-template.drawer",
                 DrawerCategoryLabelDefault = null,

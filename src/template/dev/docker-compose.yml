@@ -25,7 +25,7 @@ services:
       - 5433:5432
   
   proxy-core:
-    image: dativegpi/foundation-template-proxy:0.0.11
+    image: dativegpi/foundation-template-proxy:0.0.75
     environment:
       CUSTOMCONNSTR_FOUNDATION: https://products.dative-gpi.io
       CUSTOMCONNSTR_LOCAL: https://extension.localhost
@@ -40,7 +40,7 @@ services:
       - "traefik.http.routers.proxy-core.tls=true"
     
   proxy-admin:
-    image: dativegpi/foundation-template-proxy:0.0.11
+    image: dativegpi/foundation-template-proxy:0.0.75
     environment:
       CUSTOMCONNSTR_FOUNDATION: https://products-admin.dative-gpi.io
       CUSTOMCONNSTR_LOCAL: https://extension.localhost

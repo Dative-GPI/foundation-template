@@ -1,0 +1,50 @@
+name: Publish Template package to Nuget.org
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        folder:
+          - "src/template"
+
+    steps:
+      # Checking out repository
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+
+      # Replace the version of Foundation.Template  projects
+      - name: Replace version in csproj 🔧
+        run: |
+          cd ${{matrix.folder}}
+          find . -type f -not -path '*/\.*' -exec sed -i 's/$(TEMPLATE_VERSION)/${{ github.ref_name}}/g' {} +
+
+      # Replace the version of Foundation.Template ui  npm package
+      - name: Replace version in package.json 🔧
+        run: |
+          cd ${{matrix.folder}}
+          sed -i 's/1.0.0/${{ github.ref_name}}/g' src/app/admin/XXXXX.Admin.UI/package.json src/app/core/XXXXX.Core.UI/package.json
+
+      # Replace the version of Foundation-template-proxy image
+      - name: Replace version in docker-compose.yml 🔧
+        run: |
+          cd ${{matrix.folder}}
+          sed -i 's/0.0.75/${{ github.ref_name}}/g' dev/docker-compose.yml
+
+      # pack file to publish to NuGet
+      - name: Create a NuGet Package 🔧
+        run: |
+          cd ${{matrix.folder}}
+          dotnet pack --configuration Release -p:PackageVersion=${{ github.ref_name}} -o .
+
+      # Publishing with tag name as version
+      - name: Publishing to NuGet 🚀
+        run: |
+          cd ${{ matrix.folder}}
+          dotnet nuget push Foundation.Template.${{ github.ref_name}}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

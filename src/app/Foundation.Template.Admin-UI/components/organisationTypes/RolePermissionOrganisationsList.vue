@@ -8,13 +8,11 @@
       <FSButton label="Select all"
         color="primary"
         v-if="editMode"
-        @click="updateAll(true)">
-      </FSButton>
+        @click="updateAll(true)"> </FSButton>
       <FSButton label="Disable all"
         color="primary"
         v-if="editMode"
-        @click="updateAll(false)">
-      </FSButton>
+        @click="updateAll(false)"> </FSButton>
     </FSRow>
     <FSRow v-for="category in categoriesAndPermissions"
       :key="category.id">
@@ -56,7 +54,12 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { usePermissionOrganisations, usePermissionOrganisationTypes, useRolePermissionOrganisations, useUpdateRolePermissionOrganisations } from "../../composables";
+import {
+  usePermissionOrganisations,
+  usePermissionOrganisationTypes,
+  useRolePermissionOrganisations,
+  useUpdateRolePermissionOrganisations,
+} from "../../composables";
 import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
 import { watch } from "vue";
 import { toRefs } from "vue";
@@ -77,8 +80,10 @@ export default defineComponent({
   setup(props) {
     const { setTitle, setCrumbs } = useExtensionCommunicationBridge();
     const { getAll, categories } = usePermissionOrganisations();
-    const { getMany: getPermissionOrganisationTypes, entities: permissionOrganisationTypes } = usePermissionOrganisationTypes();
-    const { get: getRolePermissionOrganisations, entity: rolePermissionOrganisations } = useRolePermissionOrganisations();
+    const { getMany: getPermissionOrganisationTypes, entities: permissionOrganisationTypes } =
+      usePermissionOrganisationTypes();
+    const { get: getRolePermissionOrganisations, entity: rolePermissionOrganisations } =
+      useRolePermissionOrganisations();
     const { update } = useUpdateRolePermissionOrganisations();
     const route = useRoute();
 
@@ -108,7 +113,7 @@ export default defineComponent({
     const fetchRoleOrganisation = async () => {
       fetching.value = true;
       await getRolePermissionOrganisations(props.roleId);
-      permissionIds.value = rolePermissionOrganisations.value.permissionIds.map((p) => p);
+      permissionIds.value = rolePermissionOrganisations.value!.permissionIds.map((p) => p);
       fetching.value = false;
     };
 
@@ -134,7 +139,6 @@ export default defineComponent({
           })),
       }));
     });
-
 
     const updateAll = (enableAll: boolean) => {
       if (enableAll) {
@@ -165,8 +169,7 @@ export default defineComponent({
 
     function save() {
       update(props.roleId, { permissionIds: permissionIds.value });
-    };
-
+    }
 
     const synchronizePermissions = async () => {
       if (!props.editMode) return;
@@ -177,11 +180,14 @@ export default defineComponent({
 
     watch(permissionIds, debouncedsynchronizePermissions);
 
-    watch(() => props.editMode, () => {
-      if (props.editMode == false) {
-        save();
+    watch(
+      () => props.editMode,
+      () => {
+        if (props.editMode == false) {
+          save();
+        }
       }
-    });
+    );
 
     onMounted(init);
 

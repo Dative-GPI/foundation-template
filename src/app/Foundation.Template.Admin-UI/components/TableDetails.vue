@@ -1,69 +1,65 @@
 <template>
-  <FSCol :gap="16"
-    v-if="table != null">
-    <v-data-table :item-class="() => 'cursor-pointer'"
-      :items="items"
-      item-value="id"
-      :headers="headers">
+  <FSCol :gap="16" v-if="table != null">
+    <v-data-table :item-class="() => 'cursor-pointer'" :items="items" item-value="id" :headers="headers">
       <template #item.disabled="{ item }">
-        <FSSwitch ref="element"
+        <FSSwitch
+          ref="element"
           :modelValue="!item.disabled"
-          @update:modelValue="item.disabled = !$event; sortTable()"
+          @update:modelValue="
+            item.disabled = !$event;
+            sortTable();
+          "
           :editable="editMode"
-          color="success" />
+          color="success"
+        />
       </template>
       <template #item.hidden="{ item }">
-        <FSSwitch v-if="!item.disabled"
+        <FSSwitch
+          v-if="!item.disabled"
           ref="element"
           :modelValue="item.hidden"
           @update:modelValue="item.hidden = $event"
           :editable="editMode"
-          color="success" />
-        <FSSwitch v-else
-          :disabled="true"
-          ref="element"
-          :modelValue="false"
-          :editable="editMode"
-          color="success" />
+          color="success"
+        />
+        <FSSwitch v-else :disabled="true" ref="element" :modelValue="false" :editable="editMode" color="success" />
       </template>
 
       <template #item.sortable="{ item }">
-        <FSSwitch ref="element"
+        <FSSwitch
+          ref="element"
           :modelValue="item.sortable"
           @update:modelValue="item.sortable = $event"
           :editable="editMode"
-          color="success" />
+          color="success"
+        />
       </template>
 
       <template #item.filterable="{ item }">
-        <FSSwitch ref="element"
+        <FSSwitch
+          ref="element"
           :modelValue="item.filterable"
           @update:modelValue="item.filterable = $event"
           :editable="editMode"
-          color="success" />
+          color="success"
+        />
       </template>
 
       <template #item.configurable="{ item }">
-        <FSSwitch ref="element"
+        <FSSwitch
+          ref="element"
           :modelValue="item.configurable"
           @update:modelValue="item.configurable = $event"
           :editable="editMode"
-          color="success" />
+          color="success"
+        />
       </template>
       <template #item.actions="{ item }">
-        <FSButton v-if="editMode"
-          @click="up(item)"
-          variant="icon"
-          icon="mdi-arrow-up" />
-        <FSButton v-if="editMode"
-          @click="down(item)"
-          variant="icon"
-          icon="mdi-arrow-down" />
+        <FSButton v-if="editMode" @click="up(item)" variant="icon" icon="mdi-arrow-up" />
+        <FSButton v-if="editMode" @click="down(item)" variant="icon" icon="mdi-arrow-down" />
       </template>
-
     </v-data-table>
-    <table-synchronizer :edit-mode="editMode"
-      :table-id="tableId" />
+    <table-synchronizer :edit-mode="editMode" :table-id="tableId" />
   </FSCol>
 </template>
 
@@ -81,7 +77,7 @@ import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
-    TableSynchronizer
+    TableSynchronizer,
   },
   props: {
     editMode: {
@@ -102,7 +98,6 @@ export default defineComponent({
 
     const search = ref<string | undefined>();
     const items = ref<Column[]>([]);
-
 
     const headers = computed(() => {
       return [
@@ -138,12 +133,12 @@ export default defineComponent({
         },
         ...(props.editMode
           ? [
-            {
-              text: "Actions",
-              title: "Actions",
-              value: "actions",
-            },
-          ]
+              {
+                text: "Actions",
+                title: "Actions",
+                value: "actions",
+              },
+            ]
           : []),
       ];
     });
@@ -178,15 +173,18 @@ export default defineComponent({
     };
 
     const sortTable = () => {
-      items.value = items.value.map((t, index) => ({ position: index, ...t })).sort((a, b) => {
-        if (a.disabled == b.disabled) {
-          return a.position - b.position
-        }
-        return + a.disabled - +b.disabled
-      }).map(t => {
-        let { position, ...others } = t;
-        return others;
-      });
+      items.value = items.value
+        .map((t, index) => ({ position: index, ...t }))
+        .sort((a, b) => {
+          if (a.disabled == b.disabled) {
+            return a.position - b.position;
+          }
+          return +a.disabled - +b.disabled;
+        })
+        .map((t) => {
+          let { position, ...others } = t;
+          return others;
+        });
     };
 
     const reset = () => {
@@ -194,7 +192,7 @@ export default defineComponent({
         return;
       }
 
-      items.value = table.value.columns ? table.value.columns.map((c) => new Column(c)) : [];
+      items.value = table.value?.columns ? table.value?.columns.map((c) => new Column(c)) : [];
       sortTable();
     };
 
@@ -209,15 +207,15 @@ export default defineComponent({
           index: i,
           ...others,
         };
-      })
-      await update(table.value.id, { columns: payload });
+      });
+      await update(table.value!.id, { columns: payload });
     };
 
     const onItemsDebounced = () => {
       if (props.editMode == true) {
         save();
       }
-    }
+    };
 
     onMounted(init);
 
@@ -225,16 +223,21 @@ export default defineComponent({
 
     watch(items, debouncedUpdateTable, { deep: true });
 
-    watch(() => props.editMode, () => {
-      if (props.editMode == false) {
-        save();
+    watch(
+      () => props.editMode,
+      () => {
+        if (props.editMode == false) {
+          save();
+        }
       }
-    });
+    );
 
-    watch(() => table, () => {
-      reset();
-    });
-
+    watch(
+      () => table,
+      () => {
+        reset();
+      }
+    );
 
     return {
       headers,
@@ -243,7 +246,7 @@ export default defineComponent({
       items,
       up,
       down,
-      sortTable
+      sortTable,
     };
   },
 });

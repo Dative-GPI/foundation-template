@@ -20,7 +20,7 @@ namespace Foundation.Template.Context.DTOs
         public string Label { get; set; }
         public string CategoryLabel { get; set; }
 
-        public Guid LanguageId { get; set; }
+        public string LanguageCode { get; set; }
         // public LanguageDTO Language { get; set; }
 
         public bool Disabled { get; set; }
