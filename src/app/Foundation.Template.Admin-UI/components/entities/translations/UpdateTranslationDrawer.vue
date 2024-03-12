@@ -77,7 +77,6 @@ import {
 import {
   EntityPropertyTranslationInfos,
   UpdateEntityPropertyTranslation,
-  UpdateEntityPropertyTranslationValue
 } from "../../../domain";
 
 import Drawer from "../../shared/Drawer.vue";
@@ -100,8 +99,6 @@ export default defineComponent({
     const drawer = ref<boolean>(true);
 
     const newTranslations = ref<UpdateEntityPropertyTranslation[]>([]);
-    const newTranslationLabels = ref<UpdateEntityPropertyTranslationValue[]>([]);
-    const newTranslationCategories = ref<UpdateEntityPropertyTranslationValue[]>([]);
 
     const { updated, update, updating } = useUpdateEntityPropertyTranslation();
 
@@ -135,46 +132,35 @@ export default defineComponent({
     };
 
     const setLabel = (languageCode: string, lab: string) => {
-      const entityPropertyTranslation = newTranslationLabels.value.find((x) => x.languageCode === languageCode);
+      const entityPropertyTranslation = newTranslations.value.find((x) => x.languageCode === languageCode);
 
-      if (entityPropertyTranslation) { entityPropertyTranslation.value = lab; }
-      if (!entityPropertyTranslation) {
-        newTranslationLabels.value.push({
+      if (entityPropertyTranslation) { entityPropertyTranslation.label = lab; }
+      else {
+        newTranslations.value.push({
           languageCode: languageCode,
-          value: lab
-        } as UpdateEntityPropertyTranslationValue)
+          label: lab,
+          categoryLabel: ""
+        } as UpdateEntityPropertyTranslation)
       }
     };
 
     const setCategory = (languageCode: string, categoryLab: string) => {
-      const entityPropertyTranslation = newTranslationCategories.value.find((x) => x.languageCode === languageCode);
+      const entityPropertyTranslation = newTranslations.value.find((x) => x.languageCode === languageCode);
 
-      if (entityPropertyTranslation) { entityPropertyTranslation.value = categoryLab; }
-      else
-        if (!entityPropertyTranslation) {
-          newTranslationCategories.value.push({
-            languageCode: languageCode,
-            value: categoryLab
-          } as UpdateEntityPropertyTranslationValue)
-        }
+      if (entityPropertyTranslation) { entityPropertyTranslation.categoryLabel = categoryLab; }
+      else {
+        newTranslations.value.push({
+          languageCode: languageCode,
+          label: "",
+          categoryLabel: categoryLab,
+        } as UpdateEntityPropertyTranslation)
+      }
     };
 
 
     const updateTranslations = () => {
 
-      newTranslations.value = _.uniqBy(newTranslationLabels.value.map((at) => {
-        return {
-          languageCode: at.languageCode,
-          label: at.value,
-          categoryLabel: newTranslationCategories.value.find(n => n.languageCode === at.languageCode)?.value
-        } as UpdateEntityPropertyTranslation
-      }).concat(newTranslationCategories.value.map((at) => {
-        return {
-          languageCode: at.languageCode,
-          label: newTranslationLabels.value.find(n => n.languageCode === at.languageCode)?.value,
-          categoryLabel: at.value
-        } as UpdateEntityPropertyTranslation
-      })), "languageCode").filter((x) => x.label || x.categoryLabel);
+      newTranslations.value = newTranslations.value.filter((x) => x.label || x.categoryLabel);
 
       update(entityPropId, newTranslations.value).then(() => {
         close(true);
@@ -182,19 +168,24 @@ export default defineComponent({
     };
 
     const getLabel = (languageCode: string): string | undefined => {
-      return newTranslationLabels.value.find((x) => x.languageCode === languageCode)?.value;
+      return newTranslations.value.find((x) => x.languageCode === languageCode)?.label;
     };
 
     const getCategory = (languageCode: string): string | undefined => {
-      return newTranslationCategories.value.find((x) => x.languageCode === languageCode)?.value;
+      return newTranslations.value.find((x) => x.languageCode === languageCode)?.categoryLabel;
     };
 
     const fetch = async () => {
       getManyLanguages();
       getEntityProperties();
       await getEntityProtertyTranslations({ entityPropertyId: entityPropId });
-      newTranslationLabels.value = entityProtertyTranslations.value.map((at) => { return { languageCode: at.languageCode, value: at.label } as UpdateEntityPropertyTranslationValue });
-      newTranslationCategories.value = entityProtertyTranslations.value.map((at) => { return { languageCode: at.languageCode, value: at.categoryLabel } as UpdateEntityPropertyTranslationValue });
+      newTranslations.value = entityProtertyTranslations.value.map((x) => {
+        return {
+          languageCode: x.languageCode,
+          label: x.label,
+          categoryLabel: x.categoryLabel
+        } as UpdateEntityPropertyTranslation;
+      });
     };
 
     onMounted(fetch);
