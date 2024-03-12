@@ -26,14 +26,14 @@
               <FSTextArea :rows="2"
                 color="primary"
                 :modelValue="getLabel(l.code)"
-                @update:modelValue="setLabelCategory(l.code, $event, getCategory(l.code))"
+                @update:modelValue="setLabel(l.code, $event)"
                 :key="l.code + '-' + l.code"
                 :label="l.label"
                 style="width: 97%" />
               <FSTextArea :rows="2"
                 color="primary"
                 :modelValue="getCategory(l.code)"
-                @update:modelValue="setLabelCategory(l.code, getLabel(l.code), $event)"
+                @update:modelValue="setCategory(l.code, $event)"
                 :key="l.code"
                 :label="l.label"
                 style="width: 97%" />
@@ -130,19 +130,34 @@ export default defineComponent({
       extension.closeDrawer(location.pathname, success);
     };
 
-    const setLabelCategory = (languageCode: string, label: string | null, category: string | null) => {
+    const setLabel = (languageCode: string, lab: string) => {
       const entityPropertyTranslation = newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId);
 
       if (entityPropertyTranslation) {
-        if ((!label || label.length == 0) && (!category || category.length == 0)) {
+        if ((!lab || lab.length == 0) && (!entityPropertyTranslation.categoryLabel || entityPropertyTranslation.categoryLabel.length == 0)) {
           newTranslations.value = newTranslations.value.filter((x) => x.languageCode !== languageCode && x.entityPropertyId == entityPropId);
         } else {
-          entityPropertyTranslation.label = label;
-          entityPropertyTranslation.categoryLabel = category;
+          entityPropertyTranslation.label = lab;
         }
       } else {
-        if ((label && label.length > 0) || (category && category.length > 0)) {
-          pushTranslation(languageCode, label, category);
+        if (lab && lab.length > 0) {
+          pushTranslation(languageCode, lab, "");
+        }
+      }
+    };
+
+    const setCategory = (languageCode: string, categoryLab: string) => {
+      const entityPropertyTranslation = newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId);
+
+      if (entityPropertyTranslation) {
+        if ((!categoryLab || categoryLab.length == 0) && (!entityPropertyTranslation.label || entityPropertyTranslation.label.length == 0)) {
+          newTranslations.value = newTranslations.value.filter((x) => x.languageCode !== languageCode && x.entityPropertyId == entityPropId);
+        } else {
+          entityPropertyTranslation.categoryLabel = categoryLab;
+        }
+      } else {
+        if (categoryLab && categoryLab.length > 0) {
+          pushTranslation(languageCode, "", categoryLab);
         }
       }
     };
@@ -162,11 +177,11 @@ export default defineComponent({
       });
     };
 
-    const getLabel = (languageCode: string): string | null | undefined => {
+    const getLabel = (languageCode: string): string | undefined => {
       return newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId)?.label;
     };
 
-    const getCategory = (languageCode: string): string | null | undefined => {
+    const getCategory = (languageCode: string): string | undefined => {
       return newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId)?.categoryLabel;
     };
 
@@ -191,7 +206,8 @@ export default defineComponent({
       close,
       getLabel,
       getCategory,
-      setLabelCategory,
+      setLabel,
+      setCategory
     };
   },
 });
