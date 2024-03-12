@@ -1,7 +1,7 @@
 using System;
 using Foundation.Clients.Core.FoundationModels;
 
-namespace XXXXX.Template.Core.Kernel.ViewModels
+namespace XXXXX.Core.Kernel.ViewModels
 {
     public class BookDeviceInfosViewModel : LanguageInfosFoundationModel
     {

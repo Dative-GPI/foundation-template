@@ -13,13 +13,13 @@ namespace XXXXX.Context.Migrations
     public static class EntityPropertyProvider
     {
         static List<Assembly> Assemblies = new List<Assembly>() {
-            XXXXX.Template.Core.Kernel.KernelAssembly.Get(),
-            XXXXX.Template.Admin.Kernel.KernelAssembly.Get()
+            XXXXX.Core.Kernel.KernelAssembly.Get(),
+            XXXXX.Admin.Kernel.KernelAssembly.Get()
         };
 
         static List<string> Namespaces = new List<string>() {
-            "XXXXX.Template.Core.Kernel.ViewModels",
-            "XXXXX.Template.Admin.Kernel.ViewModels"
+            "XXXXX.Core.Kernel.ViewModels",
+            "XXXXX.Admin.Kernel.ViewModels"
         };
 
         public static Task<List<EntityProperty>> GetAllEntityProperties()

@@ -35,6 +35,10 @@ export interface UpdateEntityPropertyTranslation {
     categoryLabel: string;
 }
 
+export interface UpdateEntityPropertyTranslationValue {
+    languageCode: string;
+    value: string;
+}
 export interface DownloadEntityPropertyTranslations {
     fileName: string;
 }
