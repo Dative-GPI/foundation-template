@@ -26,14 +26,14 @@
               <FSTextArea :rows="2"
                 color="primary"
                 :modelValue="getLabel(l.code)"
-                @input="setLabelCategory(l.code, $event.target.value, null)"
+                @update:modelValue="setLabelCategory(l.code, $event, getCategory(l.code))"
                 :key="l.code + '-' + l.code"
                 :label="l.label"
                 style="width: 97%" />
               <FSTextArea :rows="2"
                 color="primary"
                 :modelValue="getCategory(l.code)"
-                @input="setLabelCategory(l.code, null, $event.target.value)"
+                @update:modelValue="setLabelCategory(l.code, getLabel(l.code), $event)"
                 :key="l.code"
                 :label="l.label"
                 style="width: 97%" />
@@ -131,24 +131,19 @@ export default defineComponent({
     };
 
     const setLabelCategory = (languageCode: string, label: string | null, category: string | null) => {
-      console.log("labzl :", label);
-      console.log("category :", category);
-      let index = newTranslations.value.findIndex(
-        (t) => t.languageCode == languageCode && t.entityPropertyId == entityPropId
-      );
+      const entityPropertyTranslation = newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId);
 
-      if ((!label || label.length == 0) && (!category || category.length == 0)) {
-        if (index != -1) newTranslations.value.splice(index, 1);
-      } else if (
-        index != -1 &&
-        (newTranslations.value[index].label != label || newTranslations.value[index].categoryLabel != category)
-      ) {
-        const lab = label == null ? newTranslations.value[index].label : label;
-        const cat = category == null ? newTranslations.value[index].categoryLabel : category;
-        newTranslations.value.splice(index, 1);
-        pushTranslation(languageCode, lab!, cat!);
+      if (entityPropertyTranslation) {
+        if ((!label || label.length == 0) && (!category || category.length == 0)) {
+          newTranslations.value = newTranslations.value.filter((x) => x.languageCode !== languageCode && x.entityPropertyId == entityPropId);
+        } else {
+          entityPropertyTranslation.label = label;
+          entityPropertyTranslation.categoryLabel = category;
+        }
       } else {
-        pushTranslation(languageCode, label!, category!);
+        if ((label && label.length > 0) || (category && category.length > 0)) {
+          pushTranslation(languageCode, label, category);
+        }
       }
     };
 
@@ -168,27 +163,17 @@ export default defineComponent({
     };
 
     const getLabel = (languageCode: string): string | null | undefined => {
-      const lab = entityProtertyTranslations.value.find(
-        (x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId
-      );
-
-      if (lab) return lab.label;
-      else return "";
+      return newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId)?.label;
     };
 
     const getCategory = (languageCode: string): string | null | undefined => {
-      const lab = entityProtertyTranslations.value.find(
-        (x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId
-      );
-
-      if (lab) return lab.categoryLabel;
-      else return "";
+      return newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId)?.categoryLabel;
     };
 
     const fetch = async () => {
       getManyLanguages();
       getEntityProperties();
-      await getEntityProtertyTranslations();
+      await getEntityProtertyTranslations({ entityPropertyId: entityPropId });
       newTranslations.value = entityProtertyTranslations.value.map((at) => new EntityPropertyTranslationInfos(at));
     };
 

@@ -35,15 +35,13 @@ namespace Foundation.Template.Admin.Handlers
 
         public async Task<IEnumerable<EntityPropertyTranslation>> HandleAsync(EntityPropertyTranslationsQuery request, Func<Task<IEnumerable<EntityPropertyTranslation>>> next, CancellationToken cancellationToken)
         {
+            var context = _requestContextProvider.Context;
+
             var entityPropertyTranslations = await _entityPropertyTranslationRepository.GetMany(new EntityPropertyTranslationsFilter()
             {
-                ApplicationId = request.ApplicationId,
+                ApplicationId = context.ApplicationId,
                 EntityPropertyId = request.EntityPropertyId,
-                // EntityPropertyIds = request.EntityPropertyIds,
             });
-
-
-            var context = _requestContextProvider.Context;
 
             var adminFoundationClient = await _foundationClientFactory.CreateAdmin(context.ApplicationId, context.LanguageCode);
 

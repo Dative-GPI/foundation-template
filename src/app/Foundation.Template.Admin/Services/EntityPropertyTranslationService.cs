@@ -49,7 +49,6 @@ namespace Foundation.Template.Admin.Services
 
         public async Task<IEnumerable<EntityPropertyTranslationViewModel>> GetMany(EntityPropertyTranslationsFilterViewModel filter)
         {
-            var context = _requestContextProvider.Context;
             var query = new EntityPropertyTranslationsQuery()
             {
                 EntityPropertyId = filter.EntityPropertyId,

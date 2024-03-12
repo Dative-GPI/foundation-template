@@ -180,7 +180,6 @@ export default defineComponent({
     };
 
     const setLanguageCode = (index: number, event: string) => {
-      console.log(index, event);
       columns.value[index].languageCode = event;
     };
 

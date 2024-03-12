@@ -21,7 +21,6 @@
           <FSCol width="fill"
             v-else>
             <FSTextArea v-for="l in languages"
-              color="primary"
               :modelValue="getValue(l.code)"
               @update:modelValue="setValue(l.code, $event)"
               :key="translation.code + '-' + l.code"
@@ -31,11 +30,6 @@
         </FSRow>
       </FSCol>
 
-      <!-- <LanguageTranslationInputs
-        class="mt-6"
-        v-model:value="applicationTranslations"
-        :code="translation.code"
-      /> -->
     </template>
 
     <template #actions>
@@ -82,7 +76,7 @@ export default defineComponent({
 
     const newTranslations = ref<UpdateApplicationTranslationLanguage[]>([]);
 
-    const { upserted, upsert, upserting } = useUpsertApplicationTranslation();
+    const { upsert, upserting } = useUpsertApplicationTranslation();
 
     const {
       getMany: getManyApplicationTranslations,
@@ -114,17 +108,18 @@ export default defineComponent({
     };
 
     const setValue = (languageCode: string, ev: string) => {
-      let index = newTranslations.value.findIndex((t) => t.languageCode == languageCode);
-
-      if (!ev || ev.length == 0) {
-        if (index != -1) newTranslations.value.splice(index, 1);
-      } else if (index != -1 && newTranslations.value[index].value != ev) {
-        newTranslations.value.splice(index, 1);
-        pushTranslation(languageCode, ev);
+      const applicationTranslation = newTranslations.value.find((x) => x.languageCode === languageCode && x.translationCode == translation.value.code);
+      if (applicationTranslation) {
+        if (!ev || ev.length == 0) {
+          newTranslations.value = newTranslations.value.filter((x) => x.languageCode !== languageCode && x.translationCode == translation.value.code);
+        } else {
+          applicationTranslation.value = ev;
+        }
       } else {
-        pushTranslation(languageCode, ev);
+        if (ev && ev.length > 0) {
+          pushTranslation(languageCode, ev);
+        }
       }
-      emit("input", newTranslations);
     };
 
     const pushTranslation = (languageCode: string, ev: string) => {
@@ -144,12 +139,7 @@ export default defineComponent({
     };
 
     const getValue = (languageCode: string): string | null | undefined => {
-      const transl = applicationTranslations.value.find(
-        (x) => x.languageCode === languageCode && x.translationCode == translation.value.code
-      );
-
-      if (transl) return transl.value;
-      else return "";
+      return newTranslations.value.find((x) => x.languageCode === languageCode && x.translationCode == translation.value.code)?.value;
     };
 
     const fetch = async () => {

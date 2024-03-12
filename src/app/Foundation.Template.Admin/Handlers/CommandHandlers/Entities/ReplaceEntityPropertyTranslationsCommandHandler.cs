@@ -14,16 +14,16 @@ namespace Foundation.Template.Admin.Handlers
     public class ReplaceEntityPropertyTranslationsCommandHandler : IMiddleware<ReplaceEntityPropertyTranslationsCommand>
     {
         private readonly IEntityPropertyRepository _entityPropertyRepository;
-        private readonly IEntityPropertyTranslationRepository _applicationEntityPropertyRepository;
+        private readonly IEntityPropertyTranslationRepository _entityPropertyTranslationRepository;
 
         public ReplaceEntityPropertyTranslationsCommandHandler
         (
             IEntityPropertyRepository entityPropertyRepository,
-            IEntityPropertyTranslationRepository applicationEntityPropertyRepository
+            IEntityPropertyTranslationRepository entityPropertyTranslationRepository
         )
         {
             _entityPropertyRepository = entityPropertyRepository;
-            _applicationEntityPropertyRepository = applicationEntityPropertyRepository;
+            _entityPropertyTranslationRepository = entityPropertyTranslationRepository;
         }
 
         public async Task HandleAsync(ReplaceEntityPropertyTranslationsCommand command, Func<Task> next, CancellationToken cancellationToken)
@@ -35,13 +35,13 @@ namespace Foundation.Template.Admin.Handlers
                 throw new Exception(ErrorCode.EntityNotFound);
             }
 
-            var formerEntityPropertys = await _applicationEntityPropertyRepository.GetMany(new EntityPropertyTranslationsFilter()
+            var formerEntityPropertys = await _entityPropertyTranslationRepository.GetMany(new EntityPropertyTranslationsFilter()
             {
                 ApplicationId = command.ApplicationId,
                 EntityPropertyId = command.EntityPropertyId
             });
 
-            await _applicationEntityPropertyRepository.RemoveRange(formerEntityPropertys.Select(t => t.Id));
+            await _entityPropertyTranslationRepository.RemoveRange(formerEntityPropertys.Select(t => t.Id));
 
             var newEntityPropertys = command.Translations.Select(t => new CreateEntityPropertyTranslation()
             {
@@ -53,7 +53,7 @@ namespace Foundation.Template.Admin.Handlers
                 CategoryLabel = t.CategoryLabel
             }).ToList();
 
-            await _applicationEntityPropertyRepository.CreateRange(newEntityPropertys);
+            await _entityPropertyTranslationRepository.CreateRange(newEntityPropertys);
         }
     }
 }
