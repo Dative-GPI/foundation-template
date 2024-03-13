@@ -22,7 +22,7 @@
     }}
           </FSSpan>
           <FSRow class="align-center">
-            <FSFileButton class="mr-2"
+            <FSButtonFile class="mr-2"
               prepend-icon="mdi-upload"
               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
               :readFile="false"
