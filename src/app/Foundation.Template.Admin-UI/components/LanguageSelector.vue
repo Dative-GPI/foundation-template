@@ -8,7 +8,7 @@
     item-title="label"
     v-model="selectValue"
     :item-props="languageProps"
-    style="max-width: 300px; padding-top: 16px">
+    style="max-width: 350px;">
   </FSSelectField>
 </template>
 
