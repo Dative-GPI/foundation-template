@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace XXXXX.Template.Core.Kernel
+namespace XXXXX.Core.Kernel
 {
     public static class KernelAssembly
     {

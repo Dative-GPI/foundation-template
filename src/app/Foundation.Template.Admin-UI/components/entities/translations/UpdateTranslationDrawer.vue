@@ -26,14 +26,14 @@
               <FSTextArea :rows="2"
                 color="primary"
                 :modelValue="getLabel(l.code)"
-                @update:modelValue="setLabelCategory(l.code, $event, getCategory(l.code))"
+                @update:modelValue="setLabel(l.code, $event)"
                 :key="l.code + '-' + l.code"
                 :label="l.label"
                 style="width: 97%" />
               <FSTextArea :rows="2"
                 color="primary"
                 :modelValue="getCategory(l.code)"
-                @update:modelValue="setLabelCategory(l.code, getLabel(l.code), $event)"
+                @update:modelValue="setCategory(l.code, $event)"
                 :key="l.code"
                 :label="l.label"
                 style="width: 97%" />
@@ -76,6 +76,7 @@ import {
 
 import {
   EntityPropertyTranslationInfos,
+  UpdateEntityPropertyTranslation,
 } from "../../../domain";
 
 import Drawer from "../../shared/Drawer.vue";
@@ -97,7 +98,7 @@ export default defineComponent({
 
     const drawer = ref<boolean>(true);
 
-    const newTranslations = ref<EntityPropertyTranslationInfos[]>([]);
+    const newTranslations = ref<UpdateEntityPropertyTranslation[]>([]);
 
     const { updated, update, updating } = useUpdateEntityPropertyTranslation();
 
@@ -130,51 +131,61 @@ export default defineComponent({
       extension.closeDrawer(location.pathname, success);
     };
 
-    const setLabelCategory = (languageCode: string, label: string | null, category: string | null) => {
-      const entityPropertyTranslation = newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId);
+    const setLabel = (languageCode: string, lab: string) => {
+      const entityPropertyTranslation = newTranslations.value.find((x) => x.languageCode === languageCode);
 
-      if (entityPropertyTranslation) {
-        if ((!label || label.length == 0) && (!category || category.length == 0)) {
-          newTranslations.value = newTranslations.value.filter((x) => x.languageCode !== languageCode && x.entityPropertyId == entityPropId);
-        } else {
-          entityPropertyTranslation.label = label;
-          entityPropertyTranslation.categoryLabel = category;
-        }
-      } else {
-        if ((label && label.length > 0) || (category && category.length > 0)) {
-          pushTranslation(languageCode, label, category);
-        }
+      if (entityPropertyTranslation) { entityPropertyTranslation.label = lab; }
+      else {
+        newTranslations.value.push({
+          languageCode: languageCode,
+          label: lab,
+          categoryLabel: ""
+        } as UpdateEntityPropertyTranslation)
       }
     };
 
-    const pushTranslation = (lang: string, lab: string, categoryLab: string) => {
-      newTranslations.value.push({
-        languageCode: lang,
-        label: lab,
-        categoryLabel: categoryLab,
-        entityPropertyId: entityPropId,
-      } as EntityPropertyTranslationInfos);
+    const setCategory = (languageCode: string, categoryLab: string) => {
+      const entityPropertyTranslation = newTranslations.value.find((x) => x.languageCode === languageCode);
+
+      if (entityPropertyTranslation) { entityPropertyTranslation.categoryLabel = categoryLab; }
+      else {
+        newTranslations.value.push({
+          languageCode: languageCode,
+          label: "",
+          categoryLabel: categoryLab,
+        } as UpdateEntityPropertyTranslation)
+      }
     };
 
+
     const updateTranslations = () => {
+
+      newTranslations.value = newTranslations.value.filter((x) => x.label || x.categoryLabel);
+
       update(entityPropId, newTranslations.value).then(() => {
         close(true);
       });
     };
 
-    const getLabel = (languageCode: string): string | null | undefined => {
-      return newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId)?.label;
+    const getLabel = (languageCode: string): string | undefined => {
+      return newTranslations.value.find((x) => x.languageCode === languageCode)?.label;
     };
 
-    const getCategory = (languageCode: string): string | null | undefined => {
-      return newTranslations.value.find((x) => x.languageCode === languageCode && x.entityPropertyId == entityPropId)?.categoryLabel;
+    const getCategory = (languageCode: string): string | undefined => {
+      return newTranslations.value.find((x) => x.languageCode === languageCode)?.categoryLabel;
     };
 
     const fetch = async () => {
       getManyLanguages();
       getEntityProperties();
       await getEntityProtertyTranslations({ entityPropertyId: entityPropId });
-      newTranslations.value = entityProtertyTranslations.value.map((at) => new EntityPropertyTranslationInfos(at));
+      newTranslations.value = entityProtertyTranslations.value.map((x) => {
+        return {
+          languageCode: x.languageCode,
+          label: x.label,
+          categoryLabel: x.categoryLabel
+        } as UpdateEntityPropertyTranslation;
+      });
     };
 
     onMounted(fetch);
@@ -191,7 +202,8 @@ export default defineComponent({
       close,
       getLabel,
       getCategory,
-      setLabelCategory,
+      setLabel,
+      setCategory
     };
   },
 });

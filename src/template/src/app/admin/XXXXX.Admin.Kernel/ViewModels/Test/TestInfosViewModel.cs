@@ -1,6 +1,6 @@
 using System;
 
-namespace XXXXX.Template.Admin.Kernel.ViewModels
+namespace XXXXX.Admin.Kernel.ViewModels
 {
     public class TestInfosViewModel
     {
