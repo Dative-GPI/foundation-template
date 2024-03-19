@@ -7,6 +7,7 @@ namespace Foundation.Template.Domain.Models
     {
         public Guid Id { get; set; }
         public Guid TableId { get; set; }
+        public string TableCode { get; set; }
         public Guid UserOrganisationId { get; set; }
         public string Mode { get; set; }
         public string SortBy { get; set; }
