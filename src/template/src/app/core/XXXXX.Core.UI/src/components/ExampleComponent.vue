@@ -4,19 +4,21 @@
     <FSSpan font="text-body">{{ $tr("ui.extension.body", "Body") }}</FSSpan>
     <FSSpan font="text-button">{{ $tr("ui.commmon.label", "Label") }}</FSSpan>
     <FSSpan font="text-h1">Table Test</FSSpan>
-    <FSDataTable :headers="headers"
+    <FSDataTable v-if="headers"
       :items="items"
-      tableCode="ui.tables.test"
+      :headers="headers"
+      :filter="innerFilters"
       mode="table"></FSDataTable>
   </FSCol>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed, onMounted } from "vue";
 import { useTranslationsProvider } from "@dative-gpi/foundation-template-shared-ui";
 import { useUpdateRolePermissionOrganisation, useTable } from "@dative-gpi/foundation-template-core-ui";
-
-
+import { FSDataTableColumn, FSDataTableFilter, FSDataTableOrder } from "@dative-gpi/foundation-shared-components/models";
+import { on } from "events";
+import { text } from "stream/consumers";
 
 
 export default defineComponent({
@@ -27,51 +29,45 @@ export default defineComponent({
     const { getting, get, getted } = useTable();
     const { updating, update } = useUpdateRolePermissionOrganisation();
 
+    const innerFilters = ref<{ [key: string]: FSDataTableFilter[] }>({});
 
     const tableCode = "ui.tables.test";
     const items = ref<any>([
       {
-        key: "1",
-        label: "label",
-        keyLabel: "keyLabel",
-        value: "value",
-        id: "id",
-        valueLabel: "valueLabel",
+        Category: "1",
+        Code: "label",
+        Label: "keyLabel",
+        value: "q",
       },
+      {
+        Category: "1",
+        Code: "label",
+        Label: "keyLabel",
+        value: "x",
+      }
     ]);
+    const headers = ref<any>();
 
-    const headers = computed(() => {
-      return [
-        {
-          title: $tr("ui.example.key", "Key"),
-          value: "key",
-        },
-        {
-          title: $tr("ui.example.label", "Label"),
-          value: "label",
-        },
-        {
-          title: $tr("ui.example.keyLabel", "KeyLabel"),
-          value: "keyLabel",
-        },
-        {
-          title: $tr("ui.example.value", "Value"),
-          value: "value",
-        },
-        {
-          title: $tr("ui.example.id", "Id"),
-          value: "id",
-        },
-        {
-          title: $tr("ui.example.valueLabel", "ValueLabel"),
-          value: "valueLabel",
-        },
-      ];
+    onMounted(() => {
+      get("ui.tables.test").then((res) => {
+        headers.value = getted.value.columns.map((column: any) => {
+          return {
+            title: column.label,
+            text: column.label,
+            value: column.label,
+            sortable: column.sortable,
+            filterable: column.filterable,
+            width: column.width,
+          };
+        });
+      })
     });
+
 
     return {
       headers,
       items,
+      innerFilters
     };
   },
 });
