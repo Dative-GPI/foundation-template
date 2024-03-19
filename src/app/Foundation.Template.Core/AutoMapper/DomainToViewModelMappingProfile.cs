@@ -23,7 +23,9 @@ namespace Foundation.Template.Core.AutoMapper
 
             CreateMap<UserOrganisationColumn, UserOrganisationColumnViewModel>();
             CreateMap<UserOrganisationTable, UserOrganisationTableViewModel>();
+            CreateMap<TranslationColumn, TranslationColumnViewModel>();
             CreateMap<Table, TableViewModel>();
+            CreateMap<UserTable, TableViewModel>();
 
 
         }

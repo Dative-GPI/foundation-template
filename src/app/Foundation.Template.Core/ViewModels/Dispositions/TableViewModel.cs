@@ -5,7 +5,12 @@ namespace Foundation.Template.Core.ViewModels
 {
     public class TableViewModel
     {
-        public UserOrganisationTableViewModel Table { get; set; }
+        public Guid Id { get; set; }
+        public string TableCode { get; set; }
+        public string Mode { get; set; }
+        public string SortBy { get; set; }
+        public string SortOrder { get; set; }
+        public int RowsPerPage { get; set; }
 
         public List<UserOrganisationColumnViewModel> Columns { get; set; }
     }
@@ -19,6 +24,8 @@ namespace Foundation.Template.Core.ViewModels
         public bool Hidden { get; set; }
         public bool Sortable { get; set; }
         public bool Filterable { get; set; }
+
+        public List<TranslationColumnViewModel> Translations { get; set; }
     }
 
     public class UserOrganisationTableViewModel
@@ -29,5 +36,11 @@ namespace Foundation.Template.Core.ViewModels
         public string SortBy { get; set; }
         public string SortOrder { get; set; }
         public int RowsPerPage { get; set; }
+    }
+
+    public class TranslationColumnViewModel
+    {
+        public string LanguageCode { get; set; }
+        public string Label { get; set; }
     }
 }

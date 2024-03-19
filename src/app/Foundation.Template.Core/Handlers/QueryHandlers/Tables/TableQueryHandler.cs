@@ -70,7 +70,7 @@ namespace Foundation.Template.Core.Handlers
                 EntityType = table.EntityType
             });
 
-            var entityPropertiesMap = entityPropertyTranslations
+            var entityPropertiesMap = entityPropertyTranslations?
                             .GroupBy(ep => ep.EntityPropertyId)
                             .ToDictionary(g => g.Key, g => g.ToList());
 
@@ -82,25 +82,25 @@ namespace Foundation.Template.Core.Handlers
 
             var orgTypeColumnsDisposition = await _organisationTypeDispositionRepository.GetMany(new ColumnOrganisationTypesFilter()
             {
-                OrganisationTypeId = _context.OrganisationTypeId.Value,
+                OrganisationTypeId = _context.OrganisationTypeId,
                 TableId = table.Id
             });
 
             var userOrganisationTables = await _userOrganisationTableRepository.GetMany(new UserOrganisationTablesFilter()
             {
-                UserOrganisationId = _context.ActorOrganisationId.Value,
+                UserOrganisationId = _context.ActorOrganisationId,
                 TableId = table.Id
             });
 
-            var userOrganisationTable = userOrganisationTables.SingleOrDefault();
+            var userOrganisationTable = userOrganisationTables?.SingleOrDefault();
 
             var userOrganisationColumns = await _userOrganisationColumnRepository.GetMany(new UserOrganisationColumnsFilter()
             {
-                UserOrganisationId = _context.ActorOrganisationId.Value,
+                UserOrganisationId = _context.ActorOrganisationId,
                 TableId = table.Id
             });
 
-            var translatedColumns = columns
+            var translatedColumns = columns?
                 .Where(c => !c.Disabled)
                 .Select(c => new
                 {
@@ -112,7 +112,7 @@ namespace Foundation.Template.Core.Handlers
                             Label = t.Label,
                             LanguageCode = t.LanguageCode
                         }).ToList() ?? new List<TranslationColumn>(), */
-                        PropertyType.EntityProperty => entityPropertiesMap.GetValueOrDefault(c.EntityPropertyId.Value)?.Select(t => new TranslationColumn()
+                        PropertyType.EntityProperty => entityPropertiesMap?.GetValueOrDefault(c.EntityPropertyId.Value)?.Select(t => new TranslationColumn()
                         {
                             Label = t.Label,
                             LanguageCode = t.LanguageCode
@@ -126,7 +126,7 @@ namespace Foundation.Template.Core.Handlers
             // sinon on garde la config au niveau app
             // ensuite on join left avec les userColumnsDisposition et on fait pareil
             // pas besoin de recalculer les indexs, ça se fera côté front si besoin
-            var columnFinals = translatedColumns
+            var columnFinals = translatedColumns?
                 .GroupJoin(orgTypeColumnsDisposition, c => c.Column.Id, c => c.ColumnId, (appC, orgCs) =>
                 {
                     var orgC = orgCs.FirstOrDefault();
@@ -168,7 +168,13 @@ namespace Foundation.Template.Core.Handlers
 
             return new UserTable()
             {
-                Table = userOrganisationTable,
+                Id = userOrganisationTable != null ? userOrganisationTable.Id : Guid.NewGuid(),
+                TableId = table.Id,
+                UserOrganisationId = _context.ActorOrganisationId ?? Guid.Empty,
+                Mode = userOrganisationTable?.Mode ?? "table",
+                SortBy = userOrganisationTable?.SortBy ?? "id",
+                SortOrder = userOrganisationTable?.SortOrder ?? "asc",
+                RowsPerPage = userOrganisationTable?.RowsPerPage ?? 10,
                 Columns = columnFinals
             };
         }
