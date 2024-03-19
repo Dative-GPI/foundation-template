@@ -170,6 +170,7 @@ namespace Foundation.Template.Core.Handlers
             {
                 Id = userOrganisationTable != null ? userOrganisationTable.Id : Guid.NewGuid(),
                 TableId = table.Id,
+                TableCode = table.Code,
                 UserOrganisationId = _context.ActorOrganisationId ?? Guid.Empty,
                 Mode = userOrganisationTable?.Mode ?? "table",
                 SortBy = userOrganisationTable?.SortBy ?? "id",
