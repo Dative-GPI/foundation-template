@@ -28,7 +28,13 @@ export function useExtensionHost() {
         const router = useRouter();
         const route = useRoute();
 
-        const unsubscribe = router.afterEach((to, _from) => {
+        const unsubscribeRouterHook = router.afterEach((to, from) => {
+            // inital route, no need to notify the host about the change
+            if (!from || !from.name) return;
+
+            // embedded route, no need to notify the host about the change
+            if (to.meta && to.meta.overlay) return;
+
             goTo(to.path);
         });
 
@@ -49,7 +55,7 @@ export function useExtensionHost() {
         provide(LANGUAGE_CODE, languageCode);
 
         onUnmounted(() => {
-            unsubscribe();
+            unsubscribeRouterHook();
             clearInterval(intervalId);
         })
     })
