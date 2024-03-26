@@ -17,7 +17,7 @@ COPY src/template/src/app/admin/XXXXX.Admin.UI/package.json src/app/admin/XXXXX.
 
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 
-RUN npm install
+RUN npm install --force
 
 ENTRYPOINT npm run dev -w $PROJECT
 # ENTRYPOINT sleep 6000000000000
