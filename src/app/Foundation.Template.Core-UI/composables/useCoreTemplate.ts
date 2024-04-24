@@ -33,7 +33,7 @@ export function useCoreTemplate() {
         });
 
         const user = await fetchCurrentUser()
-        if (user.value.timeZoneId && user.value.timeZoneOffset) {
+        if (user.value?.timeZoneId && user.value?.timeZoneOffset) {
             setAppTimeZone({
                 id: user.value.timeZoneId,
                 offset: user.value.timeZoneOffset
