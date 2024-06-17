@@ -8,6 +8,6 @@ namespace Foundation.Template.Admin.Abstractions
 {
     public interface IPageService
     {
-        Task<IEnumerable<PageInfosViewModel>> GetMany();
+        Task<IEnumerable<PageViewModel>> GetMany();
     }
 }

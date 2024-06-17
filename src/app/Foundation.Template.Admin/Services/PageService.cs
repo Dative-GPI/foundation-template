@@ -26,7 +26,7 @@ namespace Foundation.Template.Admin.Services
       _pagesQueryHandler = pagesQueryHandler;
     }
 
-    public async Task<IEnumerable<PageInfosViewModel>> GetMany()
+    public async Task<IEnumerable<PageViewModel>> GetMany()
     {
       var query = new PagesQuery();
 
