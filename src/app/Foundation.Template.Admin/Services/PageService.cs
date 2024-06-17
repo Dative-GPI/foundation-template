@@ -32,7 +32,7 @@ namespace Foundation.Template.Admin.Services
 
       var pages = await _pagesQueryHandler.HandleAsync(query);
 
-      return _mapper.Map<IEnumerable<Page>, IEnumerable<PageInfosViewModel>>(pages);
+      return _mapper.Map<IEnumerable<Page>, IEnumerable<PageViewModel>>(pages);
     }
   }
 }
