@@ -11,6 +11,6 @@ namespace Foundation.Template.Domain.Repositories.Interfaces
 {
     public interface IPageRepository
     {
-        Task<IEnumerable<Page>> GetMany();
+        Task<IEnumerable<Page>> GetMany(PagesFilter filter);
     }
 }

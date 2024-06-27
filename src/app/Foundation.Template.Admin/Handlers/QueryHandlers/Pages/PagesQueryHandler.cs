@@ -23,7 +23,12 @@ namespace Foundation.Template.Admin.Handlers
 
         public Task<IEnumerable<Page>> HandleAsync(PagesQuery request, Func<Task<IEnumerable<Page>>> next, CancellationToken cancellationToken)
         {
-            var Pages = _pageRepository.GetMany();
+            var filter = new PagesFilter()
+            {
+                ShowOnDrawer = request.ShowOnDrawer
+            };
+
+            var Pages = _pageRepository.GetMany(filter);
 
             return Pages;
         }

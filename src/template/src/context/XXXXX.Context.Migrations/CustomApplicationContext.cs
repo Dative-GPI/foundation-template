@@ -35,6 +35,7 @@ namespace XXXXX.Context.Migrations
             _fixtureHelper.Feed<TranslationDTO>(modelBuilder);
             _fixtureHelper.Feed<TableDTO>(modelBuilder);
             _fixtureHelper.Feed<EntityPropertyDTO>(modelBuilder);
+            _fixtureHelper.Feed<PageDTO>(modelBuilder);
         }
     }
 }

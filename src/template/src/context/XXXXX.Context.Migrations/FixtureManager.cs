@@ -123,11 +123,13 @@ namespace XXXXX.Context.Migrations
                 {
                     Id = Guid.NewGuid(),
                     Code = fixture.Code,
-                    LabelDefault = fixture.LabelDefault
+                    LabelDefault = fixture.LabelDefault,
+                    ShowOnDrawer = fixture.ShowOnDrawer
                 },
                 (prop, dto) =>
                 {
                     dto.LabelDefault = prop.LabelDefault;
+                    dto.ShowOnDrawer = prop.ShowOnDrawer;
                     return dto;
                 });
         }

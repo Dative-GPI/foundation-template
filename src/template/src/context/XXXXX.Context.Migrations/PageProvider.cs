@@ -14,7 +14,8 @@ namespace XXXXX.Context.Migrations
             var pages = coreRoutes.Select(r => new Page()
             {
                 Code = r.Name,
-                LabelDefault = r.DrawerLabelDefault
+                LabelDefault = r.DrawerLabelDefault,
+                ShowOnDrawer = r.ShowOnDrawer
             }).ToList();
             
             return Task.FromResult(pages);

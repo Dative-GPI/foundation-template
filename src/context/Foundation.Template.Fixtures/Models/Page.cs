@@ -7,5 +7,6 @@ namespace Foundation.Template.Fixtures
     {
         public string Code { get; set; }
         public string LabelDefault { get; set; }
+        public bool ShowOnDrawer { get; set; }
     }
 }

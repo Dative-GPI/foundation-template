@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Foundation.Template.Domain.Repositories.Interfaces;
 using Foundation.Template.Context.DTOs;
 using Foundation.Template.Domain.Models;
+using Foundation.Template.Domain.Repositories.Filters;
 
 namespace Foundation.Template.Context.Repositories
 {
@@ -20,10 +21,15 @@ namespace Foundation.Template.Context.Repositories
             _dbSet = context.Pages;
         }
 
-        public async Task<IEnumerable<Page>> GetMany()
+        public async Task<IEnumerable<Page>> GetMany(PagesFilter filter)
         {
             var query = _dbSet
                 .AsQueryable();
+
+            if(filter.ShowOnDrawer.HasValue)
+            {
+                query = query.Where(p => p.ShowOnDrawer == filter.ShowOnDrawer.Value);
+            }
 
             var dtos = await query.AsNoTracking().ToListAsync();
 

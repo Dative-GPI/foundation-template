@@ -17,9 +17,9 @@ namespace Foundation.Template.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMany()
+        public async Task<IActionResult> GetMany([FromQuery] PageFiltersViewModel payload)
         {
-            var pages = await _pageService.GetMany();
+            var pages = await _pageService.GetMany(payload);
             return Ok(pages);
         }
     }

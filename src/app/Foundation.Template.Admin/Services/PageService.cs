@@ -26,9 +26,12 @@ namespace Foundation.Template.Admin.Services
       _pagesQueryHandler = pagesQueryHandler;
     }
 
-    public async Task<IEnumerable<PageViewModel>> GetMany()
+    public async Task<IEnumerable<PageViewModel>> GetMany(PageFiltersViewModel payload)
     {
-      var query = new PagesQuery();
+      var query = new PagesQuery()
+      {
+        ShowOnDrawer = payload.ShowOnDrawer
+      };
 
       var pages = await _pagesQueryHandler.HandleAsync(query);
 

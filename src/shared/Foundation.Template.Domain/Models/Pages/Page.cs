@@ -7,5 +7,6 @@ namespace Foundation.Template.Domain.Models
         public Guid Id { get; set; }
         public string Code { get; set; }
         public string LabelDefault { get; set; }
+        
     }
 }
