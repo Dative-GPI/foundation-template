@@ -9,11 +9,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import { useCoreTemplate } from "@dative-gpi/foundation-template-core-ui";
+import { useCoreExtension } from "@dative-gpi/foundation-template-core-ui";
 
 export default defineComponent({
   setup(_props) {
-    const { ready } = useCoreTemplate();
+    const { ready } = useCoreExtension();
 
     return {
       ready
