@@ -2,7 +2,8 @@ import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { TRANSLATIONS_URL } from "../config";
 
-import { Translation, TranslationDTO, TranslationFilter } from "../domain";
+import type { TranslationDTO, TranslationFilter } from "../domain";
+import { Translation } from "../domain";
 
 
 const TranslationServiceFactory = new ServiceFactory<Translation, TranslationDTO>("translation", Translation)

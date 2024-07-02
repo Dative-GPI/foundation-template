@@ -2,7 +2,8 @@ import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { ENTITYPROPERTIES_URL } from "../config";
 
-import { EntityPropertyInfos, EntityPropertyDTO } from "../domain";
+import type { EntityPropertyDTO } from "../domain";
+import { EntityPropertyInfos } from "../domain";
 
 
 const EntityPropertyServiceFactory = new ServiceFactory<EntityPropertyInfos, EntityPropertyDTO>("entity-property", EntityPropertyInfos)

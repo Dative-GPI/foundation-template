@@ -1,7 +1,17 @@
 <template>
-  <FSCol :gap="16" v-if="table != null">
-    <v-data-table :item-class="() => 'cursor-pointer'" :items="items" item-value="id" :headers="headers">
-      <template #item.disabled="{ item }">
+  <FSCol
+    :gap="16"
+    v-if="table != null"
+  >
+    <v-data-table
+      :item-class="() => 'cursor-pointer'"
+      :items="items"
+      item-value="id"
+      :headers="headers"
+    >
+      <template
+        #item.disabled="{ item }"
+      >
         <FSSwitch
           ref="element"
           :modelValue="!item.disabled"
@@ -13,7 +23,9 @@
           color="success"
         />
       </template>
-      <template #item.hidden="{ item }">
+      <template
+        #item.hidden="{ item }"
+      >
         <FSSwitch
           v-if="!item.disabled"
           ref="element"
@@ -22,10 +34,19 @@
           :editable="editMode"
           color="success"
         />
-        <FSSwitch v-else :disabled="true" ref="element" :modelValue="false" :editable="editMode" color="success" />
+        <FSSwitch
+          v-else
+          :disabled="true"
+          ref="element"
+          :modelValue="false"
+          :editable="editMode"
+          color="success"
+        />
       </template>
 
-      <template #item.sortable="{ item }">
+      <template
+        #item.sortable="{ item }"
+      >
         <FSSwitch
           ref="element"
           :modelValue="item.sortable"
@@ -35,7 +56,9 @@
         />
       </template>
 
-      <template #item.filterable="{ item }">
+      <template
+        #item.filterable="{ item }"
+      >
         <FSSwitch
           ref="element"
           :modelValue="item.filterable"
@@ -45,7 +68,9 @@
         />
       </template>
 
-      <template #item.configurable="{ item }">
+      <template
+        #item.configurable="{ item }"
+      >
         <FSSwitch
           ref="element"
           :modelValue="item.configurable"
@@ -54,23 +79,38 @@
           color="success"
         />
       </template>
-      <template #item.actions="{ item }">
-        <FSButton v-if="editMode" @click="up(item)" variant="icon" icon="mdi-arrow-up" />
-        <FSButton v-if="editMode" @click="down(item)" variant="icon" icon="mdi-arrow-down" />
+      <template
+        #item.actions="{ item }"
+      >
+        <FSButton
+          v-if="editMode"
+          @click="up(item)"
+          variant="icon"
+          icon="mdi-arrow-up"
+        />
+        <FSButton
+          v-if="editMode"
+          @click="down(item)"
+          variant="icon"
+          icon="mdi-arrow-down"
+        />
       </template>
     </v-data-table>
-    <table-synchronizer :edit-mode="editMode" :table-id="tableId" />
+    <table-synchronizer
+      :edit-mode="editMode"
+      :table-id="tableId"
+    />
   </FSCol>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, watch, toRefs } from "vue";
+import { defineComponent, ref, computed, onMounted, watch } from "vue";
 
 import _ from "lodash";
 
 import TableSynchronizer from "./TableSynchronizer.vue";
 
-import { useExtensionCommunicationBridge, useTranslationsProvider } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 import { useTable, useUpdateTable } from "../composables";
 import { Column } from "../domain";
 import { useRouter } from "vue-router";
@@ -92,7 +132,6 @@ export default defineComponent({
   setup(props) {
     const { setTitle, setCrumbs } = useExtensionCommunicationBridge();
     const { currentRoute } = useRouter();
-    const { $tr } = useTranslationsProvider();
     const { get, entity: table, getting } = useTable();
     const { update } = useUpdateTable();
 
@@ -133,12 +172,12 @@ export default defineComponent({
         },
         ...(props.editMode
           ? [
-              {
-                text: "Actions",
-                title: "Actions",
-                value: "actions",
-              },
-            ]
+            {
+              text: "Actions",
+              title: "Actions",
+              value: "actions",
+            },
+          ]
           : []),
       ];
     });

@@ -1,25 +1,71 @@
 <template>
-  <FSCol v-if="!fetching" :gap="24">
-    <FSRow align="left-center">
-      <FSCol style="max-width: 300px !important">
-        <FSTextField v-model="search" label="" prepend-inner-icon="mdi-magnify" clearable></FSTextField>
+  <FSCol
+    v-if="!fetching"
+    :gap="24"
+  >
+    <FSRow
+      align="left-center"
+    >
+      <FSCol
+        style="max-width: 300px !important"
+      >
+        <FSTextField
+          v-model="search"
+          label=""
+          prepend-inner-icon="mdi-magnify"
+          clearable
+        ></FSTextField>
       </FSCol>
-      <FSButton label="Enable all" color="primary" v-if="editMode" @click="updateAll(true)" class="align-self-end">
+      <FSButton
+        label="Enable all"
+        color="primary"
+        v-if="editMode"
+        @click="updateAll(true)"
+        class="align-self-end"
+      >
       </FSButton>
-      <FSButton label="Disable all" color="primary" v-if="editMode" @click="updateAll(false)" class="align-self-end">
+      <FSButton
+        label="Disable all"
+        color="primary"
+        v-if="editMode"
+        @click="updateAll(false)"
+        class="align-self-end"
+      >
       </FSButton>
     </FSRow>
-    <FSRow v-for="category in categoriesAndPermissions" :key="category.id">
-      <FSCol style="max-width: 30%">
-        <FSRow font="text-title"> {{ category.label }} </FSRow>
+    <FSRow
+      v-for="category in categoriesAndPermissions"
+      :key="category.id"
+    >
+      <FSCol
+        style="max-width: 30%"
+      >
+        <FSRow
+          font="text-title"
+        > {{ category.label }} </FSRow>
         <FSRow>
-          <FSButton label="Enable all" color="primary" v-if="editMode" @click="updateCategory(true, category.id)">
+          <FSButton
+            label="Enable all"
+            color="primary"
+            v-if="editMode"
+            @click="updateCategory(true, category.id)"
+          >
           </FSButton>
-          <FSButton label="Disable all" color="primary" v-if="editMode" @click="updateCategory(false, category.id)">
+          <FSButton
+            label="Disable all"
+            color="primary"
+            v-if="editMode"
+            @click="updateCategory(false, category.id)"
+          >
           </FSButton>
         </FSRow>
-        <FSRow v-for="permission in category.options" :key="permission.id">
-          <FSSpan font="text-body align-self-center"> {{ permission.label }} </FSSpan>
+        <FSRow
+          v-for="permission in category.options"
+          :key="permission.id"
+        >
+          <FSSpan
+            font="text-body align-self-center"
+          > {{ permission.label }} </FSSpan>
           <v-spacer></v-spacer>
           <FSSwitch
             v-if="editMode"
@@ -28,9 +74,17 @@
             @update:modelValue="updatePermissionIds(permission.id)"
             color="success"
           />
-          <template v-else>
-            <FSIcon v-if="permissionIds.includes(permission.id)" color="success"> mdi-checkbox-marked-circle</FSIcon>
-            <FSIcon v-else color="error"> mdi-close-circle</FSIcon>
+          <template
+            v-else
+          >
+            <FSIcon
+              v-if="permissionIds.includes(permission.id)"
+              color="success"
+            > mdi-checkbox-marked-circle</FSIcon>
+            <FSIcon
+              v-else
+              color="error"
+            > mdi-close-circle</FSIcon>
           </template>
           <v-divider></v-divider>
         </FSRow>
@@ -39,17 +93,19 @@
   </FSCol>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { defineComponent, ref, onMounted, computed, watch } from "vue";
+import { useRoute } from "vue-router";
+import _ from "lodash";
+
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
+
 import {
+  usePermissionApplicationCategories,
   usePermissionApplications,
   useRolePermissionApplications,
   useUpdateRolePermissionApplications,
 } from "../composables";
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
-import { watch } from "vue";
-import { toRefs } from "vue";
-import _ from "lodash";
+
 export default defineComponent({
   name: "RolePermissionApplicationsList",
   props: {
@@ -65,7 +121,8 @@ export default defineComponent({
   },
   setup(props) {
     const { setTitle, setCrumbs } = useExtensionCommunicationBridge();
-    const { getAll, permissionApplications, categories } = usePermissionApplications();
+    const { getMany: getManypermissionApplications, entities: permissionApplications } = usePermissionApplications();
+    const { fetch: getManypermissionApplicationCategories, entity: categories } = usePermissionApplicationCategories();
     const { get: getRolePermissionApplications, entity: rolePermissionApplications } = useRolePermissionApplications();
     const { update } = useUpdateRolePermissionApplications();
     const route = useRoute();
@@ -87,7 +144,8 @@ export default defineComponent({
         },
       ]);
 
-      await getAll();
+      await getManypermissionApplications();
+      await getManypermissionApplicationCategories();
 
       await fetchRoleApplication();
     };
@@ -100,7 +158,9 @@ export default defineComponent({
     };
 
     const filteredPermissionApplication = computed(() => {
-      if (search.value == null || search.value === "") return permissionApplications.value;
+      if (search.value == null || search.value === "") {
+        return permissionApplications.value;
+      }
       return permissionApplications.value.filter((p) => {
         return (
           p.code.toLowerCase().includes(search.value.toLowerCase()) ||
@@ -132,7 +192,9 @@ export default defineComponent({
 
     const updateCategory = (enabledAll: boolean, categoryId: string) => {
       let category = categoriesAndPermissions.value.find((c) => c.id === categoryId);
-      if (!category) return;
+      if (!category) {
+        return;
+      }
       let permissions = category?.options.map((p) => p.id);
       if (enabledAll) {
         permissionIds.value = Array.from(new Set([...permissionIds.value, ...permissions]));
@@ -154,7 +216,9 @@ export default defineComponent({
     }
 
     const synchronizePermissions = async () => {
-      if (!props.editMode) return;
+      if (!props.editMode) {
+        return;
+      }
       await save();
     };
 

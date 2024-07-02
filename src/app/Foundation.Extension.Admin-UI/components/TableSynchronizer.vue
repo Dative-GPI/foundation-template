@@ -1,20 +1,24 @@
 <template>
   <v-spacer />
-  <FSRow :gap="20">
-    <FSButton variant="standard"
+  <FSRow
+    :gap="20"
+  >
+    <FSButton
+      variant="standard"
       color="primary"
-      v-on:click="synchronize(tableId)">
+      v-on:click="synchronize(tableId)"
+    >
       Synchronize Columns
     </FSButton>
   </FSRow>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from "vue";
+import { defineComponent } from "vue";
 
 import _ from "lodash";
 
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 import { useSynchronizeTable } from "../composables";
 import { useRouter } from "vue-router";
 
@@ -30,10 +34,10 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const extension = useExtensionCommunicationBridge();
     const router = useRouter();
-    const { synchronize, synchronizing, synchronized  } = useSynchronizeTable();
+    const { fetch: synchronize, fetching: synchronizing, entity: synchronized  } = useSynchronizeTable();
 
     return {
       synchronize

@@ -5,19 +5,19 @@ using Foundation.Extension.Core.Abstractions;
 
 namespace Foundation.Extension.Core.DI
 {
-    public static class ServiceInjector
+  public static class ServiceInjector
+  {
+    public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            services.AddScoped<IRouteService, RouteService>();
-            services.AddScoped<IActionService, ActionService>();
+      services.AddScoped<IRouteService, RouteService>();
+      services.AddScoped<IActionService, ActionService>();
 
-            services.AddScoped<ITableService, TableService>();
+      services.AddScoped<IUserOrganisationTableService, UserOrganisationTableService>();
 
-            services.AddScoped<IPermissionOrganisationService, PermissionOrganisationService>();
-            services.AddScoped<IRolePermissionOrganisationService, RolePermissionOrganisationService>();
+      services.AddScoped<IPermissionOrganisationService, PermissionOrganisationService>();
+      services.AddScoped<IRolePermissionOrganisationService, RolePermissionOrganisationService>();
 
-            return services;
-        }
+      return services;
     }
+  }
 }

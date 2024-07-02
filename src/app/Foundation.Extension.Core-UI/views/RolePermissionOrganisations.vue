@@ -1,5 +1,8 @@
 <template>
-  <role-permission-organisations-list :edit-mode="editMode" :role-id="roleId" />
+  <role-permission-organisations-list
+    :edit-mode="editMode"
+    :role-id="roleId"
+  />
 </template>
 
 <script lang="ts">
@@ -13,7 +16,7 @@ export default defineComponent({
   components: {
     RolePermissionOrganisationsList,
   },
-  setup(props) {
+  setup() {
     const route = useRoute();
 
     const editMode = computed(() => route.hash.includes("editMode=true"));

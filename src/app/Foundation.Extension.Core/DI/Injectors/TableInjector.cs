@@ -8,33 +8,33 @@ using Foundation.Extension.Domain.Models;
 
 namespace Foundation.Extension.Core.DI
 {
-    public static class TableInjector
+  public static class TableInjector
+  {
+    public static IServiceCollection AddTables(this IServiceCollection services)
     {
-        public static IServiceCollection AddTables(this IServiceCollection services)
-        {
-            services.AddScoped<TableQueryHandler>();
-            services.AddScoped<IQueryHandler<TableQuery, UserTable>>(sp =>
-            {
-                var pipeline = sp.GetPipelineFactory<TableQuery, UserTable>()
-                    // .With<PermissionsMiddleware>()
-                    .Add<TableQueryHandler>()
-                    .Build();
+      services.AddScoped<UserOrganisationTableQueryHandler>();
+      services.AddScoped<IQueryHandler<UserOrganisationTableQuery, UserOrganisationTableDetails>>(sp =>
+      {
+        var pipeline = sp.GetPipelineFactory<UserOrganisationTableQuery, UserOrganisationTableDetails>()
+                  // .With<PermissionsMiddleware>()
+                  .Add<UserOrganisationTableQueryHandler>()
+                  .Build();
 
-                return pipeline;
-            });
+        return pipeline;
+      });
 
-            services.AddScoped<UpdateTableCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateTableCommand>>(sp =>
-            {
-                var pipeline = sp.GetPipelineFactory<UpdateTableCommand>()
-                    // .With<PermissionsMiddleware>()
-                    .Add<UpdateTableCommandHandler>()
-                    .Build();
+      services.AddScoped<UpdateUserOrganisationTableCommandHandler>();
+      services.AddScoped<ICommandHandler<UpdateUserOrganisationTableCommand>>(sp =>
+      {
+        var pipeline = sp.GetPipelineFactory<UpdateUserOrganisationTableCommand>()
+                  // .With<PermissionsMiddleware>()
+                  .Add<UpdateUserOrganisationTableCommandHandler>()
+                  .Build();
 
-                return pipeline;
-            });
+        return pipeline;
+      });
 
-            return services;
-        }
+      return services;
     }
+  }
 }

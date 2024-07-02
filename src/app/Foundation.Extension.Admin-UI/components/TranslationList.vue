@@ -1,50 +1,70 @@
 <template>
-  <FSCol :gap="16">
-    <FSRow :gap="20">
-      <FSCol width="fill"
-        style="max-width: 300px !important">
-        <FSSearchField prepend-inner-icon="mdi-magnify"
+  <FSCol
+    :gap="16"
+  >
+    <FSRow
+      :gap="20"
+    >
+      <FSCol
+        width="fill"
+        style="max-width: 300px !important"
+      >
+        <FSSearchField
+          prepend-inner-icon="mdi-magnify"
           v-model="search"
           width="fill"
-          clearable></FSSearchField>
+          clearable
+        ></FSSearchField>
       </FSCol>
 
-      <FSButton v-if="editMode"
+      <FSButton
+        v-if="$props.editMode"
         color="primary"
         variant="full"
         @click="openImport"
         prepend-icon="mdi-upload"
         :label="$tr('ui.common.import', 'Import')"
-        class="align-self-end" />
-      <FSButton v-if="editMode"
+        class="align-self-end"
+      />
+      <FSButton
+        v-if="$props.editMode"
         :loading="downloading"
         prepend-icon="mdi-download"
         color="light"
         variant="full"
         @click="downloadTranslation"
         :label="$tr('ui.common.export', 'Export')"
-        class="align-self-end" />
-      <FSButton v-if="selected.length == 1 && editMode"
+        class="align-self-end"
+      />
+      <FSButton
+        v-if="selected.length == 1 && $props.editMode"
         color="primary"
         prepend-icon="mdi-pencil"
         @click="edit(selected[0])"
         :label="$tr('ui.common.update', 'Update')"
-        class="align-self-end" />
+        class="align-self-end"
+      />
     </FSRow>
 
     <FSRow>
-      <v-data-table show-select
+      <v-data-table
+        show-select
         v-model="selected"
         :items="translations"
         :loading="fetching"
         :search="search"
         item-value="id"
-        :headers="headers">
-        <template v-slot:item.languages="{ item }">
+        :headers="headers"
+      >
+        <template
+          v-slot:item.languages="{ item }"
+        >
           <v-chip-group>
-            <FSChip v-for="(lang, index) in getLanguages(item)"
+            <FSChip
+              v-for="(lang, index) in getLanguages(item)"
               :key="index"
-              style="margin-left: 5px;"> {{ lang }}</FSChip>
+              style="margin-left: 5px;"
+            > {{ lang }}</FSChip>
           </v-chip-group>
         </template>
       </v-data-table>
@@ -53,15 +73,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, watch } from "vue";
+import { defineComponent, ref, computed, onMounted } from "vue";
 
-import _, { random } from "lodash";
+import _ from "lodash";
 
 import { IMPORT_TRANSLATIONS_DRAWER_URL, UPDATE_TRANSLATION_DRAWER_URL } from "../config";
 
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 
-import { Translation } from "../domain/models";
+import type { Translation } from "../domain/models";
 
 import {
   useTranslations,
@@ -78,7 +98,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const extension = useExtensionCommunicationBridge();
 
     const search = ref<string | undefined>();
@@ -90,7 +110,7 @@ export default defineComponent({
       fetching: fetchingApplicationTranslations,
     } = useApplicationTranslations();
 
-    const { download, downloaded, downloading } = useDownloadApplicationTranslation();
+    const { fetch: download, entity: downloaded, fetching: downloading } = useDownloadApplicationTranslation();
 
     const {
       getMany: getApplicationLanguages,
@@ -138,7 +158,7 @@ export default defineComponent({
 
     const edit = async (translationId: string) => {
       const translationSelected = translations.value.find((t) => t.id == translationId);
-      if (!translationSelected) return;
+      if (!translationSelected) {return;}
       const path = `${translationSelected?.id};${translationSelected?.code};${btoa(translationSelected!.value)}`;
       extension.openDrawer(UPDATE_TRANSLATION_DRAWER_URL(path));
     };

@@ -1,7 +1,17 @@
 <template>
-  <FSCol :gap="16" v-if="table != null">
-    <v-data-table :item-class="() => 'cursor-pointer'" :items="columns" item-value="id" :headers="headers">
-      <template #item.dispoDisabled="{ item }">
+  <FSCol
+    :gap="16"
+    v-if="table != null"
+  >
+    <v-data-table
+      :item-class="() => 'cursor-pointer'"
+      :items="columns"
+      item-value="id"
+      :headers="headers"
+    >
+      <template
+        #item.dispoDisabled="{ item }"
+      >
         <FSSwitch
           ref="element"
           :modelValue="!isDisabled(item.id)"
@@ -10,7 +20,9 @@
           color="success"
         />
       </template>
-      <template #item.dispoHidden="{ item }">
+      <template
+        #item.dispoHidden="{ item }"
+      >
         <FSSwitch
           ref="element"
           :modelValue="isDisabled(item.id) ? false : isHidden(item.id)"
@@ -20,9 +32,21 @@
           color="success"
         />
       </template>
-      <template #item.actions="{ item }">
-        <FSButton v-if="editMode" @click="up(item)" variant="icon" icon="mdi-arrow-up" />
-        <FSButton v-if="editMode" @click="down(item)" variant="icon" icon="mdi-arrow-down" />
+      <template
+        #item.actions="{ item }"
+      >
+        <FSButton
+          v-if="editMode"
+          @click="up(item)"
+          variant="icon"
+          icon="mdi-arrow-up"
+        />
+        <FSButton
+          v-if="editMode"
+          @click="down(item)"
+          variant="icon"
+          icon="mdi-arrow-down"
+        />
       </template>
     </v-data-table>
   </FSCol>
@@ -33,9 +57,9 @@ import { defineComponent, ref, computed, onMounted, watch } from "vue";
 
 import _ from "lodash";
 
-import { useExtensionCommunicationBridge, useTranslationsProvider } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 import { useOrganisationTypeTable, useTable, useUpdateOrganisationTypeTable } from "../../composables";
-import { Column, UpdateOrganisationTypeDispositionDTO, UpdateOrganisationTypeTableDTO } from "../../domain";
+import type { Column, UpdateOrganisationTypeDispositionDTO, UpdateOrganisationTypeTableDTO } from "../../domain";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
@@ -57,10 +81,9 @@ export default defineComponent({
   setup(props) {
     const { setTitle, setCrumbs } = useExtensionCommunicationBridge();
     const { currentRoute } = useRouter();
-    const { $tr } = useTranslationsProvider();
     const { get, entity: table, getting } = useTable();
-    const { get: getOrganisationTypeTable, entity: organisationTypeTable } = useOrganisationTypeTable();
-    const { update } = useUpdateOrganisationTypeTable();
+    const { fetch: getOrganisationTypeTable, entity: organisationTypeTable } = useOrganisationTypeTable();
+    const { fetch: update } = useUpdateOrganisationTypeTable();
 
     const search = ref<string | undefined>();
     const columns = ref<Column[]>([]);
@@ -88,12 +111,12 @@ export default defineComponent({
         },
         ...(props.editMode
           ? [
-              {
-                text: $tr("ui.common.actions", "Actions"),
-                value: "actions",
-                title: "actions",
-              },
-            ]
+            {
+              text: $tr("ui.common.actions", "Actions"),
+              value: "actions",
+              title: "actions",
+            },
+          ]
           : []),
       ];
     });
@@ -192,12 +215,12 @@ export default defineComponent({
         .map((column, index) => {
           const disposition = dispositions.value.find((d) => d.columnId == column.id);
           if (disposition)
-            return {
-              columnId: disposition.columnId,
-              disabled: disposition.disabled,
-              hidden: disposition.hidden,
-              index: index,
-            } as UpdateOrganisationTypeDispositionDTO;
+          {return {
+            columnId: disposition.columnId,
+            disabled: disposition.disabled,
+            hidden: disposition.hidden,
+            index: index,
+          } as UpdateOrganisationTypeDispositionDTO;}
         })
         .filter((d) => !!d);
 

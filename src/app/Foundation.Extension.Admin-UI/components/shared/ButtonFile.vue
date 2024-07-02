@@ -1,14 +1,25 @@
 <template>
   <div>
-    <FSButton v-bind="$attrs" class="d-btn-file grey-3 white-2--text" @click="onClick" color="primary"> </FSButton>
+    <FSButton
+      v-bind="$attrs"
+      class="d-btn-file grey-3 white-2--text"
+      @click="onClick"
+      color="primary"
+    > </FSButton>
     <form>
-      <input v-show="false" type="file" ref="input" :accept="accept" @input="onInput" />
+      <input
+        v-show="false"
+        type="file"
+        ref="input"
+        :accept="accept"
+        @input="onInput"
+      />
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "ButtonFile",

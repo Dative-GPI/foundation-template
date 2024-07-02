@@ -2,7 +2,8 @@ import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { ROLE_ORGANISATION_URL } from "../config";
 
-import { RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsDTO, UpdateRolePermissionOrganisationDTO } from "../domain";
+import type { RolePermissionOrganisationDetailsDTO, UpdateRolePermissionOrganisationDTO } from "../domain";
+import { RolePermissionOrganisationDetails } from "../domain";
 
 const RoleOrganisationServiceFactory = new ServiceFactory<RolePermissionOrganisationDetailsDTO, RolePermissionOrganisationDetails>("role-permissions", RolePermissionOrganisationDetails)
     .create(f => f.build(

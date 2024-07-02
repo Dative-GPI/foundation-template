@@ -1,5 +1,6 @@
 <template>
-  <FSSelectField :items="languages"
+  <FSSelectField
+    :items="languages"
     :editable="editable"
     :label="trueLabel"
     :clearable="editable"
@@ -8,7 +9,8 @@
     item-title="label"
     v-model="selectValue"
     :item-props="languageProps"
-    style="max-width: 350px;">
+    style="max-width: 350px;"
+  >
   </FSSelectField>
 </template>
 
@@ -16,7 +18,7 @@
 import { defineComponent, computed, onMounted, ref } from "vue";
 
 import { useApplicationLanguages } from "../composables";
-import { Language } from "../domain";
+import type { Language } from "../domain";
 
 export default defineComponent({
   name: "LanguageSelector",
@@ -32,7 +34,7 @@ export default defineComponent({
       default: null,
     },
   },
-  setup(props, { emit }) {
+  setup(props) {
     const { getMany, entities: languages } = useApplicationLanguages();
 
     const selectValue = ref<string | null>(null);

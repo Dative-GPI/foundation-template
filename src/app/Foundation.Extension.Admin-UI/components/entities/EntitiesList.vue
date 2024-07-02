@@ -1,55 +1,77 @@
 <template>
-  <FSCol :gap="16">
-    <FSRow :gap="20">
-      <FSCol width="fill"
-        style="max-width: 300px !important">
-        <FSTextField label=""
+  <FSCol
+    :gap="16"
+  >
+    <FSRow
+      :gap="20"
+    >
+      <FSCol
+        width="fill"
+        style="max-width: 300px !important"
+      >
+        <FSTextField
+          label=""
           prepend-inner-icon="mdi-magnify"
           @update:modelValue="getEntityProperties"
           v-model="search"
           width="fill"
-          clearable></FSTextField>
+          clearable
+        ></FSTextField>
       </FSCol>
 
-      <FSButton color="primary"
+      <FSButton
+        color="primary"
         variant="full"
         @click="openImport"
         prepend-icon="mdi-upload"
         :label="$tr('ui.common.import', 'Import')"
-        class="align-self-end" />
-      <FSButton :loading="downloading"
+        class="align-self-end"
+      />
+      <FSButton
+        :loading="downloading"
         prepend-icon="mdi-download"
         color="light"
         variant="full"
         @click="downloadEntityPropertyTranslation"
         :label="$tr('ui.common.export', 'Export')"
-        class="align-self-end" />
-      <FSButton v-if="selected.length == 1"
+        class="align-self-end"
+      />
+      <FSButton
+        v-if="selected.length == 1"
         color="primary"
         prepend-icon="mdi-pencil"
         @click="edit(selected[0])"
         :label="$tr('ui.common.update', 'Update')"
-        class="align-self-end" />
+        class="align-self-end"
+      />
     </FSRow>
 
     <FSRow>
-      <v-data-table show-select
+      <v-data-table
+        show-select
         v-model="selected"
         :items="filterEntities"
         :loading="fetching"
         :search="search"
         item-value="id"
-        :headers="headers">
-        <template v-slot:item.entityType="{ item }">
+        :headers="headers"
+      >
+        <template
+          v-slot:item.entityType="{ item }"
+        >
           <FSSpan>{{ extractEntityType(item.entityType) }}</FSSpan>
         </template>
 
-        <template v-slot:item.languages="{ item }">
+        <template
+          v-slot:item.languages="{ item }"
+        >
           <v-chip-group>
-            <FSChip v-for="(lang, index) in getLanguages(item)"
+            <FSChip
+              v-for="(lang, index) in getLanguages(item)"
               :key="index"
               color="primary"
-              :label="lang"> </FSChip>
+              :label="lang"
+            > </FSChip>
           </v-chip-group>
         </template>
       </v-data-table>
@@ -60,6 +82,10 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted, ref } from "vue";
 import _ from "lodash";
+
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
+
+import type { EntityPropertyInfos } from "../../domain";
 import {
   useApplicationLanguages,
   useEntityProtertyTranslations,
@@ -68,17 +94,11 @@ import {
 } from "../../composables";
 import { UPDATE_ENTITY_PROPERTY_DRAWER_URL } from "../../config";
 
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
-import { useTranslationsProvider } from "@dative-gpi/foundation-template-shared-ui";
-import { EntityPropertyInfos } from "../../domain";
-
 export default defineComponent({
   name: "EntitiesList",
   components: {},
-  setup(props) {
+  setup() {
     const extension = useExtensionCommunicationBridge();
-
-    const { $tr } = useTranslationsProvider();
 
     const {
       getMany: getEntityPropertyTranslations,
@@ -98,7 +118,7 @@ export default defineComponent({
       fetching: fetchingLanguages,
     } = useApplicationLanguages();
 
-    const { download, downloaded, downloading } = useDownloadEntityPropertyTranslation();
+    const { fetch: download, entity: downloaded, fetching: downloading } = useDownloadEntityPropertyTranslation();
 
     const selected = ref<string[]>([]);
     const search = ref<string | undefined>();
@@ -183,7 +203,7 @@ export default defineComponent({
 
     const edit = async (entityPropertyId: string) => {
       const entitypropertySelected = entityProperties.value.find((t) => t.id == entityPropertyId);
-      if (!entitypropertySelected) return;
+      if (!entitypropertySelected) {return;}
       extension.openDrawer(UPDATE_ENTITY_PROPERTY_DRAWER_URL(entitypropertySelected?.id));
     };
 

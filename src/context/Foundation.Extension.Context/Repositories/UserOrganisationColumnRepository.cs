@@ -14,113 +14,93 @@ using Foundation.Extension.Domain.Repositories.Filters;
 
 namespace Foundation.Extension.Context.Repositories
 {
-    public class UserOrganisationColumnRepository : IUserOrganisationColumnRepository
+  public class UserOrganisationColumnRepository : IUserOrganisationColumnRepository
+  {
+    private DbSet<UserOrganisationColumnDTO> _dbSet;
+    private BaseApplicationContext _context;
+
+    public UserOrganisationColumnRepository(BaseApplicationContext context)
     {
-        private DbSet<UserOrganisationColumnDTO> _dbSet;
-        private BaseApplicationContext _context;
-
-        public UserOrganisationColumnRepository(BaseApplicationContext context)
-        {
-            _dbSet = context.UserOrganisationColumns;
-            _context = context;
-        }
-
-        public Task Create(CreateUserOrganisationColumn payload)
-        {
-            var dto = new UserOrganisationColumnDTO()
-            {
-                Id = Guid.NewGuid(),
-                ColumnId = payload.ColumnId,
-                UserOrganisationTableId = payload.UserOrganisationTableId,
-                Hidden = payload.Hidden,
-                Index = payload.Index,
-                Sortable = payload.Sortable,
-                Filterable = payload.Filterable,
-                Disabled = payload.Disabled
-            };
-
-            _dbSet.Add(dto);
-
-            return Task.FromResult<IEntity<Guid>>(dto);
-        }
-
-        public Task CreateMany(IEnumerable<CreateUserOrganisationColumn> payload)
-        {
-            _dbSet.AddRange(
-                payload.Select(p => new UserOrganisationColumnDTO()
-                {
-                    Id = Guid.NewGuid(),
-                    ColumnId = p.ColumnId,
-                    UserOrganisationTableId = p.UserOrganisationTableId,
-                    Hidden = p.Hidden,
-                    Index = p.Index,
-                    Sortable = p.Sortable,
-                    Filterable = p.Filterable,
-                    Disabled = p.Disabled,
-                })
-            );
-
-            return Task.CompletedTask;
-        }
-
-        public async Task<IEnumerable<UserOrganisationColumn>> GetMany(UserOrganisationColumnsFilter filter)
-        {
-            IQueryable<UserOrganisationColumnDTO> set = _dbSet.Include(c => c.Column).Include(c => c.Column.EntityProperty).Include(t => t.UserOrganisationTable);
-
-            if (filter.UserOrganisationTableId.HasValue)
-            {
-                set = set.Where(s => s.UserOrganisationTableId == filter.UserOrganisationTableId.Value);
-            }
-
-            if (filter.TableId.HasValue)
-            {
-                set = set.Where(s => s.UserOrganisationTable.TableId == filter.TableId.Value);
-            }
-
-            if (filter.UserOrganisationId.HasValue)
-            {
-                set = set.Where(s => s.UserOrganisationTable.UserOrganisationId == filter.UserOrganisationId.Value);
-            }
-
-            var result = await set.AsNoTracking().ToListAsync();
-
-            return result.Select(r => new UserOrganisationColumn()
-            {
-                Id = r.Id,
-                ColumnId = r.ColumnId,
-                Column = new Column()
-                {
-                    Id = r.Column.Id,
-                    EntityPropertyId = r.Column.EntityPropertyId,
-                    TableId = r.Column.TableId,
-                    Code = r.Column.EntityProperty.Code,
-                    Value = r.Column.EntityProperty.Value,
-                    Label = r.Column.EntityProperty.LabelDefault,
-                    Sortable = r.Column.Sortable,
-                    Filterable = r.Column.Filterable,
-                    Hidden = r.Column.Hidden,
-                    Index = r.Column.Index,
-                    Disabled = r.Column.Disabled,
-                },
-                UserOrganisationTableId = r.UserOrganisationTableId,
-                Hidden = r.Hidden,
-                Index = r.Index,
-                Sortable = r.Sortable,
-                Filterable = r.Filterable,
-                Disabled = r.Disabled,
-            });
-        }
-
-        public async Task Remove(Guid id)
-        {
-            var entity = await _dbSet.SingleOrDefaultAsync(e => e.Id == id);
-            _dbSet.Remove(entity);
-        }
-
-        public async Task RemoveMany(IEnumerable<Guid> ids)
-        {
-            var entities = await _dbSet.Where(e => ids.Contains(e.Id)).ToListAsync();
-            _dbSet.RemoveRange(entities);
-        }
+      _dbSet = context.UserOrganisationColumns;
+      _context = context;
     }
+
+    public async Task<IEnumerable<UserOrganisationColumnInfos>> GetMany(UserOrganisationColumnsFilter filter)
+    {
+      var query = _dbSet
+              .Include(uoc => uoc.Column)
+              .AsQueryable();
+
+      if (filter.UserOrganisationId.HasValue)
+      {
+        query = query.Where(uoc => uoc.UserOrganisationId == filter.UserOrganisationId.Value);
+      }
+
+      if (filter.TableId.HasValue)
+      {
+        query = query.Where(uoc => uoc.Column.TableId == filter.TableId.Value);
+      }
+
+      var dtos = await query.AsNoTracking().ToListAsync();
+
+      return dtos.Select(userOrganisationColumnDTO => new UserOrganisationColumnInfos()
+      {
+        Id = userOrganisationColumnDTO.Id,
+        ColumnId = userOrganisationColumnDTO.ColumnId,
+        Hidden = userOrganisationColumnDTO.Hidden,
+        Index = userOrganisationColumnDTO.Index,
+        Disabled = userOrganisationColumnDTO.Disabled
+      });
+    }
+
+    public Task Create(CreateUserOrganisationColumn payload)
+    {
+      var dto = new UserOrganisationColumnDTO()
+      {
+        Id = Guid.NewGuid(),
+        UserOrganisationId = payload.UserOrganisationId,
+        ColumnId = payload.ColumnId,
+        Hidden = payload.Hidden,
+        Index = payload.Index,
+        Disabled = false
+      };
+
+      _dbSet.Add(dto);
+
+      return Task.FromResult<IEntity<Guid>>(dto);
+    }
+
+    public Task CreateRange(IEnumerable<CreateUserOrganisationColumn> payload)
+    {
+      _dbSet.AddRange(
+          payload.Select(p => new UserOrganisationColumnDTO()
+          {
+            Id = Guid.NewGuid(),
+            ColumnId = p.ColumnId,
+            UserOrganisationId = p.UserOrganisationId,
+            Hidden = p.Hidden,
+            Index = p.Index,
+            Disabled = false
+          })
+      );
+
+      return Task.CompletedTask;
+    }
+
+    public async Task Remove(Guid id)
+    {
+      var entity = await _dbSet.SingleOrDefaultAsync(e => e.Id == id);
+      _dbSet.Remove(entity);
+    }
+
+    public Task RemoveRange(IEnumerable<Guid> userOrganisationColumnsIds)
+    {
+      _dbSet.RemoveRange(userOrganisationColumnsIds.Select(id => new UserOrganisationColumnDTO()
+      {
+        Id = id
+      }));
+
+      return Task.CompletedTask;
+    }
+  }
 }

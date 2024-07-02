@@ -1,9 +1,9 @@
-import { ComposableFactory, ServiceFactory, buildURL, onCollectionChanged, onEntityChanged } from "@dative-gpi/bones-ui";
+import { ComposableFactory, ServiceFactory, buildURL } from "@dative-gpi/bones-ui";
 
 import { APPLICATION_TRANSLATIONS_URL, APPLICATION_TRANSLATIONS_WORKBOOK_URL, APPLICATION_TRANSLATION_URL } from "../config";
 
-import { ApplicationTranslation, ApplicationTranslationDTO, ApplicationTranslationsFilter, DownloadApplicationTranslations, UpdateApplicationTranslation, UploadApplicationTranslations } from "../domain";
-import { Ref, onUnmounted, readonly, ref } from "vue";
+import type { ApplicationTranslationDTO, ApplicationTranslationsFilter, DownloadApplicationTranslations, UpdateApplicationTranslation, UploadApplicationTranslations } from "../domain";
+import { ApplicationTranslation } from "../domain";
 
 const ApplicationTranslationServiceFactory = new ServiceFactory<ApplicationTranslation, ApplicationTranslationDTO>("application-translation", ApplicationTranslation)
     .create(f => f.build(
@@ -51,88 +51,7 @@ const ApplicationTranslationServiceFactory = new ServiceFactory<ApplicationTrans
     ));
 
 export const useApplicationTranslations = ComposableFactory.getMany(ApplicationTranslationServiceFactory);
-export const useUpsertApplicationTranslation = () => {
-    const service = ApplicationTranslationServiceFactory();
-
-    const upserting = ref(false);
-    const upserted = ref<ApplicationTranslation[]>([]) as Ref<ApplicationTranslation[]>;
-
-    const upsert = async (code: string, payload: UpdateApplicationTranslation) => {
-        upserting.value = true;
-        try {
-            upserted.value = await service.upsert(code, payload);
-        }
-        finally {
-            upserting.value = false;
-        }
-
-        const subscriberId = service.subscribe("all", onCollectionChanged(upserted))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
-        return readonly(upserted.value);
-    }
-
-    return {
-        upserting: readonly(upserting),
-        upsert,
-        upserted: readonly(upserted)
-    }
-}
-
-export const useUploadApplicationTranslation = () => {
-    const service = ApplicationTranslationServiceFactory();
-
-    const uploading = ref(false);
-    const uploaded = ref<ApplicationTranslation[]>([]) as Ref<ApplicationTranslation[]>;
-
-    const upload = async (payload: UploadApplicationTranslations) => {
-        uploading.value = true;
-        try {
-            uploaded.value = await service.upload(payload);
-        }
-        finally {
-            uploading.value = false;
-        }
-
-        const subscriberId = service.subscribe("all", onCollectionChanged(uploaded))
-        onUnmounted(() => service.unsubscribe(subscriberId));
-
-        return readonly(uploaded.value);
-    }
-
-    return {
-        uploading: readonly(uploading),
-        upload,
-        uploaded: readonly(uploaded)
-    }
-}
-
-export const useDownloadApplicationTranslation = () => {
-    const service = ApplicationTranslationServiceFactory();
-
-    const downloading = ref(false);
-    const downloaded = ref<File>() as Ref<File>;
-
-    const download = async (payload: DownloadApplicationTranslations) => {
-        downloading.value = true;
-        try {
-            downloaded.value = await service.download(payload);
-        }
-        finally {
-            downloading.value = false;
-        }
-
-        /* const subscriberId = service.subscribe("all", onCollectionChanged(uploaded))
-         onUnmounted(() => service.unsubscribe(subscriberId));*/
-    }
-
-    return {
-        downloading: readonly(downloading),
-        download,
-        downloaded: downloaded
-    }
-}
-
-
-
-
+export const useUpsertApplicationTranslation = ComposableFactory.custom(ApplicationTranslationServiceFactory.upsert);
+export const useUploadApplicationTranslation = ComposableFactory.custom(ApplicationTranslationServiceFactory.upload);
+export const useDownloadApplicationTranslation = ComposableFactory.custom(ApplicationTranslationServiceFactory.download);
+   

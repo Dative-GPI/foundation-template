@@ -1,33 +1,41 @@
 import { onMounted, ref } from "vue";
-import { useExtensionHost, useTranslationsProvider } from "@dative-gpi/foundation-template-shared-ui";
+
+import { useExtensionHost, useTranslations } from "@dative-gpi/foundation-extension-shared-ui";
+import { usePermissions as useAppPermissions, useTranslations as useAppTranslations } from "@dative-gpi/bones-ui";
+import { Single } from "@dative-gpi/foundation-shared-domain/tools";
 
 import { useOrganisationId } from "./useOrganisationId";
-import { usePermissionsProvider } from "./usePermissionsProvider";
+import { useCurrentPermissions } from "./useCurrentPermissions";
 
-let called = false;
-const ready = ref(false);
+const single = new Single();
 
-export function useCoreExtension() {
-    if (called) return { ready };
-
-    called = true;
-
-    useExtensionHost();
-
+export const useCoreExtension = () => {
+  return single.call(() => {
     const { ready: initialized } = useOrganisationId();
+    
+    const { getMany: getCurrentPermission, entities: permissions } = useCurrentPermissions();
+    const { set: setAppPermissions } = useAppPermissions();
+    
+    const { getMany: getManyTranslations, entities: translations} = useTranslations();
+    const { set: setAppTranslations } = useAppTranslations();
 
-    const { init: initPermissions } = usePermissionsProvider();
-    const { init: initTranslations } = useTranslationsProvider();
-
+    const done = ref(false);
+    
     onMounted(async () => {
-        await initialized
-        await initTranslations();
-        await initPermissions();
+      await initialized
+      useExtensionHost();
+      
+      await getCurrentPermission();
+      setAppPermissions(permissions.value.map(p => p.toString()));
+      
+      await getManyTranslations();
+      setAppTranslations(translations.value);
 
-        ready.value = true;
+      done.value = true;
     });
 
     return {
-        ready
+      done
     };
+  });
 }

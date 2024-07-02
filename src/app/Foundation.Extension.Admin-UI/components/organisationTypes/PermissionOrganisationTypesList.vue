@@ -1,51 +1,83 @@
 <template>
-  <FSCol v-if="!fetching"
-    :gap="24">
-    <FSRow align="left-center">
-      <FSTextField label="Search"
+  <FSCol
+    v-if="!fetching"
+    :gap="24"
+  >
+    <FSRow
+      align="left-center"
+    >
+      <FSTextField
+        label="Search"
         v-model="search"
-        clearable></FSTextField>
-      <FSButton label="Select all"
+        clearable
+      ></FSTextField>
+      <FSButton
+        label="Select all"
         color="primary"
         v-if="editMode"
-        @click="updateAll(true)">
+        @click="updateAll(true)"
+      >
       </FSButton>
-      <FSButton label="Disable all"
+      <FSButton
+        label="Disable all"
         color="primary"
         v-if="editMode"
-        @click="updateAll(false)">
+        @click="updateAll(false)"
+      >
       </FSButton>
     </FSRow>
-    <FSRow v-for="category in categoriesAndPermissions"
-      :key="category.id">
-      <FSCol style="max-width: 30%">
-        <FSRow font="text-title"> {{ category.label }} </FSRow>
+    <FSRow
+      v-for="category in categoriesAndPermissions"
+      :key="category.id"
+    >
+      <FSCol
+        style="max-width: 30%"
+      >
+        <FSRow
+          font="text-title"
+        > {{ category.label }} </FSRow>
         <FSRow>
-          <FSButton label="Select all"
+          <FSButton
+            label="Select all"
             color="primary"
             v-if="editMode"
-            @click="updateCategory(true, category.id)">
+            @click="updateCategory(true, category.id)"
+          >
           </FSButton>
-          <FSButton label="Disable all"
+          <FSButton
+            label="Disable all"
             color="primary"
             v-if="editMode"
-            @click="updateCategory(false, category.id)">
+            @click="updateCategory(false, category.id)"
+          >
           </FSButton>
         </FSRow>
-        <FSRow v-for="permission in category.options"
-          :key="permission.id">
-          <FSSpan font="text-body align-self-center"> {{ permission.label }} </FSSpan>
+        <FSRow
+          v-for="permission in category.options"
+          :key="permission.id"
+        >
+          <FSSpan
+            font="text-body align-self-center"
+          > {{ permission.label }} </FSSpan>
           <v-spacer></v-spacer>
-          <FSSwitch v-if="editMode"
+          <FSSwitch
+            v-if="editMode"
             ref="element"
             :modelValue="permissionIds.includes(permission.id)"
             @update:modelValue="updatePermissionIds(permission.id)"
-            color="success" />
-          <template v-else>
-            <FSIcon v-if="permissionIds.includes(permission.id)"
-              color="success"> mdi-checkbox-marked-circle</FSIcon>
-            <FSIcon v-else
-              color="error"> mdi-close-circle</FSIcon>
+            color="success"
+          />
+          <template
+            v-else
+          >
+            <FSIcon
+              v-if="permissionIds.includes(permission.id)"
+              color="success"
+            > mdi-checkbox-marked-circle</FSIcon>
+            <FSIcon
+              v-else
+              color="error"
+            > mdi-close-circle</FSIcon>
           </template>
           <v-divider></v-divider>
         </FSRow>
@@ -54,13 +86,14 @@
   </FSCol>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { usePermissionOrganisations, usePermissionOrganisationTypes, useUpsertPermissionOrganisationTypes } from "../../composables";
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
-import { watch } from "vue";
-import { toRefs } from "vue";
+import { defineComponent, ref, onMounted, computed, watch } from "vue";
+import { useRoute } from "vue-router";
 import _ from "lodash";
+
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
+
+import { usePermissionOrganisations, usePermissionOrganisationTypes, useUpsertPermissionOrganisationTypes, usePermissionOrganisationCategories } from "../../composables";
+
 export default defineComponent({
   name: "PermissionOrganisationTypeList",
   props: {
@@ -76,9 +109,10 @@ export default defineComponent({
   },
   setup(props) {
     const { setTitle, setCrumbs } = useExtensionCommunicationBridge();
-    const { getAll: getPermissionOrganisations, permissionOrganisations, categories } = usePermissionOrganisations();
+    const { getMany: getPermissionOrganisations, entities: permissionOrganisations } = usePermissionOrganisations();
+    const { fetch: getPermissionOrganisationCategories, entity: categories } = usePermissionOrganisationCategories();
     const { getMany: getPermissionOrganisationTypes, entities: permissionOrganisationTypes } = usePermissionOrganisationTypes();
-    const { upserting, upsert, upserted } = useUpsertPermissionOrganisationTypes();
+    const { fetching: upserting, fetch: upsert, entity: upserted } = useUpsertPermissionOrganisationTypes();
     const route = useRoute();
 
     const element = ref<HTMLElement | null>(null);
@@ -99,6 +133,7 @@ export default defineComponent({
       ]);
 
       await getPermissionOrganisations();
+      await getPermissionOrganisationCategories();
 
       fetchPermissionOrganisationTypes();
     };
@@ -111,7 +146,7 @@ export default defineComponent({
     };
 
     const filteredPermissionOrganisation = computed(() => {
-      if (search.value == null || search.value === "") return permissionOrganisations.value;
+      if (search.value == null || search.value === "") {return permissionOrganisations.value;}
       return permissionOrganisations.value.filter((p) => {
         return (
           p.code.toLowerCase().includes(search.value.toLowerCase()) ||
@@ -144,7 +179,7 @@ export default defineComponent({
 
     const updateCategory = (enabledAll: boolean, categoryId: string) => {
       let category = categoriesAndPermissions.value.find((c) => c.id === categoryId);
-      if (!category) return;
+      if (!category) {return;}
       let permissions = category?.options.map((p) => p.id);
       if (enabledAll) {
         permissionIds.value = Array.from(new Set([...permissionIds.value, ...permissions]));
@@ -167,7 +202,7 @@ export default defineComponent({
 
     
     const synchronizePermissions = async () => {
-      if (!props.editMode) return;
+      if (!props.editMode) {return;}
       await save();
     };
     

@@ -3,6 +3,6 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   transformIgnorePatterns: [     
-    '/node_modules/(?!@dative-gpi/bones-ui)' // Ignore everything in node_modules except @dative-gpi/bones-ui  
+    '/node_modules/(?!@dative-gpi)'
   ]
 };

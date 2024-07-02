@@ -7,44 +7,44 @@ using Foundation.Extension.Domain.Models;
 
 namespace Foundation.Extension.Admin.AutoMapper
 {
-    public class DomainToViewModelMappingProfile : Profile
+  public class DomainToViewModelMappingProfile : Profile
+  {
+    public DomainToViewModelMappingProfile()
     {
-        public DomainToViewModelMappingProfile()
-        {
-            CreateMap<PermissionOrganisationCategory, PermissionOrganisationCategoryViewModel>();
-            CreateMap<PermissionOrganisationDetails, PermissionOrganisationDetailsViewModel>();
-            CreateMap<PermissionOrganisationInfos, PermissionOrganisationInfosViewModel>();
-            CreateMap<PermissionOrganisationTypeInfos, PermissionOrganisationTypeInfosViewModel>()
-                .ForMember(p => p.PermissionLabel, opt => opt.MapFromTranslation(t => t.TranslationPermissions, t => t.Label));
+      CreateMap<PermissionOrganisationCategory, PermissionOrganisationCategoryViewModel>();
+      CreateMap<PermissionOrganisationDetails, PermissionOrganisationDetailsViewModel>();
+      CreateMap<PermissionOrganisationInfos, PermissionOrganisationInfosViewModel>();
+      CreateMap<PermissionOrganisationTypeInfos, PermissionOrganisationTypeInfosViewModel>()
+          .ForMember(p => p.PermissionLabel, opt => opt.MapFromTranslation(t => t.TranslationPermissions, t => t.Label));
 
-            CreateMap<PermissionApplicationCategory, PermissionApplicationCategoryViewModel>();
-            CreateMap<PermissionApplicationDetails, PermissionApplicationDetailsViewModel>();
-            CreateMap<PermissionApplicationInfos, PermissionApplicationInfosViewModel>();
+      CreateMap<PermissionApplicationCategory, PermissionApplicationCategoryViewModel>();
+      CreateMap<PermissionApplicationDetails, PermissionApplicationDetailsViewModel>();
+      CreateMap<PermissionApplicationInfos, PermissionApplicationInfosViewModel>();
 
-            CreateMap<RouteInfos, RouteInfosViewModel>();
+      CreateMap<RouteInfos, RouteInfosViewModel>();
 
-            CreateMap<Translation, TranslationViewModel>();
-            CreateMap<ApplicationTranslation, ApplicationTranslationViewModel>();
+      CreateMap<Translation, TranslationViewModel>();
+      CreateMap<ApplicationTranslation, ApplicationTranslationViewModel>();
 
-            CreateMap<RoleApplicationDetails, RoleApplicationDetailsViewModel>()
-                .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(r => r.Permissions.Select(p => p.Id).ToList()));
+      CreateMap<RoleApplicationDetails, RoleApplicationDetailsViewModel>()
+          .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(r => r.Permissions.Select(p => p.Id).ToList()));
 
-            CreateMap<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>()
-                .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(r => r.Permissions.Select(p => p.Id).ToList()));
+      CreateMap<RolePermissionOrganisationDetails, RolePermissionOrganisationDetailsViewModel>()
+          .ForMember(vm => vm.PermissionIds, opt => opt.MapFrom(r => r.Permissions.Select(p => p.Id).ToList()));
 
-            CreateMap<EntityProperty, EntityPropertyViewModel>();
-            CreateMap<EntityPropertyTranslation, EntityPropertyTranslationViewModel>();
+      CreateMap<EntityProperty, EntityPropertyViewModel>();
+      CreateMap<EntityPropertyTranslation, EntityPropertyTranslationViewModel>();
 
-            #region Tables
-            CreateMap<ApplicationTableInfos, ApplicationTableInfosViewModel>();
-            CreateMap<ApplicationTableDetails, ApplicationTableDetailsViewModel>();
-            CreateMap<OrganisationTypeDisposition, OrganisationTypeDispositionViewModel>();
-            CreateMap<OrganisationTypeTableDetails, OrganisationTypeTableDetailsViewModel>();
-            CreateMap<OrganisationTypeTableInfos, OrganisationTypeTableInfosViewModel>();
-            CreateMap<Column, ColumnViewModel>();
-            CreateMap<TranslationColumn, TranslationColumnViewModel>();
-            #endregion
+      #region Tables
+      CreateMap<ApplicationTableInfos, ApplicationTableInfosViewModel>();
+      CreateMap<ApplicationTableDetails, ApplicationTableDetailsViewModel>();
+      CreateMap<OrganisationTypeColumnInfos, OrganisationTypeColumnInfosViewModel>();
+      CreateMap<OrganisationTypeTableDetails, OrganisationTypeTableDetailsViewModel>();
+      CreateMap<OrganisationTypeTableInfos, OrganisationTypeTableInfosViewModel>();
+      CreateMap<Column, ColumnViewModel>();
+      CreateMap<TranslationItemProperty, TranslationColumnViewModel>();
+      #endregion
 
-        }
     }
+  }
 }

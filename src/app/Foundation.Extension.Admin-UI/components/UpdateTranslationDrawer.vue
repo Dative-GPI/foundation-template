@@ -1,65 +1,91 @@
 <template>
-  <Drawer :width="601"
+  <Drawer
+    :width="601"
     :title="$tr('ui.admin.translations.update-translation-drawer', 'Update translation')"
-    v-model:value="drawer">
-    <v-skeleton-loader type="article"
-      v-if="!translation || !applicationTranslations" />
+    v-model:value="drawer"
+  >
+    <v-skeleton-loader
+      type="article"
+      v-if="!translation || fetchingApplicationTranslations"
+    />
 
-    <template v-else>
-      <FSCol :gap="12">
+    <template
+      v-else
+    >
+      <FSCol
+        :gap="12"
+      >
         <FSRow>
-          <FSCol :items="items"
-            class="mt-5">
-            <FSSpan font="text-button"> {{ translation.code }} : {{ translation.value }} </FSSpan>
+          <FSCol
+            :items="items"
+            class="mt-5"
+          >
+            <FSSpan
+              font="text-button"
+            > {{ translation.code }} : {{ translation.value }} </FSSpan>
           </FSCol>
         </FSRow>
 
         <FSRow>
-          <FSCol v-if="fetchingLanguages">
-            <v-skeleton-loader type="paragraph" />
+          <FSCol
+            v-if="fetchingLanguages"
+          >
+            <v-skeleton-loader
+              type="paragraph"
+            />
           </FSCol>
-          <FSCol width="fill"
-            v-else>
-            <FSTextArea v-for="l in languages"
+          <FSCol
+            width="fill"
+            v-else
+          >
+            <FSTextArea
+              v-for="l in languages"
               :modelValue="getValue(l.code)"
               @update:modelValue="setValue(l.code, $event)"
               :key="translation.code + '-' + l.code"
               :label="l.label"
-              style="width: 97%" />
+              style="width: 97%"
+            />
           </FSCol>
         </FSRow>
       </FSCol>
 
     </template>
 
-    <template #actions>
+    <template
+      #actions
+    >
       <v-spacer />
-      <FSButton @click="close(true)"
+      <FSButton
+        @click="close(true)"
         :loading="upserting"
         label="Cancel"
         prepend-icon="mdi-cancel"
-        color="light"> </FSButton>
-      <FSButton class="ml-3 justify-content-end"
+        color="light"
+      > </FSButton>
+      <FSButton
+        class="ml-3 justify-content-end"
         @click="updateTranslations"
         color="primary"
         :loading="upserting"
         prepend-icon="mdi-content-save-outline"
-        label="Save"></FSButton>
+        label="Save"
+      ></FSButton>
     </template>
   </Drawer>
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { defineComponent, ref, computed, onMounted } from "vue";
 
 import { useRoute } from "vue-router";
 
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 
 import { useApplicationTranslations, useUpsertApplicationTranslation, useApplicationLanguages } from "../composables";
 
-import { Translation, ApplicationTranslation, UpdateApplicationTranslationLanguage } from "../domain";
+import type { Translation, UpdateApplicationTranslationLanguage } from "../domain";
+import { ApplicationTranslation } from "../domain";
 
 import Drawer from "./shared/Drawer.vue";
 
@@ -68,7 +94,7 @@ export default defineComponent({
   components: {
     Drawer,
   },
-  setup(props, { emit }) {
+  setup() {
     const route = useRoute();
     const extension = useExtensionCommunicationBridge();
 
@@ -76,7 +102,7 @@ export default defineComponent({
 
     const newTranslations = ref<UpdateApplicationTranslationLanguage[]>([]);
 
-    const { upsert, upserting } = useUpsertApplicationTranslation();
+    const { fetch: upsert, fetching: upserting } = useUpsertApplicationTranslation();
 
     const {
       getMany: getManyApplicationTranslations,
@@ -151,17 +177,18 @@ export default defineComponent({
     onMounted(fetch);
 
     return {
+      items,
       drawer,
+      languages,
       upserting,
       translation,
-      items,
       fetchingLanguages,
-      languages,
       applicationTranslations,
+      fetchingApplicationTranslations,
       updateTranslations,
-      close,
       getValue,
       setValue,
+      close
     };
   },
 });

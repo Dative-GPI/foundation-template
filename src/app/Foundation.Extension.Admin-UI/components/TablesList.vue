@@ -20,7 +20,7 @@ import { defineComponent, ref, computed, onMounted, watch } from "vue";
 
 import _ from "lodash";
 
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 import { useTables } from "../composables";
 import { useRouter } from "vue-router";
 

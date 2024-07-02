@@ -1,4 +1,4 @@
-export * from "./usePermissionsProvider"
+export * from "./useCurrentPermissions"
 export * from "./useRolePermissionOrganisations"
 export * from "./useRolePermissionApplications"
 export * from "./useApplicationLanguage"

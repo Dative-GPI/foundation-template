@@ -19,3 +19,7 @@ export interface PermissionOrganisationInfosDTO {
 export interface PermissionsFilter {
     search?: string
 }
+
+export interface PermissionCategoriesFilter {
+    search?: string
+}

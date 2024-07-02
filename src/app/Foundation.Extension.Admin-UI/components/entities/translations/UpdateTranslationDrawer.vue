@@ -65,7 +65,7 @@ import { defineComponent, ref, computed, onMounted } from "vue";
 
 import { useRoute } from "vue-router";
 
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 
 import {
   useEntityProterties,

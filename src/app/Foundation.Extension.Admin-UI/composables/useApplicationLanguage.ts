@@ -2,7 +2,8 @@ import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { APPLICATION_LANGUAGES_URL } from "../config";
 
-import { Language, LanguageDTO } from "../domain";
+import type { LanguageDTO } from "../domain";
+import { Language } from "../domain";
 
 const ApplicationLanguageServiceFactory = new ServiceFactory<LanguageDTO, Language>("application-language", Language)
     .create(f => f.build(

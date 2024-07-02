@@ -1,5 +1,5 @@
 import { defineComponent, ref, computed, onMounted } from "vue";
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 import { useTables } from "../composables";
 import { useRouter } from "vue-router";
 

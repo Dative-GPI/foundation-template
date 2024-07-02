@@ -1,6 +1,12 @@
 <template>
-  <div name="drawer" style="height: 100vh" class="pa-3">
-    <slot name="header">
+  <div
+    name="drawer"
+    style="height: 100vh"
+    class="pa-3"
+  >
+    <slot
+      name="header"
+    >
       <FSRow
         no-gutters
         align="start"
@@ -15,9 +21,15 @@
           class="align-self-center"
         />
 
-        <slot name="title-outer">
-          <h2 class="ml-2">
-            <slot name="title">
+        <slot
+          name="title-outer"
+        >
+          <h2
+            class="ml-2"
+          >
+            <slot
+              name="title"
+            >
               {{ title }}
             </slot>
           </h2>
@@ -27,22 +39,26 @@
 
     <slot></slot>
 
-    <div style="height: 40px" />
+    <div
+      style="height: 40px"
+    />
     <v-footer
       fixed
       v-if="$slots['actions']"
       color="transparent"
       style="background-color: white"
     >
-      <slot name="actions"></slot>
+      <slot
+        name="actions"
+      ></slot>
     </v-footer>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, onMounted } from "vue";
+import { defineComponent, watch, onMounted } from "vue";
 
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 
 export default defineComponent({
   name: "Drawer",

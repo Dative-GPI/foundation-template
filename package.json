@@ -1,5 +1,6 @@
 {
   "private": true,
+  "type": "module",
   "workspaces": [
     "src/shared/Foundation.Extension.Shared-UI",
     "src/app/Foundation.Extension.Admin-UI",

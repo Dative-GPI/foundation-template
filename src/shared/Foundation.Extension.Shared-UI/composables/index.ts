@@ -1,5 +1,5 @@
 export * from "./useExtensionCommunicationBridge"
 export * from "./useExtensionHost"
-export * from "./useTranslationsProvider"
 export * from "./useCredentials"
 export * from "./useLanguage"
+export * from "./useTranslations"

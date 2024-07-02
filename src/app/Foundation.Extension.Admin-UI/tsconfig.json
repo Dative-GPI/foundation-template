@@ -10,5 +10,10 @@
             "dom.iterable",
             "scripthost"
         ]
-    }
+    },
+    "references": [
+        {
+            "path": "./tsconfig.app.json"
+        }
+    ]
 }

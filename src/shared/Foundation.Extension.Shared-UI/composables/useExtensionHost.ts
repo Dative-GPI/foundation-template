@@ -12,9 +12,8 @@ const token = ref<string | null>(null);
 const languageCode = ref<string | null>(null);
 
 export function useExtensionHost() {
-
     onMounted(() => {
-        if (extensionHostInitialized) return;
+        if (extensionHostInitialized) {return;}
         extensionHostInitialized = true;
 
         token.value = new URL(window.location.toString())
@@ -30,10 +29,10 @@ export function useExtensionHost() {
 
         const unsubscribeRouterHook = router.afterEach((to, from) => {
             // inital route, no need to notify the host about the change
-            if (!from || !from.name) return;
+            if (!from || !from.name) {return;}
 
             // embedded route, no need to notify the host about the change
-            if (to.meta && to.meta.overlay) return;
+            if (to.meta && to.meta.overlay) {return;}
 
             goTo(to.path);
         });

@@ -2,8 +2,8 @@ import { ComposableFactory, ServiceFactory } from "@dative-gpi/bones-ui";
 
 import { TABLES_URL, TABLE_PROPERTIES_URL, TABLE_URL } from "../config";
 
-import { Column, TableDetails, TableDetailsDTO, TableInfos } from "../domain";
-import { ref } from "vue";
+import type { TableDetailsDTO} from "../domain";
+import { TableDetails, TableInfos } from "../domain";
 
 
 const TableServiceFactory = new ServiceFactory<TableDetails, TableDetailsDTO>("disposition", TableDetails)
@@ -25,26 +25,4 @@ const TableServiceFactory = new ServiceFactory<TableDetails, TableDetailsDTO>("d
 export const useTable = ComposableFactory.get(TableServiceFactory);
 export const useTables = ComposableFactory.getMany(TableServiceFactory);
 export const useUpdateTable = ComposableFactory.update(TableServiceFactory);
-export const useSynchronizeTable = () => {
-    const service = TableServiceFactory();
-
-    const synchronizing = ref(false);
-    const synchronized = ref(false);
-
-    const synchronize = async (tableId: string) => {
-        synchronizing.value = true;
-        try {
-            await service.synchronizeColumns(tableId);
-            synchronized.value = true;
-        }
-        finally {
-            synchronizing.value = false;
-        }
-    }
-
-    return {
-        synchronizing,
-        synchronize,
-        synchronized
-    }
-}
+export const useSynchronizeTable = ComposableFactory.custom(TableServiceFactory.synchronizeColumns);

@@ -1,6 +1,10 @@
 <template>
-  <FSCol :gap="16">
-    <FSRow :gap="20">
+  <FSCol
+    :gap="16"
+  >
+    <FSRow
+      :gap="20"
+    >
       <v-data-table
         :item-class="() => 'cursor-pointer'"
         @click:row="selectTable"
@@ -16,11 +20,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, watch } from "vue";
+import { defineComponent, ref, computed, onMounted } from "vue";
 
-import _ from "lodash";
-
-import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-template-shared-ui";
+import { useExtensionCommunicationBridge } from "@dative-gpi/foundation-extension-shared-ui";
 import { useTables } from "../../composables";
 import { useRouter } from "vue-router";
 
@@ -32,7 +34,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const extension = useExtensionCommunicationBridge();
     const router = useRouter();
 
